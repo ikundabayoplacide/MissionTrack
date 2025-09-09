@@ -11,13 +11,17 @@ export class MissionController {
             const missionData = req.body;
             console.log("Raw of data", missionData);
             const parsedData = {
-                title: missionData.title,
-                description: missionData.description,
+                id: missionData.id, // or generate a new id if needed
+                missionTitle: missionData.missionTitle,
+                fullName: missionData.fullName,
+                startDate: missionData.startDate,
+                endDate: missionData.endDate,
+                missionDescription: missionData.missionDescription,
                 location: missionData.location,
                 jobPosition: missionData.jobPosition,
-                status: missionData.status,
-              documents: [] as { documentName: string; documentUrl: string }[]
-
+                status: missionData.status||"pending",
+                documents: [] as { documentName: string; documentUrl: string }[],
+                mission: missionData.mission 
             };
               if (req.files && Array.isArray(req.files)) {
             for (const file of req.files as any[]) {

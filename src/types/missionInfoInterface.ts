@@ -10,21 +10,28 @@ export type MissionStatus=typeof enumStatus[keyof typeof enumStatus];
 
 export interface missionInterfaces{
     id:string;
-    title:string;
-    description:string;
-    location:string;
+    missionTitle:string;
+    fullName:string;
     jobPosition:string;
+    location:string;
+    startDate:Date;
+    endDate:Date;
     status:MissionStatus;
+    missionDescription:string;
     createdAt:Date;
     updatedAt:Date;
     deletedAt:Date|null;
 }
 
 export interface MissionPayload{
-    title:string;
-    description:string;
-    location:string;
+    id:string;
+    missionTitle:string;
+    fullName:string;
     jobPosition:string;
+    location:string;
+    startDate:Date;
+    endDate:Date;
+    missionDescription:string;
     status:MissionStatus;
 
     documents:{

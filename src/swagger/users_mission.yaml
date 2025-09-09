@@ -5,7 +5,7 @@ paths:
       tags: [Missions]
       responses:
         "200":
-          description: List of missions
+          description: List of missions retrieved successfully
           content:
             application/json:
               schema:
@@ -14,13 +14,25 @@ paths:
                   success:
                     type: boolean
                     example: true
+                  message:
+                    type: string
+                    example: "All missions retrieved"
+                  status:
+                    type: integer
+                    example: 200
                   data:
                     type: array
                     items:
                       $ref: "#/components/schemas/Mission"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
     post:
-      summary: Create a new mission with budget and documents
+      summary: Create a new mission with documents
       tags: [Missions]
       requestBody:
         required: true
@@ -29,17 +41,30 @@ paths:
             schema:
               type: object
               required:
-                - title
-                - description
+                - missionTitle
+                - fullName
+                - startDate
+                - endDate
+                - missionDescription
                 - location
                 - jobPosition
                 - status
-            
               properties:
-                title:
+                missionTitle:
                   type: string
                   example: "Business Trip to Nairobi"
-                description:
+                fullName:
+                  type: string
+                  example: "John Doe"
+                startDate:
+                  type: string
+                  format: date
+                  example: "2024-01-15"
+                endDate:
+                  type: string
+                  format: date
+                  example: "2024-01-20"
+                missionDescription:
                   type: string
                   example: "Attending client meetings and conferences"
                 location:
@@ -52,21 +77,19 @@ paths:
                   type: string
                   enum: [PENDING, APPROVED, REJECTED, COMPLETED]
                   example: "PENDING"
-             
+                  description: "Mission status (optional, defaults to PENDING if not provided)"
+                missionDocument:
+                  type: string
+                  description: "Additional mission field required by payload"
+                  example: "Primary mission objective"
                 documents:
                   type: array
                   items:
                     type: string
                     format: binary
-                  description: "Upload multiple document files"
-                documentNames:
-                  type: array
-                  items:
-                    type: string
-                  description: "Names corresponding to each uploaded document"
-                  example: ["Flight Ticket", "Hotel Reservation", "Conference Registration"]
+                  description: "Upload multiple document files (optional)"
       responses:
-        "201":
+        "200":
           description: Mission created successfully
           content:
             application/json:
@@ -79,10 +102,13 @@ paths:
                   message:
                     type: string
                     example: "Mission created successfully"
+                  status:
+                    type: integer
+                    example: 200
                   data:
                     $ref: "#/components/schemas/Mission"
         "400":
-          description: Bad request - validation error
+          description: Bad request - mission already exists in location or validation error
           content:
             application/json:
               schema:
@@ -93,11 +119,18 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Validation error"
-                  errors:
-                    type: array
-                    items:
-                      type: string
+                    example: "You have already mission in that location"
+                  status:
+                    type: integer
+                    example: 400
+                  data:
+                    $ref: "#/components/schemas/Mission"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /missions/{id}:
     get:
@@ -112,7 +145,7 @@ paths:
           description: Mission ID
       responses:
         "200":
-          description: Mission found
+          description: Mission found successfully
           content:
             application/json:
               schema:
@@ -121,9 +154,15 @@ paths:
                   success:
                     type: boolean
                     example: true
+                  message:
+                    type: string
+                    example: "Successfull mission fetched"
+                  status:
+                    type: integer
+                    example: 200
                   data:
                     $ref: "#/components/schemas/Mission"
-        "404":
+        "400":
           description: Mission not found
           content:
             application/json:
@@ -136,6 +175,17 @@ paths:
                   message:
                     type: string
                     example: "Mission not found"
+                  status:
+                    type: integer
+                    example: 400
+                  data:
+                    type: "null"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
     patch:
       summary: Update a mission by ID
@@ -150,38 +200,53 @@ paths:
       requestBody:
         required: true
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
-                title:
+                missionTitle:
                   type: string
-                  example: "Business Trip to Nairobi"
-                description:
+                  example: "Updated Business Trip to Nairobi"
+                fullName:
                   type: string
-                  example: "Attending client meetings and conferences"
+                  example: "John Doe"
+                startDate:
+                  type: string
+                  format: date
+                  example: "2024-01-15"
+                endDate:
+                  type: string
+                  format: date
+                  example: "2024-01-20"
+                missionDescription:
+                  type: string
+                  example: "Updated mission description"
                 location:
                   type: string
                   example: "Nairobi, Kenya"
                 jobPosition:
                   type: string
-                  example: "Software Engineer"
+                  example: "Senior Software Engineer"
                 status:
                   type: string
                   enum: [PENDING, APPROVED, REJECTED, COMPLETED]
-                  example: "PENDING"
-
+                  example: "APPROVED"
+                missionDocument:
+                  type: string
+                  description: "Mission document or additional mission details"
+                  example: "Updated mission authorization document"
                 documents:
                   type: array
                   items:
-                    type: string
-                    format: binary
-                  description: "Upload multiple document files (optional)"
-                documentNames:
-                  type: array
-                  items:
-                    type: string
-                  description: "Names corresponding to each uploaded document"
+                    type: object
+                    properties:
+                      documentName:
+                        type: string
+                        example: "Flight Ticket"
+                      documentUrl:
+                        type: string
+                        example: "http://localhost:5000/uploads/flight-ticket.pdf"
+                  description: "Array of documents to update (optional)"
       responses:
         "200":
           description: Mission updated successfully
@@ -195,13 +260,36 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Mission updated successfully"
+                    example: "Update successfull"
+                  status:
+                    type: integer
+                    example: 200
                   data:
                     $ref: "#/components/schemas/Mission"
         "400":
-          description: Bad request - validation error
-        "404":
           description: Mission not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Mission not Found"
+                  status:
+                    type: integer
+                    example: 400
+                  data:
+                    type: "null"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
     delete:
       summary: Delete a mission by ID
@@ -227,7 +315,12 @@ paths:
                   message:
                     type: string
                     example: "Mission deleted successfully"
-        "404":
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: "null"
+        "400":
           description: Mission not found
           content:
             application/json:
@@ -240,6 +333,17 @@ paths:
                   message:
                     type: string
                     example: "Mission not found"
+                  status:
+                    type: integer
+                    example: 400
+                  data:
+                    type: "null"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
 components:
   schemas:
@@ -248,24 +352,38 @@ components:
       properties:
         id:
           type: string
-          example: "uuid-1234"
-        title:
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        fullName:
+          type: string
+          example: "John Doe"
+        jobPosition:
+          type: string
+          example: "Software Engineer"
+        missionTitle:
           type: string
           example: "Business Trip to Nairobi"
-        description:
+        missionDescription:
           type: string
           example: "Attending client meetings and conferences"
         location:
           type: string
           example: "Nairobi, Kenya"
-        jobPosition:
+        startDate:
           type: string
-          example: "Software Engineer"
+          format: date-time
+          example: "2024-01-15T00:00:00Z"
+        endDate:
+          type: string
+          format: date-time
+          example: "2024-01-20T00:00:00Z"
         status:
           type: string
           enum: [PENDING, APPROVED, REJECTED, COMPLETED]
           example: "PENDING"
-          $ref: "#/components/schemas/Budget"
+        mission:
+          type: string
+          example: "Travel authorization and mission briefing document"
         documents:
           type: array
           items:
@@ -273,37 +391,57 @@ components:
         createdAt:
           type: string
           format: date-time
-          example: "2023-10-15T10:30:00Z"
+          example: "2024-01-10T10:30:00Z"
         updatedAt:
           type: string
           format: date-time
-          example: "2023-10-15T10:30:00Z"
-
-    Budget:
-      type: object
-      properties:
+          example: "2024-01-10T10:30:00Z"
+        deletedAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: null
 
     Document:
       type: object
       properties:
         id:
           type: string
-          example: "doc-uuid-5678"
+          format: uuid
+          example: "doc-550e8400-e29b-41d4-a716-446655440001"
         documentName:
           type: string
           example: "Flight Ticket"
         documentUrl:
           type: string
           format: uri
-          example: "https://api.example.com/documents/doc-uuid-5678"
-        uploadedAt:
+          example: "http://localhost:5000/uploads/flight-ticket-1234567890.pdf"
+        missionId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        createdAt:
           type: string
           format: date-time
-          example: "2023-10-15T10:30:00Z"
-        fileSize:
-          type: number
-          description: "File size in bytes"
-          example: 2048576
-        mimeType:
+          example: "2024-01-10T10:30:00Z"
+        updatedAt:
           type: string
-          example: "application/pdf"
+          format: date-time
+          example: "2024-01-10T10:30:00Z"
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Internal server error"
+        status:
+          type: integer
+          example: 500
+        data:
+          type: string
+          description: "Error stack trace"
+          example: "Error: Something went wrong\n    at ..."

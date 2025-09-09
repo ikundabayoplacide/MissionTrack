@@ -4,3 +4,6 @@ dist/
 package-lock.json/
 coverage/
 logs/
+uploads/
+
+

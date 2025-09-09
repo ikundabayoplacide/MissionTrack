@@ -23,6 +23,10 @@ const options: swaggerJsdoc.Options = {
       {
         name: "Missions", 
         description: "Mission management operations"
+      },
+      {
+        name:"Daily Reports",
+        description:"Daily Report management Operations"
       }
     ]
   },
