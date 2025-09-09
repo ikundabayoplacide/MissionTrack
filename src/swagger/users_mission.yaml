@@ -34,10 +34,7 @@ paths:
                 - location
                 - jobPosition
                 - status
-                - estimatedTransportCost
-                - estimatedAccommodationCost
-                - estimatedMealCost
-                - totalAmount
+            
               properties:
                 title:
                   type: string
@@ -55,22 +52,7 @@ paths:
                   type: string
                   enum: [PENDING, APPROVED, REJECTED, COMPLETED]
                   example: "PENDING"
-                estimatedTransportCost:
-                  type: number
-                  format: float
-                  example: 500
-                estimatedAccommodationCost:
-                  type: number
-                  format: float
-                  example: 800
-                estimatedMealCost:
-                  type: number
-                  format: float
-                  example: 300
-                totalAmount:
-                  type: number
-                  format: float
-                  example: 1600
+             
                 documents:
                   type: array
                   items:
@@ -188,22 +170,7 @@ paths:
                   type: string
                   enum: [PENDING, APPROVED, REJECTED, COMPLETED]
                   example: "PENDING"
-                estimatedTransportCost:
-                  type: number
-                  format: float
-                  example: 500
-                estimatedAccommodationCost:
-                  type: number
-                  format: float
-                  example: 800
-                estimatedMealCost:
-                  type: number
-                  format: float
-                  example: 300
-                totalAmount:
-                  type: number
-                  format: float
-                  example: 1600
+
                 documents:
                   type: array
                   items:
@@ -298,7 +265,6 @@ components:
           type: string
           enum: [PENDING, APPROVED, REJECTED, COMPLETED]
           example: "PENDING"
-        budget:
           $ref: "#/components/schemas/Budget"
         documents:
           type: array
@@ -316,22 +282,6 @@ components:
     Budget:
       type: object
       properties:
-        estimatedTransportCost:
-          type: number
-          format: float
-          example: 500
-        estimatedAccommodationCost:
-          type: number
-          format: float
-          example: 800
-        estimatedMealCost:
-          type: number
-          format: float
-          example: 300
-        totalAmount:
-          type: number
-          format: float
-          example: 1600
 
     Document:
       type: object

@@ -105,12 +105,6 @@ describe('MissionController', () => {
                 location: missionData.location,
                 jobPosition: missionData.jobPosition,
                 status: missionData.status,
-                budget: {
-                    estimatedTransportCost: 100,
-                    estimatedAccommodationCost: 200,
-                    estimatedMealCost: 50,
-                    totalAmount: 350
-                },
                 documents: [{
                     documentName: 'test.pdf',
                     documentUrl: 'http://localhost:5000/uploads/test123.pdf'
@@ -185,12 +179,6 @@ describe('MissionController', () => {
                 location: missionData.location,
                 jobPosition: missionData.jobPosition,
                 status: missionData.status,
-                budget: {
-                    estimatedTransportCost: 100,
-                    estimatedAccommodationCost: 200,
-                    estimatedMealCost: 50,
-                    totalAmount: 350
-                },
                 documents: []
             });
         });

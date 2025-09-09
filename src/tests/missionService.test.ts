@@ -27,7 +27,7 @@ jest.mock('../database/models', () => ({
 
 // Import after mocking
 import { Mission } from '../database/models/mission';
-import { Budget, MissDoc } from '../database/models';
+import { MissDoc } from '../database/models';
 
 describe('MissionService', () => {
     let missionService: MissionService;
@@ -45,12 +45,7 @@ describe('MissionService', () => {
                 location: 'Test Location',
                 jobPosition: 'Test Position',
                 status: 'pending',
-                budget: {
-                    estimatedTransportCost: 100,
-                    estimatedAccommodationCost: 200,
-                    estimatedMealCost: 50,
-                    totalAmount: 350
-                },
+            
                 documents: [{
                     documentName: 'test.pdf',
                     documentUrl: 'http://localhost:5000/uploads/test.pdf'
@@ -58,45 +53,19 @@ describe('MissionService', () => {
             };
 
             const mockMission = { id: '1', ...payload };
-            const mockBudget = { id: '1', missionId: '1', ...payload.budget };
             const mockDoc = { id: '1', missionId: '1', ...payload.documents[0] };
 
             (Mission.create as jest.Mock).mockResolvedValue(mockMission);
-            (Budget.create as jest.Mock).mockResolvedValue(mockBudget);
             (MissDoc.create as jest.Mock).mockResolvedValue(mockDoc);
 
             const result = await missionService.createMission(payload);
 
             expect(Mission.create).toHaveBeenCalledWith(payload);
-            expect(Budget.create).toHaveBeenCalledWith({
-                missionId: '1',
-                ...payload.budget
-            });
+          
             expect(MissDoc.create).toHaveBeenCalledWith({
                 missionId: '1',
                 ...payload.documents[0]
             });
-            expect(result).toEqual(mockMission);
-        });
-
-        it('should create mission without budget when budget is null', async () => {
-            const payload: MissionPayload = {
-                title: 'Test Mission',
-                description: 'Test Description',
-                location: 'Test Location',
-                jobPosition: 'Test Position',
-                status: 'pending',
-                budget: null as any,
-                documents: []
-            };
-
-            const mockMission = { id: '1', ...payload };
-            (Mission.create as jest.Mock).mockResolvedValue(mockMission);
-
-            const result = await missionService.createMission(payload);
-
-            expect(Mission.create).toHaveBeenCalledWith(payload);
-            expect(Budget.create).not.toHaveBeenCalled();
             expect(result).toEqual(mockMission);
         });
 
@@ -107,25 +76,16 @@ describe('MissionService', () => {
                 location: 'Test Location',
                 jobPosition: 'Test Position',
                 status: 'pending',
-                budget: {
-                    estimatedTransportCost: 100,
-                    estimatedAccommodationCost: 200,
-                    estimatedMealCost: 50,
-                    totalAmount: 350
-                },
                 documents: null as any
             };
 
             const mockMission = { id: '1', ...payload };
-            const mockBudget = { id: '1', missionId: '1', ...payload.budget };
 
             (Mission.create as jest.Mock).mockResolvedValue(mockMission);
-            (Budget.create as jest.Mock).mockResolvedValue(mockBudget);
 
             const result = await missionService.createMission(payload);
 
             expect(Mission.create).toHaveBeenCalledWith(payload);
-            expect(Budget.create).toHaveBeenCalled();
             expect(MissDoc.create).not.toHaveBeenCalled();
             expect(result).toEqual(mockMission);
         });
@@ -147,12 +107,6 @@ describe('MissionService', () => {
 
             const payload: MissionUpdatePayload = {
                 title: 'Updated Mission',
-                budget: {
-                    estimatedTransportCost: 150,
-                    estimatedAccommodationCost: 250,
-                    estimatedMealCost: 75,
-                    totalAmount: 475
-                },
                 documents: [{
                     documentName: 'updated.pdf',
                     documentUrl: 'http://localhost:5000/uploads/updated.pdf'
@@ -162,15 +116,12 @@ describe('MissionService', () => {
             (Mission.findByPk as jest.Mock)
                 .mockResolvedValueOnce(mockMission) // First call
                 .mockResolvedValueOnce(mockMission); // Second call for return
-            (Budget.findOne as jest.Mock).mockResolvedValue(mockBudget);
             (MissDoc.destroy as jest.Mock).mockResolvedValue(1);
             (MissDoc.create as jest.Mock).mockResolvedValue({});
 
             const result = await missionService.updateMission('1', payload);
 
             expect(mockMission.update).toHaveBeenCalledWith(payload);
-            expect(Budget.findOne).toHaveBeenCalledWith({ where: { missionId: '1' } });
-            expect(mockBudget.update).toHaveBeenCalledWith(payload.budget);
             expect(MissDoc.destroy).toHaveBeenCalledWith({ where: { missionId: '1' } });
             expect(MissDoc.create).toHaveBeenCalledWith({
                 missionId: '1',
@@ -186,35 +137,6 @@ describe('MissionService', () => {
             const result = await missionService.updateMission('999', {});
 
             expect(result).toBeNull();
-        });
-
-        it('should create new budget if not exists', async () => {
-            const mockMission = {
-                id: '1',
-                update: jest.fn()
-            };
-
-            const payload: MissionUpdatePayload = {
-                budget: {
-                    estimatedTransportCost: 100,
-                    estimatedAccommodationCost: 200,
-                    estimatedMealCost: 50,
-                    totalAmount: 350
-                }
-            };
-
-            (Mission.findByPk as jest.Mock)
-                .mockResolvedValueOnce(mockMission)
-                .mockResolvedValueOnce(mockMission);
-            (Budget.findOne as jest.Mock).mockResolvedValue(null);
-            (Budget.create as jest.Mock).mockResolvedValue({});
-
-            await missionService.updateMission('1', payload);
-
-            expect(Budget.create).toHaveBeenCalledWith({
-                missionId: '1',
-                ...payload.budget
-            });
         });
     });
 

@@ -27,13 +27,6 @@ export interface MissionPayload{
     jobPosition:string;
     status:MissionStatus;
 
-    budget:{
-        estimatedTransportCost:number;
-        estimatedAccommodationCost:number;
-        estimatedMealCost:number;
-        totalAmount:number;
-    };
-
     documents:{
         documentName:string;
         documentUrl:string;
@@ -47,13 +40,6 @@ export interface MissionUpdatePayload{
     location?:string;
     jobPosition?:string;
     status?:MissionStatus;
-
-    budget?:{
-        estimatedTransportCost:number;
-        estimatedAccommodationCost:number;
-        estimatedMealCost:number;
-        totalAmount:number;
-    };
 
     documents?:{
         documentName:string;

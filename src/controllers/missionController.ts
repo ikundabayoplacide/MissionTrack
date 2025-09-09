@@ -16,12 +16,6 @@ export class MissionController {
                 location: missionData.location,
                 jobPosition: missionData.jobPosition,
                 status: missionData.status,
-                budget: {
-                    estimatedTransportCost: parseFloat(missionData.estimatedTransportCost),
-                    estimatedAccommodationCost: parseFloat(missionData.estimatedAccommodationCost),
-                    estimatedMealCost: parseFloat(missionData.estimatedMealCost),
-                    totalAmount: parseFloat(missionData.totalAmount)
-                },
               documents: [] as { documentName: string; documentUrl: string }[]
 
             };
