@@ -28,9 +28,9 @@ const HeadLanding: React.FC = () => {
         {/* Desktop Nav */}
         <nav className="hidden sm:flex justify-between gap-10">
           <Link to="/">Features</Link>
-          <Link to="/request">How it works</Link>
-          <Link to="/track">Testimonials</Link>
-          <Link to="/track">Pricing</Link>
+          <Link to="/">How it works</Link>
+          <Link to="/">Testimonials</Link>
+          <Link to="/">Pricing</Link>
         </nav>
 
         {/* Sign Up Button */}
