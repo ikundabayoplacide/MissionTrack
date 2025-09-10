@@ -1,5 +1,6 @@
 'use strict';
 
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -9,7 +10,8 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable('dailyReports',{
+
+    await queryInterface.createTable("missionActions",{
       id:{
         type:Sequelize.UUID,
         defaultValue:Sequelize.UUIDV4,
@@ -20,47 +22,45 @@ module.exports = {
         type:Sequelize.UUID,
         allowNull:false,
         references:{
-          model:'missions',
-          key:'id'
+          model:"missions",
+          key:"id"
         }
       },
-      date:{
-        type:Sequelize.DATE,
+      actorId:{
+        type:Sequelize.UUID,
+        allowNull:false,
+        references:{
+          model:"users",
+          key:"id"
+        }
+      },
+      action:{
+        type:Sequelize.STRING,
         allowNull:false
       },
-      dailyActivity:{
-        type:Sequelize.TEXT,
-        allowNull:false
-      },
-      documents:{
-        type:Sequelize.STRING,
-        allowNull:true
-      },
-      filePath:{
-        type:Sequelize.STRING,
-        allowNull:true
-      },
-      description:{
+      comments:{
         type:Sequelize.TEXT,
         allowNull:true
+
       },
       createdAt:{
         type:Sequelize.DATE,
-        defaultValue:Sequelize.NOW,
+        allowNull:false,
+        defaultValue:Sequelize.NOW
       },
       updatedAt:{
         type:Sequelize.DATE,
-        defaultValue:Sequelize.NOW,
-
+        allowNull:false,
+        defaultValue:Sequelize.NOW
       },
       deletedAt:{
         type:Sequelize.DATE,
-        allowNull:true
+        allowNull:true,
+        defaultValue:null
       }
 
     })
   },
-
 
   async down (queryInterface, Sequelize) {
     /**
@@ -69,6 +69,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable('dailyReports');
+    await queryInterface.dropTable("missionActions");
   }
 };

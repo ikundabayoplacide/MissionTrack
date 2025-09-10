@@ -1,5 +1,5 @@
 
-import DailyReport from "../database/models/DailyReport";
+import DailyReport from "../database/models/dailyReport";
 import { DailyReportCreate, DailyReportUpdate } from "../types/mDailReport";
 
 export class DailyReportService {
