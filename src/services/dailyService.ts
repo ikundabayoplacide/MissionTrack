@@ -1,6 +1,6 @@
 
 import DailyReport from "../database/models/DailyReport";
-import { DailyReportCreate, DailyReportUpdate, IDailyReport } from "../types/mDailReport";
+import { DailyReportCreate, DailyReportUpdate } from "../types/mDailReport";
 
 export class DailyReportService {
     async createDailyReport(data: DailyReportCreate) {
