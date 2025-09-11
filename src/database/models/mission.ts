@@ -30,9 +30,9 @@ export class Mission extends Model<missionInterfaces, missionCreationAttributes>
             missionTitle: this.missionTitle,
             missionDescription: this.missionDescription,
             location: this.location,
-            fullName:this.fullName,
-            startDate:this.startDate,
-            endDate:this.endDate,
+            fullName: this.fullName,
+            startDate: this.startDate,
+            endDate: this.endDate,
             jobPosition: this.jobPosition,
             status: this.status,
             createdAt: this.createdAt,
@@ -80,10 +80,10 @@ export const missionModel = (sequelize: Sequelize) => {
                 type: DataTypes.DATE,
                 allowNull: false
             },
-            status:{
-                type: DataTypes.ENUM("pending","rejected","manager_approved","financial_approved","completed"),
-                allowNull: false,
-                defaultValue:"pending"
+            status: {
+                type: DataTypes.ENUM('pending', 'Approved', 'Rejected', 'Updated', 'Cancelled', 'Completed'),
+                defaultValue: 'pending',
+                allowNull: false
             },
             createdAt: {
                 type: DataTypes.DATE,

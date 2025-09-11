@@ -1,13 +1,12 @@
 interface CreateMissionActionParams {
   missionId: string;
   actorId: string;
-  action: 'Approve' | 'Reject' | 'Update' | 'Cancel';
+  action: 'Approve' | 'Reject' | 'Update' | 'Cancel' | 'Complete';
   comment?: string;
 }
 
 interface UpdateMissionActionParams{
-    missionId?:string,
-     action: 'Approve' | 'Reject' | 'Update' | 'Cancel';
+     action?: 'Approve' | 'Reject' | 'Update' | 'Cancel' | 'Complete';
      comment?:string
 }
 

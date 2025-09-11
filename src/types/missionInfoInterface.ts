@@ -1,9 +1,11 @@
+
 const enumStatus={
     PENDING:"pending",
     REJECTED:"rejected",
     MANAGER_APPROVED:"manager_approved",
     FINANCIAL_APPROVED:"financial_approved",
-    COMPLETED:"completed"
+    COMPLETED:"completed",
+    CANCELLED:"canceled"
 } as const;
 
 export type MissionStatus=typeof enumStatus[keyof typeof enumStatus];

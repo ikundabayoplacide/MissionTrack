@@ -8,20 +8,21 @@ const missionActionService = new MissionActionService();
 export const createMissionAction = async (req: Request, res: Response) => {
     const params: CreateMissionActionParams = req.body;
     try {
-        const result = await missionActionService.createAction(params);
+        const result = await missionActionService.createActionAndUpdateMission(params);
         return ResponseService
         ({
             res,
             data:result,
-            message:"Action changed",
-            status:201,
-            success:true
+            message: "Action created and mission status updated successfully",
+            success:true,
+            status:201
         })
-    } catch (error) {
+    } catch (error:any) {
+         console.error("Error creating action:", error);
         return ResponseService({
             res,
             data:null,
-            message:"Change action failed",
+            message:(error.message) || "Change action failed",
             success:false,
             status:500
         })
@@ -52,7 +53,7 @@ export const updateMissionAction = async (req: Request, res: Response) => {
 export const getActionByMissionId = async (req: Request, res: Response) => {
     const missionId: string = req.params.missionId;
     try {
-        const result = await MissionActionService.getActionByMissionId(missionId);
+        const result = await missionActionService.getActionByMissionId(missionId);
         return ResponseService({
             res,
             data:result,
@@ -71,7 +72,7 @@ export const getActionByMissionId = async (req: Request, res: Response) => {
     }   }
 export const getAllActions = async (req: Request, res: Response) => {
     try {
-        const result = await MissionActionService.getAllActions();
+        const result = await missionActionService.getAllActions();
         return ResponseService({
             res,
             data:result,
@@ -88,10 +89,11 @@ export const getAllActions = async (req: Request, res: Response) => {
             message:"Failed to retrieve actions"
         })
     }   }
+    
     export const deleteAction = async (req: Request, res: Response) => {
     const actionId: string = req.params.actionId;
     try {
-        await MissionActionService.deleteAction(actionId);
+        await missionActionService.deleteAction(actionId);
         return ResponseService({
             res,
             data:null,
@@ -111,7 +113,7 @@ export const getAllActions = async (req: Request, res: Response) => {
     export const getActionById = async (req: Request, res: Response) => {
     const actionId: string = req.params.actionId;
     try {
-        const result = await MissionActionService.getActionById(actionId);
+        const result = await missionActionService.getActionById(actionId);
         return ResponseService({
             res,
             data:result,

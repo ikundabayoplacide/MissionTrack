@@ -1,13 +1,13 @@
 
 tags:
-  - name: Mission Actions
-    description: Operations related to mission actions
+  - name:  Managers Mission Actions
+    description: Operations related to Managers Mission Actions
 
 paths:
-  /mission-actions:
+  /actions/create:
     post:
       tags:
-        - Mission Actions
+        - Managers Mission Actions
       summary: Create a new mission action
       description: Create a new action (approval, rejection, update, or cancellation) for a mission
       requestBody:
@@ -27,15 +27,15 @@ paths:
           description: Bad request - invalid input data
         '500':
           description: Internal server error
-
+  /actions:
     get:
       tags:
-        - Mission Actions
-      summary: Get all mission actions
-      description: Retrieve a list of all mission actions in the system
+        - Managers Mission Actions
+      summary: Get all Managers Mission Actions
+      description: Retrieve a list of all Managers Mission Actions in the system
       responses:
         '200':
-          description: List of mission actions retrieved successfully
+          description: List of Managers Mission Actions retrieved successfully
           content:
             application/json:
               schema:
@@ -45,10 +45,10 @@ paths:
         '500':
           description: Internal server error
 
-  /mission-actions/{missionId}:
+  /actions/{missionId}:
     get:
       tags:
-        - Mission Actions
+        - Managers Mission Actions
       summary: Get actions by mission ID
       description: Retrieve all actions for a specific mission
       parameters:
@@ -61,7 +61,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Mission actions retrieved successfully
+          description: Managers Mission Actions retrieved successfully
           content:
             application/json:
               schema:
@@ -73,10 +73,10 @@ paths:
         '500':
           description: Internal server error
 
-  /mission-actions/action/{actionId}:
+  /actions/action/{actionId}:
     get:
       tags:
-        - Mission Actions
+        - Managers Mission Actions
       summary: Get action by ID
       description: Retrieve a specific mission action by its ID
       parameters:
@@ -101,7 +101,7 @@ paths:
 
     patch:
       tags:
-        - Mission Actions
+        - Managers Mission Actions
       summary: Update a mission action
       description: Update an existing mission action
       parameters:
@@ -129,10 +129,9 @@ paths:
           description: Action not found
         '500':
           description: Internal server error
-
     delete:
       tags:
-        - Mission Actions
+        - Managers Mission Actions
       summary: Delete a mission action
       description: Delete a specific mission action by its ID
       parameters:
@@ -183,11 +182,6 @@ components:
     UpdateMissionAction:
       type: object
       properties:
-        missionId:
-          type: string
-          format: uuid
-          description: ID of the mission (optional for update)
-          example: "123e4567-e89b-12d3-a456-426614174000"
         action:
           type: string
           enum: [Approve, Reject, Update, Cancel]
@@ -205,10 +199,6 @@ components:
           type: string
           format: uuid
           example: "123e4567-e89b-12d3-a456-426614174002"
-        missionId:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
         actorId:
           type: string
           format: uuid
@@ -217,7 +207,7 @@ components:
           type: string
           enum: [Approve, Reject, Update, Cancel]
           example: "Approve"
-        comments:
+        comment:
           type: string
           example: "Approved for client meeting"
         createdAt:

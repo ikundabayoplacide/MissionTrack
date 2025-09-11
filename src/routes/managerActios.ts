@@ -3,11 +3,11 @@ import { createMissionAction, getActionByMissionId, updateMissionAction,getActio
 
 const ActionsRouter=Router();
 
-ActionsRouter.post("/", createMissionAction);
-ActionsRouter.get("/:missionId", getActionByMissionId);
-ActionsRouter.get("/action/:actionId", getActionById);
-ActionsRouter.patch("/:actionId", updateMissionAction);
-ActionsRouter.delete("/:actionId", deleteAction);
-ActionsRouter.get("/", getAllActions);
+ActionsRouter.post("/actions/create", createMissionAction);
+ActionsRouter.get("/actions", getAllActions);
+ActionsRouter.get("/actions/:missionId", getActionByMissionId);
+ActionsRouter.get("/actions/action/:actionId", getActionById);
+ActionsRouter.patch("/actions/action/:actionId", updateMissionAction);
+ActionsRouter.delete("/actions/action/:actionId", deleteAction);
 
 export default ActionsRouter;

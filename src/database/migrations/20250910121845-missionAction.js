@@ -38,7 +38,7 @@ module.exports = {
         type:Sequelize.STRING,
         allowNull:false
       },
-      comments:{
+      comment:{
         type:Sequelize.TEXT,
         allowNull:true
 

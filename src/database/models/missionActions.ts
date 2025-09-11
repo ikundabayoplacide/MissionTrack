@@ -7,19 +7,19 @@ interface MissionActionAttributes {
     id: string;
     missionId: string;
     actorId: string;
-    action: 'Approve' | 'Reject' | 'Update' | 'Cancel';
-    comments?: string | null;
+    action: 'Approve' | 'Reject' | 'Update' | 'Cancel'| 'Complete';
+    comment?: string | null;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
 }
-interface MissionActionCreationAttributes extends Omit<MissionActionAttributes, 'id' | 'comments' | 'createdAt' | 'updatedAt' | 'deletedAt'> {}
+interface MissionActionCreationAttributes extends Omit<MissionActionAttributes, 'id' | 'comment' | 'createdAt' | 'updatedAt' | 'deletedAt'> {}
 class MissionAction extends Model<MissionActionAttributes, MissionActionCreationAttributes> implements MissionActionAttributes {
     public id!: string;
     public missionId!: string;
     public actorId!: string;
-    public action!: 'Approve' | 'Reject' | 'Update' | 'Cancel';
-    public comments?: string | null;
+    public action!: 'Approve' | 'Reject' | 'Update' | 'Cancel'|'Complete';
+    public comment?: string | null;
     public createdAt?: Date;
     public updatedAt?: Date;
     public deletedAt?: Date | null;
@@ -49,10 +49,10 @@ MissionAction.init({
         }
     },
     action: {
-        type: DataTypes.ENUM("Approve", "Reject", "Update", "Cancel"),
+        type: DataTypes.ENUM("Approve", "Reject", "Update", "Cancel","Complete"),
         allowNull: false
     },
-    comments: {
+    comment: {
         type: DataTypes.TEXT,
         allowNull: true
     },
@@ -72,11 +72,11 @@ MissionAction.init({
         defaultValue:null
     }
 }, {
-    tableName: "MissionActions",
+    tableName: "missionActions",
     sequelize: database,
     paranoid: true,
     timestamps: true,
-    modelName: "MissionAction"
+    modelName: "missionAction"
 }
 )
 
