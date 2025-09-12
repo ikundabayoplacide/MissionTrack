@@ -8,7 +8,7 @@ import Password from "../Components/Settings/Password";
  import Notification from "../Components/Settings/Notification"
 import Details from "../Components/Request/Details";
 import NotificationPage from "../Components/NotificationPage";
-NotificationPage
+
 
 
 const AppRoute = () => {
