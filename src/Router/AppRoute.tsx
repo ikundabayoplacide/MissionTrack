@@ -7,6 +7,7 @@ import Profile from "../Components/Settings/Profile";
 import Password from "../Components/Settings/Password";
  import Notification from "../Components/Settings/Notification"
 import Details from "../Components/Request/Details";
+import RecoverPassword from "../forgetPassword/RecoverPassword";
 
 
 const AppRoute = () => {
@@ -29,6 +30,7 @@ const AppRoute = () => {
         <Route path="/password" element={<Password/>} />
         <Route path="/notifications" element={<Notification/>} />
         <Route path="/request" element={<Details/>} />
+        <Route path="/forgot-password" element={<RecoverPassword/>}/>
       </Routes>
     </>
   );
