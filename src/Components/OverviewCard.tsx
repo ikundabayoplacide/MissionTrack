@@ -1,20 +1,28 @@
+import type { LucideIcon } from "lucide-react";
 import React from "react";
-import { useTheme } from "../hook/useTheme";
+
 
 interface OverviewCardProps {
   title: string;
   value: number;
-  color?: string; // optional (default gray)
+  color: string;
+  icon: LucideIcon;
 }
 
-const OverviewCard: React.FC<OverviewCardProps> = ({ title, value, color }) => {
-  const {theme} = useTheme();
+const OverviewCard: React.FC<OverviewCardProps> = ({ title, value, color, icon: Icon }) => {
   return (
-    <div className={` p-4 rounded shadow text-center ${theme === "light"?"bg-white text-black":"bg-gray-800 text-white"}`}>
-      <p className="">{title}</p>
-      <h2 className={`text-xl font-bold ${color || "text-gray-800"}`}>
-        {value}
-      </h2>
+    <div className="bg-white shadow rounded-lg p-4 grid items-center">
+      {/* Icon */}
+      <div className={`p-2 rounded-full mr-4 flex justify-between items-center`}>
+        <span className="text-sm font-medium text-gray-600">{title}</span>
+        <Icon className={`w-6 h-6 ${color}`} />
+         
+      </div>
+
+      {/* Text */}
+      <div>
+        <div className={`text-xl font-bold ${color}`}>{value}</div>
+      </div>
     </div>
   );
 };

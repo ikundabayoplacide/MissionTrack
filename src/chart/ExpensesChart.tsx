@@ -23,8 +23,8 @@ const usedPercentage = Math.round((usedBudget / totalBudget) * 100);
 
 const ExpensesChart: React.FC = () => {
   return (
-    <div className="bg-white shadow-lg rounded-2xl p-4 text-center">
-      <h2 className="font-semibold mb-4">Expenses</h2>
+    <div className="bg-white shadow-lg rounded-2xl text-center">
+      <h2 className="font-semibold mb-2">Expenses</h2>
       <ResponsiveContainer width="100%" height={250}>
         <PieChart>
           <Pie

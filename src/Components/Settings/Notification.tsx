@@ -49,9 +49,9 @@ const Notification: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex gap-6">
+      <div className="flex gap-6 ">
         <Sidebar />
-        <div className="h-[600px] w-[1000px] mt-10 flex bg-gradient-to-br to-accent-10/50 rounded-md shadow">
+        <div className=" ml-70 h-[600px] w-[1000px] mt-25 flex bg-gradient-to-br to-accent-10/50 rounded-md shadow">
           <div className="flex flex-col w-full">
             
             {/* Top navigation */}

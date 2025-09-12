@@ -46,7 +46,7 @@ const Details: React.FC = () => {
       <Header />
       <div className="flex gap-6">
         <Sidebar />
-        <div className="h-[650px] w-[800px] mt-10 flex flex-col bg-gradient-to-r to-accent-10/50 rounded-md shadow">
+        <div className="h-[650px] w-[800px] mt-25 ml-65 flex flex-col bg-gradient-to-r to-accent-10/50 rounded-md shadow">
           <div className="flex flex-col mt-5 mx-5 p-4 border border-gray-400 rounded-md">
             
             {/* Stepper */}
