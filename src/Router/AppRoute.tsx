@@ -8,6 +8,9 @@ import Password from "../Components/Settings/Password";
  import Notification from "../Components/Settings/Notification"
 import Details from "../Components/Request/Details";
 import NotificationPage from "../Components/NotificationPage";
+import MissionList from "../Components/MissionList";
+import Report from "../Components/Report";
+
 
 
 
@@ -32,6 +35,8 @@ const AppRoute = () => {
         <Route path="/notifications" element={<NotificationPage/>} />
         <Route path="/preferences" element={<Notification/>} />
         <Route path="/request" element={<Details/>} />
+        <Route path="/requestList" element={<MissionList/>} />
+        <Route path="/report" element={<Report/>} />
       </Routes>
     </>
   );

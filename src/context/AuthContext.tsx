@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect, type ReactNode }
 
 type User = {
   email: string;
+  name?: string; // 👈 added name field
   access_token: string;
   refresh_token?: string;
 };
@@ -41,8 +42,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       const data = await response.json();
 
+      // Fetch profile to get name
+      const profileRes = await fetch("https://api.escuelajs.co/api/v1/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${data.access_token}`,
+        },
+      });
+      const profile = await profileRes.json();
+
       const newUser: User = {
         email,
+        name: profile.name || email, // 👈 store name from profile, fallback to email
         access_token: data.access_token,
         refresh_token: data.refresh_token,
       };

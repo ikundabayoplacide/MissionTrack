@@ -2,49 +2,55 @@ import React from "react";
 import { FiFilePlus, FiCalendar, FiBarChart2 } from "react-icons/fi";
 import { useTheme } from "../hook/useTheme";
 
-// Example quick links
-const links = [
-  {
-    label: "Create a new request",
-    icon: <FiFilePlus />,
-    color: "text-blue-600",
-    background: "bg-blue-100",
-  },
-  {
-    label: "View Calendar",
-    icon: <FiCalendar />,
-    color: "text-red-600",
-    background: "bg-red-100",
-  },
-  {
-    label: "View Reports",
-    icon: <FiBarChart2 />,
-    color: "text-green-600",
-    background: "bg-green-100",
-  },
-];
-
 const QuickLinks: React.FC = () => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+
   return (
-    <div className={`rounded-xl shadow-sm p-5 ${theme === "light"?"bg-white text-black":"bg-gray-800 text-white"}`}>
-      <h3 className="font-bold text-gray-800 mb-4">Quick Links</h3>
+    <div
+      className={`rounded-xl shadow-sm p-5 ${
+        isLight ? "bg-white text-black" : "bg-gray-800 text-white"
+      }`}
+    >
+      {/* Section title */}
+      <h3 className="font-bold mb-4">Quick Links</h3>
 
-      <div className={`space-y-3 ${theme === "light"?"bg-white text-black":"bg-gray-800 text-white"}`}>
-        {links.map((link, index) => (
-          <button
-            key={index}
-            className="flex items-center gap-3 w-full rounded-lg px-4 py-3 bg-gray-50 transition"
-          >
-            {/* Icon box */}
-            <div className={`w-8 h-8 rounded-md grid place-items-center ${link.background}`}>
-              <span className={`text-lg ${link.color}`}>{link.icon}</span>
-            </div>
+      <div className="space-y-3">
+        {/* Create a new request */}
+        <button
+          className={`flex items-center gap-3 w-full rounded-lg px-4 py-3 transition ${
+            isLight ? "bg-gray-50" : "bg-gray-700"
+          }`}
+        >
+          <div className="h-10 w-10 flex items-center justify-center rounded-md">
+            <FiFilePlus className="text-blue-600 text-lg" />
+          </div>
+          <span className="font-medium">Create a new request</span>
+        </button>
 
-            {/* Link text */}
-            <span className="text-gray-700 font-medium">{link.label}</span>
-          </button>
-        ))}
+        {/* View Calendar */}
+        <button
+          className={`flex items-center gap-3 w-full rounded-lg px-4 py-3 transition ${
+            isLight ? "bg-gray-50" : "bg-gray-700"
+          }`}
+        >
+          <div className="h-10 w-10 flex items-center justify-center rounded-md">
+            <FiCalendar className="text-red-600 text-lg" />
+          </div>
+          <span className="font-medium">View Calendar</span>
+        </button>
+
+        {/* View Reports */}
+        <button
+          className={`flex items-center gap-3 w-full rounded-lg px-4 py-3 transition ${
+            isLight ? "bg-gray-50" : "bg-gray-700"
+          }`}
+        >
+          <div className="h-10 w-10 flex items-center justify-center rounded-md">
+            <FiBarChart2 className="text-green-600 text-lg" />
+          </div>
+          <span className="font-medium">View Reports</span>
+        </button>
       </div>
     </div>
   );

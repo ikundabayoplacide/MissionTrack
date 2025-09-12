@@ -8,7 +8,7 @@ const Report: React.FC = () => {
     return (
         <>
             <Header />
-            <div className="flex gap-6">
+            <div className="flex gap-70 mt-20">
                 <Sidebar />
                 <div className="h-[400px] w-[1000px] mt-10 flex bg-white rounded-xl shadow-lg">
                     <div className="flex flex-col  w-full">

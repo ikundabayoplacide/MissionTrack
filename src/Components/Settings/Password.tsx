@@ -57,9 +57,9 @@ const Password: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex gap-6">
+      <div className="flex gap-80 mt-20">
         <Sidebar />
-        <div className="h-[500px] w-[1000px] mt-10 flex bg-gradient-to-r  to-accent-10/50  rounded-md shadow">
+        <div className="h-[550px] w-[1000px] mt-10 flex bg-gradient-to-r    rounded-md shadow">
           <div className="flex flex-col w-full">
             {/* Top navigation */}
            <div className="border-b border-gray-300 w-full">
