@@ -1,12 +1,10 @@
 import React from "react";
 import Header from "../Components/HeaderDash";
-import Sidebar from "../Components/Sidebar";
+import SidebarManager from "../Components/SidebarManager";
 import MissionOverview from "../Components/MissionOverview";
 import RecentActivities from "../Components/RecentActivities";
 import QuickLinks from "../Components/QuickLinks";
-import AnnualMissionStatuses from "../chart/AnnualMissionStatuses";
-import ThisMonthChart from "../chart/ThisMonthChart";
-import ExpensesChart from "../chart/ExpensesChart";
+
 import MissionProgress from "../Components/MissionProgress";
 import OngoingMissions from "../Components/OngoingMissions";
 
@@ -14,12 +12,12 @@ const twTheme = (light: string, dark: string) => {
   return `${light} dark:${dark}`;
 };
 
-const Dashboard: React.FC = () => {
+const ManagerDashboard: React.FC = () => {
   return (
     <>
       <Header />
       <div className={`flex gap-70 mt-20  ${twTheme("bg-gray-100", "bg-gray-900")}`} >
-        <Sidebar />
+        <SidebarManager />
         <main
           className={`min-h-screen   ${twTheme(
             "",
@@ -59,22 +57,13 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Charts Section */}
-          <div className="flex mt-10 gap-6 flex-1">
-            <div className="w-full  p-4">
-              <AnnualMissionStatuses />
-            </div>
-            <div className="w-full p-4">
-              <ThisMonthChart />
-            </div>
-            <div className="w-full p-4">
-              <ExpensesChart />
-            </div>
+         
 
-          </div>
+
         </main>
       </div>
     </>
   );
 };
 
-export default Dashboard;
+export default ManagerDashboard;

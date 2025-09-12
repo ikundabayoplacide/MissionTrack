@@ -20,8 +20,8 @@ const Header: React.FC = () => {
       {/* Logo + Title */}
       <div className="flex items-center gap-2">
         <img src="src/assets/logo.svg" alt="logo" className="h-8" />
-        <h1 className="font-bold text-xl text-blue-700">
-          Mission<span className="text-green-600">Track</span>
+        <h1 className="font-bold text-xl text-primaryColor-700">
+          Mission<span className="text-accent-700">Track</span>
         </h1>
       </div>
       {/* Theme Toggle */}
