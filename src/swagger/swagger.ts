@@ -28,6 +28,10 @@ const options: swaggerJsdoc.Options = {
         name:"Daily Reports",
         description:"Daily Report management Operations"
       },
+        // {
+  //   name: " System Companies",
+  //   description: "Company management operations"
+  // }
     ]
   },
   apis: ["./src/swagger/*.yaml", "./src/routes/*.ts"], 

@@ -9,9 +9,9 @@ export class MissionController {
     static async createMission(req: Request, res: Response): Promise<Response> {
         try {
             const missionData = req.body;
-            console.log("Raw of data", missionData);
             const parsedData = {
-                id: missionData.id, // or generate a new id if needed
+                id: missionData.id, 
+                userId: missionData.userId,
                 missionTitle: missionData.missionTitle,
                 fullName: missionData.fullName,
                 startDate: missionData.startDate,

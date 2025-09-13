@@ -8,6 +8,14 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
       },
+       companyId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: 'companies',
+          key: "id"
+        }
+      },
       fullName: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -28,6 +36,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+     
       role: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -52,7 +61,7 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true,
       },
-    });
+    })
   },
 
   async down(queryInterface, Sequelize) {

@@ -5,6 +5,7 @@ export const addUserSchema=joi.object({
     fullName:joi.string().min(3).required(),
     email:joi.string().email().required(),
     password:joi.string().min(6).required(),
+    companyId:joi.string().min(10).required(),
     phoneNumber:joi.string().min(10).max(15).required(),
     role:joi.string().valid("admin","employee","manager","finance_manager").required(),
     department:joi.string().min(2).required()

@@ -9,41 +9,64 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable("expenseLogs",{
+
+    await queryInterface.createTable('companies',{
       id:{
         type:Sequelize.UUID,
-        defaultValue:Sequelize.UUIDV4,
+        allowNull:false,
         primaryKey:true
       },
-      missionId:{
-        type:Sequelize.UUID,
+      companyName:{
+        type:Sequelize.STRING,
         allowNull:false,
-        references:{
-          model:'missions',
-          key:'id'
-        }
+        unique:true
       },
-      date:{
-        type:Sequelize.DATE,
+      companyEmail:{
+        type:Sequelize.STRING,
+        allowNull:false,
+        unique:true
+      },
+    
+      companyContact:{
+        type:Sequelize.STRING,
+        allowNull:false,
+        unique:true
+      },
+      province:{
+        type:Sequelize.STRING,
         allowNull:false
       },
-      accommodationFile:{
+      district:{
         type:Sequelize.STRING,
-        allowNull:true
+        allowNull:false
       },
-      mealsFile:{
+      sector:{
         type:Sequelize.STRING,
-        allowNull:true
+        allowNull:false
       },
-      transportFile:{
+        proofDocument:{
         type:Sequelize.STRING,
-        allowNull:true
+        allowNull:false
       },
-      description:{
+      state:{
+        type:Sequelize.ENUM('active','inactive'),
+        allowNull:false,
+        defaultValue:"active"
+      },
+      blockUnblockComment:{
         type:Sequelize.TEXT,
         allowNull:true
       },
-      createdAt:{
+        status:{
+        type:Sequelize.ENUM('pending','approved','rejected'),
+        allowNull:false,
+        defaultValue:'pending'
+      },
+      approveComment:{
+        type:Sequelize.STRING,
+        allowNull:true
+      },
+    createdAt:{
         type:Sequelize.DATE,
         allowNull:false,
         defaultValue:Sequelize.NOW
@@ -55,7 +78,8 @@ module.exports = {
       },
       deletedAt:{
         type:Sequelize.DATE,
-        allowNull:true
+        allowNull:true,
+        defaultValue:null
       }
     })
   },
@@ -67,6 +91,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable("expenseLogs");
+    await queryInterface.dropTable('companies')
   }
 };

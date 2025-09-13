@@ -1,8 +1,9 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import { database } from '..';
 
 interface DailyReportAttributes {
   id: string;
+  userId:string;
   missionId: string;
   date: Date;
   dailyActivity: string;
@@ -14,11 +15,12 @@ interface DailyReportAttributes {
   deletedAt?: Date | null;
 }
 
-interface DailyReportCreationAttributes extends Optional<DailyReportAttributes, 'id' | 'documents' | 'filePath' | 'description' | 'createdAt' | 'updatedAt' | 'deletedAt'> {}
+interface DailyReportCreationAttributes extends Omit<DailyReportAttributes, 'id' | 'documents' | 'filePath' | 'description' | 'createdAt' | 'updatedAt' | 'deletedAt'> {}
 
 class DailyReport extends Model<DailyReportAttributes, DailyReportCreationAttributes> implements DailyReportAttributes {
   public id!: string;
   public missionId!: string;
+  public userId!: string;
   public date!: Date;
   public dailyActivity!: string;
   public documents!: string | null;
@@ -36,6 +38,14 @@ DailyReport.init(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
+    },
+    userId:{
+      type: DataTypes.UUID,
+      allowNull:false,
+      references:{
+          model:"users",
+          key:"id"
+      }
     },
     missionId: {
       type: DataTypes.UUID,
@@ -82,9 +92,9 @@ DailyReport.init(
   },
   {
     sequelize:database,
-    tableName: 'DailyReports', 
-    modelName: 'DailyReport',
-    paranoid: true,
+    tableName: 'dailyReports', 
+    modelName: 'dailyReports',
+    paranoid: false,
     timestamps: true,
   }
 );

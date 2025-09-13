@@ -1,5 +1,6 @@
 export interface IDailyReport {
   id?: string;
+  userId:string;
   missionId: string;
   date: Date;
   dailyActivity: string;
@@ -12,6 +13,7 @@ export interface IDailyReport {
 }
 
 export interface DailyReportCreate {
+  userId:string;
   missionId: string;
   date: Date;
   dailyActivity: string;

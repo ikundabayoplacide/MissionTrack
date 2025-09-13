@@ -14,7 +14,6 @@ export class DailyReportController {
                 reportData.filePath = req.file.path;
                 reportData.documents = req.file.filename;
             }
-            console.log("Creating report with data:", reportData);
             const newReport = await dailyReportService.createDailyReport(reportData);
 
             return ResponseService({
@@ -26,7 +25,6 @@ export class DailyReportController {
             });
         }
         catch (error: Error | any) {
-            console.error("Error creating daily report:", error);
             return ResponseService({
                 res,
                 status: 500,

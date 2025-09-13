@@ -98,6 +98,9 @@ components:
         id:
           type: string
           example: af4357d9-72a9-45d7-a288-4fcfbb59fc9a
+        companyId:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
         fullName:
           type: string
           example: John Doe
@@ -112,6 +115,7 @@ components:
           example: IT
         role:
           type: string
+          enum: [admin, employee, manager, finance_manager]
           example: employee
         is_active:
           type: boolean
@@ -124,26 +128,42 @@ components:
           format: date-time
     UserInput:
       type: object
-      required: [fullName, email, password, role]
+      required: 
+        - companyId
+        - fullName
+        - email
+        - password
+        - role
       properties:
+        companyId:
+          type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+          description: Company ID that the user belongs to
         fullName:
           type: string
-          example: John Doe
+          example: "John Doe"
         email:
           type: string
-          example: john@example.com
+          format: email
+          example: "john@example.com"
         password:
           type: string
-          example: test123
+          minLength: 6
+          example: "test123"
         phoneNumber:
           type: string
           example: "0788888888"
         department:
           type: string
-          example: IT
+          example: "IT"
         role:
           type: string
-          example: employee
+          enum: 
+            - admin
+            - employee
+            - manager
+            - finance_manager
+          example: "employee"
     UserUpdate:
       type: object
       properties:
@@ -152,6 +172,7 @@ components:
           example: Updated John
         email:
           type: string
+          format: email
           example: updated@example.com
         phoneNumber:
           type: string
@@ -161,7 +182,9 @@ components:
           example: Sales
         role:
           type: string
+          enum: [admin, employee, manager, finance_manager]
           example: manager
         is_active:
           type: boolean
           example: false
+

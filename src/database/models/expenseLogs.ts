@@ -3,6 +3,7 @@ import { database } from '..';
 
 interface ExpenseLogAttributes {
   id: string;
+  userId:string;
   missionId: string;
   date: Date;
   accommodationFile: string | null;
@@ -18,6 +19,7 @@ interface ExpenseLogCreationAttributes extends Optional<ExpenseLogAttributes, 'i
 
 class ExpenseLog extends Model<ExpenseLogAttributes, ExpenseLogCreationAttributes> implements ExpenseLogAttributes {
   public id!: string;
+  public userId!:string;
   public missionId!: string;
   public date!: Date;
   public accommodationFile!: string | null;
@@ -36,6 +38,14 @@ ExpenseLog.init(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
+    },
+    userId:{
+      type: DataTypes.UUID,
+      allowNull:false,
+      references:{
+          model:"users",
+          key:"id"
+      }
     },
     missionId: {
       type: DataTypes.UUID,
@@ -82,9 +92,9 @@ ExpenseLog.init(
   },
   {
     sequelize:database,
-    tableName: 'ExpenseLogs',
-    modelName: 'ExpenseLog',
-    paranoid: true,
+    tableName: 'expenseLogs',
+    modelName: 'expenseLog',
+    paranoid: false,
     timestamps: true,
   }
 );

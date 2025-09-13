@@ -1,5 +1,5 @@
 import { Request, RequestHandler, Response } from "express";
-import { ExpenseLogService } from "../services/ExpenseLogs";
+import { ExpenseLogService } from "../services/expenseLogs";
 import { ExpenseLogCreate, ExpenseLogUpdate } from "../types/expenseLogs";
 import { ResponseService } from "../utils/response";
 import { ParamsDictionary } from "express-serve-static-core";
@@ -77,7 +77,8 @@ export class ExpenseLogController {
     static async updateExpenseLog(req: Request, res: Response) {
         try {
             const id = req.params.id;
-            const updateData: ExpenseLogUpdate = req.body;
+            const existingElog = await ExpenseLogService.getExpenseLogById(id);
+            const updateData: ExpenseLogUpdate = { ...req.body, ...existingElog.toJSON() };
             if (req.files) {
                 const files = req.files as { [fieldname: string]: Express.Multer.File[] };
                 if (files.accommodationFile && files.accommodationFile[0]) {
@@ -92,6 +93,12 @@ export class ExpenseLogController {
                     updateData.transportFile = files.transportFile[0].path;
                 }
             }
+            Object.keys(updateData).forEach(
+                (key) =>
+                    (updateData as any)[key] === "" || (updateData as any)[key] === undefined
+                        ? delete (updateData as any)[key]
+                        : null
+            );
             const updatedElog = await ExpenseLogService.updateExpenseLog(id, updateData);
             return ResponseService({
                 res,

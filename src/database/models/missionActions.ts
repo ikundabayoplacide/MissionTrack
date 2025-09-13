@@ -1,7 +1,5 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
 import { database } from "..";
-import { Mission } from "./mission";
-import { User } from "./users";
 
 interface MissionActionAttributes {
     id: string;
@@ -74,16 +72,11 @@ MissionAction.init({
 }, {
     tableName: "missionActions",
     sequelize: database,
-    paranoid: true,
+    paranoid: false,
     timestamps: true,
     modelName: "missionAction"
 }
 )
+export { MissionAction };
 
-export default MissionAction;
 
-// associations
-Mission.hasMany(MissionAction,{foreignKey:"missionId", as:"actions"});
-User.hasMany(MissionAction,{foreignKey:"actorId", as:"actionTaken"});
-MissionAction.belongsTo(Mission,{foreignKey:"missionId",as:"mission"});
-MissionAction.belongsTo(User,{foreignKey:"actorId",as:"actor"});

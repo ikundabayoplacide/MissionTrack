@@ -9,13 +9,14 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
 
 }
 
-export class Mission extends Model<missionInterfaces, missionCreationAttributes> implements missionInterfaces {
+ class Mission extends Model<missionInterfaces, missionCreationAttributes> implements missionInterfaces {
     missionTitle!: string;
     fullName!: string;
     startDate!: Date;
     endDate!: Date;
     missionDescription!: string;
     id!: string;
+    userId!: string;
     location!: string;
     jobPosition!: string;
     status!: MissionStatus;
@@ -41,13 +42,21 @@ export class Mission extends Model<missionInterfaces, missionCreationAttributes>
         };
     }
 }
-export const missionModel = (sequelize: Sequelize) => {
+
     Mission.init(
         {
             id: {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
                 primaryKey: true
+            },
+            userId:{
+                type: DataTypes.UUID,
+                allowNull:false,
+                references:{
+                    model:"users",
+                    key:"id"
+                }
             },
             fullName: {
                 type: DataTypes.STRING,
@@ -102,12 +111,8 @@ export const missionModel = (sequelize: Sequelize) => {
             sequelize: database,
             tableName: "missions",
             timestamps: true,
-            paranoid: true,
+            paranoid: false,
             modelName: "Missions"
         }
     );
-    return Mission
-}
-
-
-
+export {Mission}

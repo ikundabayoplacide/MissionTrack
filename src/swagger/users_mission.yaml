@@ -41,6 +41,7 @@ paths:
             schema:
               type: object
               required:
+                - userId
                 - missionTitle
                 - fullName
                 - startDate
@@ -50,29 +51,41 @@ paths:
                 - jobPosition
                 - status
               properties:
+                userId:
+                  type: string
+                  format: uuid
+                  example: "550e8400-e29b-41d4-a716-446655440000"
+                  description: "ID of the user creating the mission"
                 missionTitle:
                   type: string
                   example: "Business Trip to Nairobi"
+                  description: "Title of the mission"
                 fullName:
                   type: string
                   example: "John Doe"
+                  description: "Full name of the user going on the mission"
                 startDate:
                   type: string
                   format: date
                   example: "2024-01-15"
+                  description: "start date of the mission"
                 endDate:
                   type: string
                   format: date
                   example: "2024-01-20"
+                  description: "end date of the mission"
                 missionDescription:
                   type: string
                   example: "Attending client meetings and conferences"
+                  description: "Description of the mission"
                 location:
                   type: string
                   example: "Nairobi, Kenya"
+                  description: "Location of the mission"
                 jobPosition:
                   type: string
                   example: "Software Engineer"
+                  description: "Your job position"
                 status:
                   type: string
                   enum: [PENDING, APPROVED, REJECTED, COMPLETED]
@@ -186,7 +199,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-
     patch:
       summary: Update a mission by ID
       tags: [Missions]
@@ -200,7 +212,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -227,10 +239,7 @@ paths:
                 jobPosition:
                   type: string
                   example: "Senior Software Engineer"
-                status:
-                  type: string
-                  enum: [PENDING, APPROVED, REJECTED, COMPLETED]
-                  example: "APPROVED"
+               
                 missionDocument:
                   type: string
                   description: "Mission document or additional mission details"
@@ -238,15 +247,9 @@ paths:
                 documents:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      documentName:
-                        type: string
-                        example: "Flight Ticket"
-                      documentUrl:
-                        type: string
-                        example: "http://localhost:5000/uploads/flight-ticket.pdf"
-                  description: "Array of documents to update (optional)"
+                    type: string
+                    format: binary
+                  description: "Upload multiple document files (optional)"
       responses:
         "200":
           description: Mission updated successfully
@@ -260,7 +263,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Update successfull"
+                    example: "Update successful"
                   status:
                     type: integer
                     example: 200
@@ -377,10 +380,6 @@ components:
           type: string
           format: date-time
           example: "2024-01-20T00:00:00Z"
-        status:
-          type: string
-          enum: [PENDING, APPROVED, REJECTED, COMPLETED]
-          example: "PENDING"
         mission:
           type: string
           example: "Travel authorization and mission briefing document"

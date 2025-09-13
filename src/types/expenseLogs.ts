@@ -1,6 +1,7 @@
 export interface IExpenseLog {
   id?: string;
   missionId: string;
+  userId:string;
   date: Date;
   accommodationFile?: string | null;
   mealsFile?: string | null;
@@ -12,6 +13,7 @@ export interface IExpenseLog {
 }
 
 export interface ExpenseLogCreate {
+  userId:string;
   missionId: string;
   date: Date;
   accommodationFile?: string | null;

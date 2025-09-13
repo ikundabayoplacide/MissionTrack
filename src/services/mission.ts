@@ -1,5 +1,5 @@
-import {MissDoc } from "../database/models";
 import { Mission } from "../database/models/mission";
+import { MissDoc } from "../database/models/missionDocuments";
 import { MissionPayload, MissionUpdatePayload } from "../types/missionInfoInterface";
 
 export class MissionService {
@@ -16,10 +16,16 @@ export class MissionService {
     return mission
   }
 
-async updateMission(id: string, payload: MissionUpdatePayload): Promise<Mission | null> {
-    try {
+async updateMission(id: string, payload: MissionUpdatePayload){
         const mission = await Mission.findByPk(id);
         if (!mission) return null;
+         if (payload.startDate) payload.startDate = new Date(payload.startDate);
+         if (payload.endDate) payload.endDate = new Date(payload.endDate);
+          Object.keys(payload).forEach(key => {
+        if (payload[key as keyof MissionUpdatePayload] === "") {
+            delete payload[key as keyof MissionUpdatePayload];
+        }
+    });
          await mission.update(payload);
 
         if (payload.documents !== undefined && payload.documents !== null) {
@@ -41,9 +47,6 @@ async updateMission(id: string, payload: MissionUpdatePayload): Promise<Mission 
                 { model: MissDoc, as: 'documents' }
             ]
         });
-    } catch (error) {
-        throw error;
-    }
 }
 
   async getMissionById(id: string): Promise<Mission | null> {

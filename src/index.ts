@@ -7,6 +7,7 @@ import i18n from './config/i18n';
 import { routers } from './routes';
 import { setupSwagger } from './swagger/swagger';
 import path from 'path';
+import { setupAssociations } from './database/associations';
 
 config();
 
@@ -23,6 +24,7 @@ database.authenticate().then(async()=>{
         app.listen(PORT,()=>{
             logStartup(PORT,process.env.NODE_ENV||'DEV');
         });
+    setupAssociations();
     } catch(error){
         errorLogger(error as Error,'Error starting server');
     }

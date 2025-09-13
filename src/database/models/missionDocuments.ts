@@ -1,6 +1,5 @@
-import { Sequelize, Model, DataTypes } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import { missionDocuments } from "../../types/missionDocuments";
-import { Mission } from "./mission";
 import { database } from "..";
 
 
@@ -10,7 +9,7 @@ export interface missionDoc extends Omit<missionDocuments, "id" | "createdAt" | 
     updatedAt?: Date;
 }
 
-export class MissDoc extends Model<missionDocuments, missionDoc> implements missionDocuments {
+ class MissDoc extends Model<missionDocuments, missionDoc> implements missionDocuments {
     public id!: string;
     public missionId!: string;
     public documentName !: string;
@@ -30,15 +29,8 @@ export class MissDoc extends Model<missionDocuments, missionDoc> implements miss
             deletedAt: this.deletedAt
         };
     }
-    static associate(models: { Mission: typeof Mission }) {
-        MissDoc.belongsTo(models.Mission, {
-            foreignKey: "missionId",
-            as: "mission"
-        })
-    }
+ 
 }
-
-export const MissionDocumentModel = (sequelize: Sequelize) => {
     MissDoc.init(
         {
             id: {
@@ -78,8 +70,7 @@ export const MissionDocumentModel = (sequelize: Sequelize) => {
         sequelize:database,
         tableName: "missionDocuments",
         timestamps: true,
-        paranoid: true
+        paranoid: false
     }
-    );
-    return MissDoc;
-}
+        );
+    export { MissDoc};

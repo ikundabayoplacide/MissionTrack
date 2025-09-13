@@ -4,7 +4,6 @@ import { DailyReportCreate, DailyReportUpdate } from "../types/mDailReport";
 
 export class DailyReportService {
     async createDailyReport(data: DailyReportCreate) {
-          console.log("Service received data:", data); 
          const report = await DailyReport.create(data);
          return report;
 

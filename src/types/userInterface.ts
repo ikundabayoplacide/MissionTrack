@@ -13,6 +13,7 @@ export interface userInterface{
     email:string;
     password:string;
     phoneNumber?:string;
+    companyId:string;
     is_active?:boolean;
     role:UserRole;
     department?:string;

@@ -1,5 +1,5 @@
-import MissionAction from "../database/models/missionActions";
-import { Mission } from "../database/models";
+import { Mission } from "../database/models/mission";
+import {MissionAction} from "../database/models/missionActions";
 import { User } from "../database/models/users";
 import { CreateMissionActionParams, UpdateMissionActionParams } from "../types/managerMissionActions";
 
@@ -17,11 +17,13 @@ class MissionActionService {
     let missionStatus = mission.status;
     switch (data.action) {
         case 'Approve':
-            if (mission.status === 'pending') {
-                missionStatus = 'manager_approved';
-            } else if (mission.status === 'manager_approved') {
-                missionStatus = 'financial_approved';
-            }
+            missionStatus='manager_approved';
+            // if (mission.status === 'pending') {
+
+            //     missionStatus = 'manager_approved';
+            // } else if (mission.status === 'manager_approved') {
+            //     missionStatus = 'financial_approved';
+            // }
             break;
         case 'Reject':
             missionStatus = 'rejected';

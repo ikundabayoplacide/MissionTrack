@@ -9,12 +9,19 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable('dailyReports',{
+    await queryInterface.createTable("expenseLogs",{
       id:{
         type:Sequelize.UUID,
         defaultValue:Sequelize.UUIDV4,
-        primaryKey:true,
-        allowNull:false
+        primaryKey:true
+      },
+      userId:{
+        type:Sequelize.UUID,
+        allowNull:false,
+        references:{
+          model:'users',
+          key:'id'
+        }
       },
       missionId:{
         type:Sequelize.UUID,
@@ -28,15 +35,15 @@ module.exports = {
         type:Sequelize.DATE,
         allowNull:false
       },
-      dailyActivity:{
-        type:Sequelize.TEXT,
-        allowNull:false
-      },
-      documents:{
+      accommodationFile:{
         type:Sequelize.STRING,
         allowNull:true
       },
-      filePath:{
+      mealsFile:{
+        type:Sequelize.STRING,
+        allowNull:true
+      },
+      transportFile:{
         type:Sequelize.STRING,
         allowNull:true
       },
@@ -46,21 +53,20 @@ module.exports = {
       },
       createdAt:{
         type:Sequelize.DATE,
-        defaultValue:Sequelize.NOW,
+        allowNull:false,
+        defaultValue:Sequelize.NOW
       },
       updatedAt:{
         type:Sequelize.DATE,
-        defaultValue:Sequelize.NOW,
-
+        allowNull:false,
+        defaultValue:Sequelize.NOW
       },
       deletedAt:{
         type:Sequelize.DATE,
         allowNull:true
       }
-
     })
   },
-
 
   async down (queryInterface, Sequelize) {
     /**
@@ -69,6 +75,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable('dailyReports');
+    await queryInterface.dropTable("expenseLogs");
   }
 };
