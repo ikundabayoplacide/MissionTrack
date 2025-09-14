@@ -4,8 +4,12 @@ import redis from './utils/redis';
 import { errorLogger, logStartup } from './utils/logger';
 import { database } from './database';
 import i18n from './config/i18n';
-import userRoutes from './routes/userRoutes';
-import swaggerDocs from './swagger';
+import authRoutes from './routes/authRoutes';
+import { setupSwagger } from './swagger/swagger';
+import { setupAssociations } from './database/associations';
+
+
+
 
 config();
 
@@ -33,12 +37,11 @@ app.get('/health', (req, res) => {
 });
 
 // API Routes
-app.use('/api/users', userRoutes);
-
+app.use('/api/users', authRoutes);
+setupSwagger(app);
 // Initialize Swagger documentation
 // This should be after your API routes but before the 404 handler
 const PORT = parseInt(process.env.PORT as string) || 5500;
-swaggerDocs(app, PORT);
 
 // 404 handler - MUST be after all other routes and middleware
 app.use((req, res) => {
@@ -63,11 +66,22 @@ database.sequelize.authenticate().then(async () => {
     app.listen(PORT, () => {
       logStartup(PORT, process.env.NODE_ENV || 'DEV');
     });
+     setupAssociations();
   } catch (error) {
     errorLogger(error as Error, 'Error starting server');
   }
 }).catch((error: Error) => {
   errorLogger(error, 'Database connection error');
 });
+
+// Serve reset password form (for testing before frontend is ready)
+app.get('/reset-password', (req, res) => {
+  const token = req.query.token as string;
+
+  if (!token) {
+    return res.status(400).send("Invalid reset link.");
+  }
+});
+
 
 export default app;

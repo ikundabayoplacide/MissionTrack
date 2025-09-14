@@ -2,14 +2,17 @@ import { Sequelize, Model, DataTypes } from "sequelize";
 
 interface UserAttribute {
   id: string;
-  roleId: string; // Add this line
+  companyId?: string;
   fullName: string;
   email: string;
   password: string;
+
   role: "Employee" | "Manager" | "Finance" | "Admin";
   department?: string;
   phone?: string;
   isActive: boolean;
+  resetToken?: string | null;
+  resetTokenExpires?: Date | null;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: null;
@@ -18,7 +21,7 @@ interface UserAttribute {
 export interface UserCreationAttribute
   extends Omit<UserAttribute, "id" | "deletedAt" | "createdAt" | "updatedAt"> {
   id?: string;
-  roleId: string; // Add this line - required for creation
+  companyId?: string;
   deletedAt?: null;
   createdAt?: Date;
   updatedAt?: Date;
@@ -29,7 +32,7 @@ export class User
   implements UserAttribute
 {
   public id!: string;
-  public roleId!: string; // Add this line
+  public companyId?: string
   public fullName!: string;
   public email!: string;
   public password!: string;
@@ -37,6 +40,8 @@ export class User
   public department?: string;
   public phone?: string;
   public isActive!: boolean;
+  public resetToken?: string;
+  public resetTokenExpires?: Date;
 
   public createdAt!: Date;
   public updatedAt!: Date;
@@ -46,7 +51,7 @@ export class User
   public toJSON(): object | UserAttribute {
     return {
       id: this.id,
-      roleId: this.roleId, // Add this line
+      companyId: this.companyId,
       fullName: this.fullName,
       email: this.email,
       role: this.role,
@@ -58,15 +63,6 @@ export class User
     };
   }
 
-  static associate(models: any): void {
-    // User belongs to a Role
-    User.belongsTo(models.Role, { foreignKey: "roleId", as: "roleDetails" });
-    
-    // Example associations for later:
-    // User.hasMany(models.Mission, { foreignKey: "createdBy", as: "missions" });
-    // User.hasMany(models.Expense, { foreignKey: "userId", as: "expenses" });
-    // User.hasMany(models.Approval, { foreignKey: "approverId", as: "approvals" });
-  }
 }
 
 // Sequelize model initializer
@@ -78,15 +74,9 @@ export const UserModel = (sequelize: Sequelize) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      roleId: { // Add this field definition
+      companyId: { 
         type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-          model: 'roles',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        allowNull: true,
       },
       fullName: {
         type: DataTypes.STRING,
@@ -116,6 +106,28 @@ export const UserModel = (sequelize: Sequelize) => {
       isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
+      },
+      resetToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      resetTokenExpires: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+        createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
       },
     },
     {

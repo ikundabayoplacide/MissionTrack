@@ -10,16 +10,6 @@ module.exports = {
         primaryKey: true,
         allowNull: false,
       },
-      roleId: {
-        type: Sequelize.UUID,          // ✅ corrected from DataTypes.INTEGER
-        allowNull: false,
-        references: {
-          model: 'roles',                // Make sure your Roles table exists
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',            // optional, adjust to your business logic
-      },
       fullName: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -37,6 +27,10 @@ module.exports = {
         type: Sequelize.ENUM('Employee', 'Manager', 'Finance', 'Admin'),
         allowNull: false,
       },
+      companyId: {
+        type: Sequelize.UUID,
+        allowNull: true,
+      },
       department: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -48,6 +42,14 @@ module.exports = {
       isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
+      },
+       resetToken: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      resetTokenExpires: {
+        type: Sequelize.DATE,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,

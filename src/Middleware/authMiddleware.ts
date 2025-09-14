@@ -1,109 +1,25 @@
-import { Request, Response, NextFunction } from "express";
-import { ResponseService } from "../utils/response";
-import { verifyToken } from "../utils/helper";
-import rateLimit from "express-rate-limit";
+// middlewares/auth.ts
+import jwt from "jsonwebtoken";
+const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
 
-// Rate limiting middleware
-export const rateLimiting = (customLimit?: number) =>
-  rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: customLimit || 100,
-    message:
-      "Too many requests from this IP, please try again after 15 minutes",
-  });
+export function authenticate(req: any, res: any, next: any) {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "No token" });
 
-interface JwtPayload {
-  id?: string;
-  email?: string;
-  role?: "Employee" | "Manager" | "Finance" | "Admin";
-  iat?: number;
-  exp?: number;
-}
-
-export interface IRequestUser extends Request {
-  user?: JwtPayload;
-  token?: string;
-}
-
-// Authentication middleware
-export const authMiddleware = async (
-  req: IRequestUser,
-  res: Response,
-  next: NextFunction
-) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) {
-      return ResponseService({
-        data: null,
-        status: 401,
-        success: false,
-        message: "Authentication token is missing",
-        res,
-      });
-    }
-
-    const user = (await verifyToken(token)) as JwtPayload;
-    if (!user) {
-      return ResponseService({
-        data: null,
-        status: 401,
-        success: false,
-        message: "Invalid authentication token",
-        res,
-      });
-    }
-
-    req.user = user;
-    req.token = token;
+    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    req.user = decoded;
     next();
-  } catch (error) {
-    const { message, stack } = error as Error;
-    return ResponseService({
-      data: { message, stack },
-      status: 401,
-      success: false,
-      message: "Invalid authentication token",
-      res,
-    });
+  } catch {
+    return res.status(401).json({ message: "Invalid token" });
   }
-};
+}
 
-// Role-based access control middleware
-export const checkRole =
-  (roles: Array<"Employee" | "Manager" | "Finance" | "Admin">) =>
-  async (req: IRequestUser, res: Response, next: NextFunction) => {
-    try {
-      if (!req.user || !req.user.role) {
-        return ResponseService({
-          data: null,
-          status: 403,
-          success: false,
-          message: "Role information is missing",
-          res,
-        });
-      }
-
-      if (!roles.includes(req.user.role)) {
-        return ResponseService({
-          data: null,
-          status: 403,
-          success: false,
-          message:
-            "You do not have the required role to perform this action",
-          res,
-        });
-      }
-
-      next();
-    } catch (error) {
-      const { message } = error as Error;
-      return ResponseService({
-        data: { message },
-        status: 500,
-        success: false,
-        message: "Error checking role permissions",
-        res,
-      });
+export function authorize(roles: string[]) {
+  return (req: any, res: any, next: any) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ message: "Forbidden" });
     }
+    next();
   };
+}

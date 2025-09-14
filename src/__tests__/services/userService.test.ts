@@ -125,7 +125,6 @@ describe('UserService', () => {
       const mockCreatedUser = {
         id: 'new-user-id',
         ...userData,
-        roleId: 'role-id',
         password: 'hashedPassword',
         phone: undefined,
       };

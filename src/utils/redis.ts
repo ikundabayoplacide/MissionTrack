@@ -1,30 +1,39 @@
-import { config } from 'dotenv';
-import {createClient} from 'redis';
-import { Config } from 'sequelize';
-import { logger } from './logger';
-import { error, log } from 'console';
-
+import { config } from "dotenv";
+import { createClient } from "redis";
+import { logger } from "./logger";
 
 config();
 
-const host=process.env.REDIS_HOST || 'localhost';
-const portStr=process.env.REDIS_PORT|| '6379';
-const password=process.env.REDIS_PASSWORD ||'';
-const dbStr=process.env.REDIS_DB || '1';
+const host = process.env.REDIS_HOST || "127.0.0.1";
+const port = parseInt(process.env.REDIS_PORT || "6379", 10);
+const password = process.env.REDIS_PASSWORD || "";
+const database = parseInt(process.env.REDIS_DB || "0", 10);
 
+// Log config without password
+logger.info(`Redis configuration: ${host}:${port}, DB: ${database}`);
 
-const port=Number.isNaN(parseInt(portStr,10))? 6379:parseInt(portStr,10);
-const database=Number.isNaN(parseInt(dbStr,10))?1:parseInt(dbStr,10);
+export const redis = createClient({
+  socket: { host, port },
+  password: password || undefined,
+  database,
+});
 
-// Log the Redis configuration (without sensitive info)
-logger.info(`Redis configuration: ${host}:${port}, DB:${database}`);
+// Events
+redis.on("connect", () => logger.info("✅ Connected to Redis successfully"));
+redis.on("error", (error: Error) =>
+  logger.error("❌ Redis connection failed: " + error.message)
+);
+redis.on("reconnecting", () => logger.info("🔄 Reconnecting to Redis..."));
 
-export const redis=createClient({
-    socket:{host,port},password:password,database
-})
-
-redis.on('connect',()=>{ logger.info('connected to rredis sucess')});
-redis.on('error',(error:Error)=>{logger.error('Redis connection failed')});
-redis.on('connecting',()=>{logger.info('connecting to redis....')})
+// Safe connect wrapper
+export const connectRedis = async () => {
+  if (!redis.isOpen) {
+    try {
+      await redis.connect();
+    } catch (err: any) {
+      logger.error("❌ Redis initial connection error: " + err.message);
+    }
+  }
+};
 
 export default redis;

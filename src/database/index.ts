@@ -1,7 +1,6 @@
 import { Sequelize } from "sequelize";
 
-import { UserModel } from "./models/User";
-import { RoleModel } from "./models/Roles";
+import { UserModel } from "./models/Users";
 
 const env = process.env.NODE_ENV?.toUpperCase() || 'DEV';
 
@@ -30,14 +29,17 @@ export const sequelize = new Sequelize(config);
 
 // Initialize models with sequelize instance
 const User = UserModel(sequelize);
-const Role = RoleModel(sequelize);
+
+const models = { User };
 
 // Set up associations
-Role.associate({ User });
-User.associate({ Role });
+Object.values(models).forEach((model: any) => {
+  if (model.associate) {
+    model.associate(models);
+  }
+});
 
 export const database = {
-  User,
-  Role,
+  ...models,
   sequelize,
 };
