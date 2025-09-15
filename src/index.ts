@@ -10,25 +10,35 @@ import { setupAssociations } from './database/associations';
 
 config();
 
-const app=express();
+const app = express();
 app.use(express.json());
 // app.use(i18n.init);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// ✅ Root route for health check
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: '🚀 MissionTrack Backend is running!' });
+});
+
 app.use(routers);
 setupSwagger(app);
-redis.connect().catch((err)=>console.log("Redis connection error",err));
-const PORT=parseInt(process.env.PORT as string)||5000;
-database.sequelize.authenticate().then(async()=>{
-    try{
-        app.listen(PORT,()=>{
-            logStartup(PORT,process.env.NODE_ENV||'DEV');
+
+redis.connect().catch((err) => console.log("Redis connection error", err));
+
+const PORT = parseInt(process.env.PORT as string) || 5000;
+
+database.sequelize.authenticate().then(async () => {
+    try {
+        setupAssociations();
+
+        app.listen(PORT, () => {
+            logStartup(PORT, process.env.NODE_ENV || 'DEV');
         });
-    setupAssociations();
-    } catch(error){
-        errorLogger(error as Error,'Error starting server');
+    } catch (error) {
+        errorLogger(error as Error, 'Error starting server');
     }
-}).catch((error:Error)=>{
-    errorLogger(error,'Database connection error');
-        
-})
+}).catch((error: Error) => {
+    errorLogger(error, 'Database connection error');
+});
+
 export default app;
