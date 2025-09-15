@@ -17,7 +17,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ✅ Root route for health check
 app.get('/', (req, res) => {
-  res.json({ status: 'ok', message: '🚀 MissionTrack Backend is running!' });
+   res.redirect('/api-docs');
 });
 
 app.use(routers);
