@@ -1,7 +1,7 @@
 import { Route, Routes} from "react-router-dom";
 // import NavBar from "../Components/NavBar";
 import LoginForm from "../pages/LoginForm"; // ✅ corrected import
-import Dashboard from "../pages/Dashboard";
+import Dashboard from "../pages/EmployeeDashboard";
 import LandingPage from "../pages/LandingPage";
 import Profile from "../Components/Settings/Profile";
 import Password from "../Components/Settings/Password";

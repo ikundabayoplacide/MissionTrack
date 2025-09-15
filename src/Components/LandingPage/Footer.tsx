@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
             <br /> See how easy mission management can be.
           </p>
           <button className="bg-white text-primaryColor-900 px-4 py-2 rounded-md font-semibold text-sm mt-6 hover:bg-gray-100 transition">
-            Request Demo
+            Apply Now
           </button>
         </div>
       </div>

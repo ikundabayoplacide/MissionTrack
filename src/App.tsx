@@ -1,5 +1,7 @@
 // import Profile from "./Components/Settings/Profile";
 
+// import ManagerDashboard from "./pages/ManagerDashboard";
+
 // import Details from "./Components/Request/Details";
 
 
@@ -25,6 +27,7 @@ function App() {
     {/* <MissionList/> */}
        <AppRoute/>
        {/* <Report/> */}
+       {/* <ManagerDashboard/> */}
     
     </>
 

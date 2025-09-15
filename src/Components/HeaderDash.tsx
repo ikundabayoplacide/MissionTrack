@@ -17,13 +17,8 @@ const Header: React.FC = () => {
         "bg-gray-800 border-gray-700"
       )}`}
     >
-      {/* Logo + Title */}
-      <div className="flex items-center gap-2">
-        <img src="/logo.svg" alt="logo" className="h-8" />
-        <h1 className="font-bold text-xl text-blue-700">
-          Mission<span className="text-green-600">Track</span>
-        </h1>
-      </div>
+     
+
       {/* Theme Toggle */}
  {/* <button
           onClick={toggleTheme}
