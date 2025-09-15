@@ -1,40 +1,39 @@
+import { createClient } from 'redis';
 import { config } from 'dotenv';
-import {createClient} from 'redis';
 import { logger } from './logger';
-
 
 config();
 
-const host = process.env.REDIS_HOST || "127.0.0.1";
-const port = parseInt(process.env.REDIS_PORT || "6379", 10);
-const password = process.env.REDIS_PASSWORD || "";
-const database = parseInt(process.env.REDIS_DB || "0", 10);
+const host = process.env.REDIS_HOST || 'redis-18217.c8.us-east-1-3.ec2.redns.redis-cloud.com';
+const portStr = process.env.REDIS_PORT || '18217';
+const password = process.env.REDIS_PASSWORD ||'VmEgzwJ2LZeg02ytx6upTqqUPcBdiU14';
+const dbStr = process.env.REDIS_DB || 'database-MFL9B9AB';
 
-// Log config without password
-logger.info(`Redis configuration: ${host}:${port}, DB: ${database}`);
+const port = Number.isNaN(parseInt(portStr)) ? 6379 : parseInt(portStr);
+const database = Number.isNaN(parseInt(dbStr)) ? 0 : parseInt(dbStr);
+
+
+logger.info(`Redis configuration: ${host}:${port}, DB:${database}`);
 
 export const redis = createClient({
-  socket: { host, port },
-  password: password || undefined,
+  socket: {
+    host,
+    port,
+  },
+  password: password ||'',
   database,
 });
 
-// Events
-redis.on("connect", () => logger.info("✅ Connected to Redis successfully"));
-redis.on("error", (error: Error) =>
-  logger.error("❌ Redis connection failed: " + error.message)
-);
-redis.on("reconnecting", () => logger.info("🔄 Reconnecting to Redis..."));
+redis.on('connect', () => {
+  logger.info('Connected to Redis');
+});
 
-// Safe connect wrapper
-export const connectRedis = async () => {
-  if (!redis.isOpen) {
-    try {
-      await redis.connect();
-    } catch (err: any) {
-      logger.error("❌ Redis initial connection error: " + err.message);
-    }
-  }
-};
+redis.on('error', (err) => {
+  logger.error(`Redis connection error: ${err.message}`, { stack: err.stack });
+});
+
+redis.on('ready', () => {
+  logger.info('Redis client ready');
+});
 
 export default redis;
