@@ -3,7 +3,6 @@ import { config } from 'dotenv';
 import redis from './utils/redis';
 import { errorLogger, logStartup } from './utils/logger';
 import { database } from './database';
-import i18n from './config/i18n';
 import { routers } from './routes';
 import { setupSwagger } from './swagger/swagger';
 import path from 'path';
