@@ -4,41 +4,35 @@ import { logger } from './logger';
 
 config();
 
-const host = process.env.REDIS_HOST || 'redis-18217.c8.us-east-1-3.ec2.redns.redis-cloud.com';
-const port = parseInt(process.env.REDIS_PORT || '18217');
-const password = process.env.REDIS_PASSWORD || 'VmEgzwJ2LZeg02ytx6upTqqUPcBdiU14';
+const redisUrl = process.env.REDIS_URL || 
+  'redis://default:VmEgzwJ2LZeg02ytx6upTqquPcBdiU14@redis-18217.c8.us-east-1-3.ec2.redns.redis-cloud.com:18217';
 
-logger.info(`Redis configuration: ${host}:${port}`);
+logger.info(`Using Redis URL: ${redisUrl}`);
 
 export const redis = createClient({
-  socket: {
-    host: host,
-    port: port,
-    connectTimeout: 60000, 
-  },
-  password: password
+  url: redisUrl,
 });
 
 redis.on('connect', () => {
-  logger.info('✅ Connected to Redis');
+  logger.info('Connected to Redis');
 });
 
 redis.on('error', (err) => {
-  logger.error(`❌ Redis error: ${err.message}`);
+  logger.error(`Redis connection error: ${err.message}`, { stack: err.stack });
 });
 
 redis.on('ready', () => {
-  logger.info('✅ Redis ready');
+  logger.info('Redis client ready');
 });
 
-redis.on('reconnecting', () => {
-  logger.info('🔄 Redis reconnecting...');
-});
-
-redis.on('end', () => {
-  logger.info('❌ Redis connection ended');
-});
-
-// Export both as redis and redisClient for compatibility
-export const redisClient = redis;
 export default redis;
+
+// Connect automatically if needed
+(async () => {
+  try {
+    await redis.connect();
+    logger.info("Redis connected successfully via URL");
+  } catch (error) {
+    logger.error("Failed to connect to Redis:", error);
+  }
+})();
