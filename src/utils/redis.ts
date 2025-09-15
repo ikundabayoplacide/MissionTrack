@@ -13,7 +13,8 @@ logger.info(`Redis configuration: ${host}:${port}`);
 export const redis = createClient({
   socket: {
     host: host,
-    port: port
+    port: port,
+    connectTimeout: 60000, 
   },
   password: password
 });
@@ -30,4 +31,14 @@ redis.on('ready', () => {
   logger.info('✅ Redis ready');
 });
 
+redis.on('reconnecting', () => {
+  logger.info('🔄 Redis reconnecting...');
+});
+
+redis.on('end', () => {
+  logger.info('❌ Redis connection ended');
+});
+
+// Export both as redis and redisClient for compatibility
+export const redisClient = redis;
 export default redis;
