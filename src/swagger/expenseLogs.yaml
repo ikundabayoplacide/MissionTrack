@@ -1,13 +1,9 @@
 
-tags:
-  - name: ExpenseLogs
-    description: Operations related to daily expense logs
-
 paths:
   /expenselog:
     post:
       tags:
-        - ExpenseLogs
+        - Expense Logs
       summary: Create a new expense log
       description: Create a new expense log with accommodation, meals, and transport receipts
       requestBody:
@@ -75,7 +71,7 @@ paths:
   /expenselogs:
     get:
       tags:
-        - ExpenseLogs
+        - Expense Logs
       summary: Get all expense logs
       responses:
         '200':
@@ -95,7 +91,7 @@ paths:
   /expenselog/{id}:
     get:
       tags:
-        - ExpenseLogs
+        - Expense Logs
       summary: Get an expense log by ID
       parameters:
         - name: id
@@ -127,7 +123,7 @@ paths:
 
     patch:
       tags:
-        - ExpenseLogs
+        - Expense Logs
       summary: Update an expense log by ID
       parameters:
         - name: id
@@ -183,7 +179,7 @@ paths:
 
     delete:
       tags:
-        - ExpenseLogs
+        - Expense Logs
       summary: Delete an expense log by ID
       parameters:
         - name: id
@@ -217,7 +213,7 @@ paths:
   /expenselogs/mission/{missionId}:
     get:
       tags:
-        - ExpenseLogs
+        - Expense Logs
       summary: Get expense logs by mission ID
       parameters:
         - name: missionId

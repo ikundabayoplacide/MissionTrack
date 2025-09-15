@@ -1,7 +1,7 @@
 
 import { User } from "../database/models/users"; 
 import bcrypt from "bcrypt";
-import { AddUserInterface, userInterface } from "../types/userInterface";
+import { AddUserInterface, userInterface, userUpateInterface } from "../types/userInterface";
 
 export class UserService {
     static async createUser(userData: AddUserInterface): Promise<userInterface> {
@@ -21,7 +21,7 @@ export class UserService {
             const users = await User.findAll();
             return users.map(user => user.toJSON() as userInterface);
     }
-    static async updateUser(id: string, updateData: Partial<userInterface>): Promise<userInterface> {
+    static async updateUser(id: string, updateData: Partial<userUpateInterface>): Promise<userUpateInterface> {
             const [affectedCount,updatedUser] = await User.update(updateData, {
                 where: { id },
                 returning:true

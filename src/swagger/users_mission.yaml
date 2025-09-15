@@ -49,7 +49,6 @@ paths:
                 - missionDescription
                 - location
                 - jobPosition
-                - status
               properties:
                 userId:
                   type: string
@@ -86,11 +85,6 @@ paths:
                   type: string
                   example: "Software Engineer"
                   description: "Your job position"
-                status:
-                  type: string
-                  enum: [PENDING, APPROVED, REJECTED, COMPLETED]
-                  example: "PENDING"
-                  description: "Mission status (optional, defaults to PENDING if not provided)"
                 missionDocument:
                   type: string
                   description: "Additional mission field required by payload"

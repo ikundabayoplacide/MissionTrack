@@ -1,11 +1,35 @@
-import databaseConfig from "../config/config";
 import { Sequelize } from "sequelize";
-import { configInterface } from "../types/databaseInterface";
 
-const dbconnection=()=>{
-    const db_config=databaseConfig() as configInterface;
-    const sequelize=new Sequelize({...db_config,dialect:'postgres'});
-    return sequelize;
-}
+const env = process.env.NODE_ENV?.toUpperCase() || 'DEV';
 
-export const database=dbconnection();
+// Log current environment
+console.log(`Current environment: ${env}`);
+
+const config = {
+  username: process.env[`${env}_USERNAME`],
+  password: process.env[`${env}_PASSWORD`],
+  database: process.env[`${env}_DATABASE`],
+  host: process.env[`${env}_HOST`],
+  port: parseInt(process.env[`${env}_PORT`] || '5432'),
+  dialect: 'postgres' as const,
+  logging: env === 'TEST' ? false : console.log,
+};
+
+
+export const sequelize = new Sequelize(config);
+
+// Initialize models with sequelize instance
+import { User } from "./models/users";
+const models = { User };
+
+// Set up associations
+Object.values(models).forEach((model: any) => {
+  if (model.associate) {
+    model.associate(models);
+  }
+});
+
+export const database = {
+  ...models,
+  sequelize,
+};

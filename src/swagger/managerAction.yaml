@@ -1,8 +1,4 @@
 
-tags:
-  - name:  Managers Mission Actions
-    description: Operations related to Managers Mission Actions
-
 paths:
   /actions/create:
     post:

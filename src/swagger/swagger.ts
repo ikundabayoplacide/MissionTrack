@@ -10,29 +10,42 @@ const options: swaggerJsdoc.Options = {
       version: "1.0.0",
       description: "API documentation for Mission and User management operations",
     },
-    servers: [
+     servers: [
       {
         url: "http://localhost:5000/api",
       },
     ],
     tags: [
       {
+        name: "Authentication",
+        description: "User Authentication operations",
+      },
+      {
+        name: "Company",
+        description: "Company management operations",
+      },
+      {
         name: "Users",
-        description: "User management operations"
+        description: "User management operations",
       },
       {
-        name: "Missions", 
-        description: "Mission management operations"
+        name:"Missions",
+        description:"Mission management operations",
       },
       {
-        name:"Daily Reports",
-        description:"Daily Report management Operations"
+        name: "Managers Mission Actions",
+        description: "Mission management operations",
       },
-        // {
-  //   name: " System Companies",
-  //   description: "Company management operations"
-  // }
-    ]
+  
+      {
+        name: "Daily Reports",
+        description: "Daily Report management operations",
+      },
+      {
+        name: "Expense Logs",
+        description: "Expense tracking operations",
+      },
+    ],
   },
   apis: ["./src/swagger/*.yaml", "./src/routes/*.ts"], 
 };

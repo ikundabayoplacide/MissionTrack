@@ -2,7 +2,7 @@ paths:
   /company/register:
     post:
       summary: Register a new company with manager
-      tags: [Companies]
+      tags: [Company]
       requestBody:
         required: true
         content:
@@ -61,7 +61,7 @@ paths:
                   description: "Manager's email address"
                 password:
                   type: string
-                  format: password
+                  format: string
                   example: "SecurePassword123"
                   description: "Manager's password"
                 phoneNumber:
@@ -98,7 +98,7 @@ paths:
   /company/{companyId}:
     get:
       summary: Get a company by ID
-      tags: [Companies]
+      tags: [Company]
       parameters:
         - name: companyId
           in: path
@@ -129,7 +129,7 @@ paths:
 
     put:
       summary: Update a company by ID (with optional proofDocument upload)
-      tags: [Companies]
+      tags: [Company]
       parameters:
         - name: companyId
           in: path
@@ -158,14 +158,8 @@ paths:
                 companyContact:
                   type: string
                   example: "+250788654321"
-                status:
-                  type: string
-                  enum: [pending, approved, rejected]
-                  example: "approved"
-                state:
-                  type: string
-                  enum: [active, inactive]
-                  example: "active"
+               
+                
                 province:
                   type: string
                   example: "Northern Province"
@@ -200,7 +194,7 @@ paths:
 
     delete:
       summary: Delete a company by ID 
-      tags: [Companies]
+      tags: [Company]
       parameters:
         - name: companyId
           in: path
@@ -231,7 +225,7 @@ paths:
   /company/allCompanies:
     get:
       summary: Get all companies
-      tags: [Companies]
+      tags: [Company]
       responses:
         "200":
           description: All companies fetched successfully
@@ -263,7 +257,7 @@ paths:
   /company/block/{companyId}:
     patch:
       summary: Block or unblock a company by ID
-      tags: [Companies]
+      tags: [Company]
       parameters:
         - name: companyId
           in: path
@@ -308,7 +302,7 @@ paths:
   /company/approveReject/{companyId}:
     patch:
       summary: Approve or reject a company by ID
-      tags: [Companies]
+      tags: [Company]
       parameters:
         - name: companyId
           in: path

@@ -129,11 +129,6 @@ components:
     UserInput:
       type: object
       required: 
-        - companyId
-        - fullName
-        - email
-        - password
-        - role
       properties:
         companyId:
           type: string
@@ -170,13 +165,6 @@ components:
         fullName:
           type: string
           example: Updated John
-        email:
-          type: string
-          format: email
-          example: updated@example.com
-        phoneNumber:
-          type: string
-          example: "0712345678"
         department:
           type: string
           example: Sales
@@ -184,7 +172,5 @@ components:
           type: string
           enum: [admin, employee, manager, finance_manager]
           example: manager
-        is_active:
-          type: boolean
-          example: false
+      
 

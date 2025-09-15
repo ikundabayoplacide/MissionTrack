@@ -1,7 +1,4 @@
 # Daily Reports API Documentation
-tags:
-  - name: Daily Reports
-    description: Operations related to daily mission reports
 
 paths:
   /reports/:
