@@ -66,7 +66,7 @@ const Notification: React.FC = () => {
                     <MdLockOutline size={20} />
                     <span>Password</span>
                   </Link>
-                  <Link to="/preferences" className="flex items-center gap-1 border-b-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]">
+                  <Link to="/notifications" className="flex items-center gap-1 border-b-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]">
                     <FaBell size={20} />
                     <span>Notifications</span>
                   </Link>

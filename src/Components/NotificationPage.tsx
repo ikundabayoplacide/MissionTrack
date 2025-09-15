@@ -15,7 +15,7 @@ const NotificationPage: React.FC = () => {
     return (
         <>
             <Header />
-            <div className="flex justify-between">
+            <div className="flex gap-70">
                 <Sidebar />
                 <div className="flex flex-col">
                 <div className="w-[1200px] py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
