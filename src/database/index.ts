@@ -1,22 +1,38 @@
 import { Sequelize } from "sequelize";
 
-const env = process.env.NODE_ENV?.toUpperCase() || 'DEV';
+const nodeEnv = process.env.NODE_ENV || "DEV";
+const env = nodeEnv.toUpperCase();
 
 // Log current environment
 console.log(`Current environment: ${env}`);
 
-const config = {
-  username: process.env[`${env}_USERNAME`],
-  password: process.env[`${env}_PASSWORD`],
-  database: process.env[`${env}_DATABASE`],
-  host: process.env[`${env}_HOST`],
-  port: parseInt(process.env[`${env}_PORT`] || '5432'),
-  dialect: 'postgres' as const,
-  logging: env === 'TEST' ? false : console.log,
-};
+let sequelize: Sequelize;
 
-
-export const sequelize = new Sequelize(config);
+if (env === "PRODUCTION" && process.env.DATABASE_URL) {
+  // ✅ Use hosted DB connection
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: "postgres",
+    protocol: "postgres",
+    logging: console.log,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // needed for Heroku/Railway/Render
+      },
+    },
+  });
+} else {
+  // ✅ Use local/dev/test connection
+  sequelize = new Sequelize({
+    username: process.env[`${env}_USERNAME`],
+    password: process.env[`${env}_PASSWORD`],
+    database: process.env[`${env}_DATABASE`],
+    host: process.env[`${env}_HOST`],
+    port: parseInt(process.env[`${env}_PORT`] || "5432"),
+    dialect: "postgres",
+    logging: env === "TEST" ? false : console.log,
+  });
+}
 
 // Initialize models with sequelize instance
 import { User } from "./models/users";
@@ -33,3 +49,4 @@ export const database = {
   ...models,
   sequelize,
 };
+export { sequelize }; 
