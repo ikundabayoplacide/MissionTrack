@@ -13,7 +13,7 @@ import RecoverPassword from "../forgetPassword/RecoverPassword";
 import NotificationPage from "../Components/NotificationPage";
 import MissionList from "../Components/MissionList";
 import Report from "../Components/Report";
-import MissionExpenses from "../expenseLogging/MissionExpenses";
+import MissionExpenses from "../Components/expenseLogging/MissionExpenses";
 import UpdatePassword from "../forgetPassword/UpdatePassword";
 import ManagerDashboard from "../pages/ManagerDashboard";
 import ApplicationForm from "../Components/ApplicationForm";

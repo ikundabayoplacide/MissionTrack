@@ -18,7 +18,7 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Header />
-      <div className={`flex gap-70 mt-20  ${twTheme("bg-gray-100", "bg-gray-900")}`} >
+      <div className={`flex gap-70 mt-20  ${twTheme("bg-primaryColor-10", "bg-gray-900")}`} >
         <Sidebar />
         <main
           className={`min-h-screen   ${twTheme(
@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Grid Sections */}
-          <div className="flex gap-10 ">
+          <div className="flex   gap-10 ">
             {/* <div className="flex bg-accent-300 gap-4 w-f p-5 ml-0"> */}
             <div className="w-[400px]">
               <RecentActivities />

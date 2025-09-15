@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FiPlus } from "react-icons/fi";
-import Header from "../Components/HeaderDash";
-import Sidebar from "../Components/Sidebar";
+import Header from "../HeaderDash";
+import Sidebar from "../Sidebar";
 
 const MissionExpenses: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"daily" | "calendar">("daily");
@@ -29,15 +29,15 @@ const MissionExpenses: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex gap-70  min-h-screen bg-gray-100">
+      <div className="flex gap-70  min-h-screen bg-primaryColor-10">
         <Sidebar />
         <div className="mt-25 w-[1200px] ml-4 rounded-lg">
           {/* Header with gradient */}
-          <div className="px-4  rounded-lg mt-3 mb-3 p-5 py-2 bg-gradient-to-r text-lg from-primaryColor-50 to-accent-10 text-black font-bold">
-            Mission Expenses
+           <div className="w-[1200px] py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
+            <h1 className="font-bold text-2xl text-center">Mission Expenses</h1>
           </div> 
 
-          <div className="bg-white w-[1200px] rounded-lg">
+          <div className="bg-white w-[1200px] mt-5 rounded-lg">
             {/* Tabs */}
             <div className="flex border-b px-4">
               <button

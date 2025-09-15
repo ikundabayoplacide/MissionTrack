@@ -92,7 +92,7 @@ const ApplicationForm: React.FC = () => {
           <img src="logo.svg" alt="logo" className="h-10 w-10" />
           <h1 className="font-bold text-xl ml-2">
             <span className="text-primaryColor-700">Mission</span>
-            <span className="text-green-700">Track.</span>
+            <span className="text-accent-700">Track.</span>
           </h1>
         </div>
 

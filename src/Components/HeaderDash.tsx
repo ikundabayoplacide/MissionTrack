@@ -2,6 +2,7 @@ import React from "react";
 import { FiBell, FiUser } from "react-icons/fi";
 import { useTheme } from "../hook/useTheme";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -20,8 +21,8 @@ const Header: React.FC = () => {
       {/* Logo + Title */}
       <div className="flex items-center gap-2">
         <img src="/logo.svg" alt="logo" className="h-8" />
-        <h1 className="font-bold text-xl text-blue-700">
-          Mission<span className="text-green-600">Track</span>
+        <h1 className="font-bold text-xl text-primaryColor-700">
+          Mission<span className="text-accent-700">Track</span>
         </h1>
       </div>
       {/* Theme Toggle */}
@@ -34,7 +35,7 @@ const Header: React.FC = () => {
       {/* Right section */}
       <div className="flex items-center gap-6">
         {/* Notifications */}
-        <button className="relative mr-4">
+        <Link to={"/notifications"} className="relative mr-4">
           <FiBell
             size={22}
             className={twTheme("text-gray-700", "text-gray-200")}
@@ -43,7 +44,7 @@ const Header: React.FC = () => {
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
             3
           </span>
-        </button>
+        </Link>
 
         {/* Profile */}
         <div className="flex items-center mr-15 gap-2 cursor-pointer">

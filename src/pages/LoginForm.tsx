@@ -54,9 +54,9 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-2 ">
+    <div className="min-h-screen bg-gradient-to-r from-primaryColor-10 via-primaryColor-10 to-primaryColor-50  flex justify-center gap-30  ">
       {/* Left Side */}
-      <div className="bg-primaryColor-10  flex flex-col justify-center  items-center">
+      <div className="  flex flex-col justify-center  items-center">
         <h2 className="text-primaryColor-800 font-bold text-2xl mb-4">
           Stay Organized, Stay Ahead
         </h2>
@@ -70,19 +70,19 @@ const LoginForm: React.FC = () => {
       </div>
 
       {/* Right Side */}
-      <div className="flex flex-col items-center justify-center pr-20 bg-gradient-to-r from-primaryColor-10 via-primaryColor-10 to-primaryColor-50 ">
+      <div className="flex flex-col items-center justify-center pr-20 ">
         {/* Logo */}
         <div className="flex items-center gap-2 mb-10">
           <img src="logo.svg" alt="logo" className="h-10 w-10" />
           <h1 className="font-bold text-xl">
-            <span className="text-blue-700">Mission</span>
-            <span className="text-green-700">Track.</span>
+            <span className="text-primaryColor-700">Mission</span>
+            <span className="text-accent-700">Track.</span>
           </h1>
         </div>
 
         {/* Login Card */}
         <div className="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-md">
-          <h2 className="text-2xl font-bold text-green-700 text-center mb-15">
+          <h2 className="text-2xl font-bold text-accent-700 text-center mb-15">
             Welcome
           </h2>
 

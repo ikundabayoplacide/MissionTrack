@@ -1,6 +1,8 @@
 import React from "react";
 import { FiFilePlus, FiCalendar, FiBarChart2 } from "react-icons/fi";
 import { useTheme } from "../hook/useTheme";
+import { Link } from "react-router-dom";
+
 
 const QuickLinks: React.FC = () => {
   const { theme } = useTheme();
@@ -17,7 +19,7 @@ const QuickLinks: React.FC = () => {
 
       <div className="space-y-3">
         {/* Create a new request */}
-        <button
+        <Link to={"/request"}
           className={`flex items-center gap-3 w-full rounded-lg px-4 py-3 transition ${
             isLight ? "bg-gray-50" : "bg-gray-700"
           }`}
@@ -26,7 +28,7 @@ const QuickLinks: React.FC = () => {
             <FiFilePlus className="text-blue-600 text-lg" />
           </div>
           <span className="font-medium">Create a new request</span>
-        </button>
+        </Link>
 
         {/* View Calendar */}
         <button

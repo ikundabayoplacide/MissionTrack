@@ -57,90 +57,97 @@ const Password: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex gap-80 mt-20">
+      <div className="flex gap-70 mt-10">
         <Sidebar />
-        <div className="h-[550px] w-[1000px] mt-10 flex bg-gradient-to-r    rounded-md shadow">
-          <div className="flex flex-col w-full">
-            {/* Top navigation */}
-           <div className="border-b border-gray-300 w-full">
-            <div className="h-15 py-5">
-              <div className="flex gap-15">
-                <Link
-                  to={"/details"}
-                  className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
-                >
-                  <FiUser size={20} />
-                  <span>Personal Information</span>
-                </Link>
-
-
-                <Link to={"/password"} 
-                  className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
-                >
-                  <MdLockOutline size={20} />
-                  <span>Password</span>
-                </Link>
-
-                <Link to={'/preferences'}
-                  className="flex items-center gap-1 border-b-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
-                >
-                  <FaBell size={20} />
-                  <span>Notifications</span>
-                </Link>
-
-                <a
-                  href=""
-                  className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
-                >
-                  <FaCalendar size={20} />
-                  <span>Calendar</span>
-                </a>
-              </div>
-            </div>
+        <div className="flex flex-col">
+          <div className="w-[1200px] py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
+            <h1 className="font-bold text-2xl text-center">
+              Notifications
+            </h1>
           </div>
-            {/* Header */}
-            <div className="p-4 flex justify-between">
-              <h1 className="text-xl font-semibold">Change Password</h1>
-            </div>
+          <div className="h-[550px] w-[1200px] mt-10 flex bg-gradient-to-r    rounded-md shadow">
+            <div className="flex flex-col w-full">
+              {/* Top navigation */}
+              <div className="border-b border-gray-300 w-full">
+                <div className="h-15 py-5">
+                  <div className="flex gap-15">
+                    <Link
+                      to={"/details"}
+                      className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
+                    >
+                      <FiUser size={20} />
+                      <span>Personal Information</span>
+                    </Link>
 
-            {/* Password fields */}
-            <div className="p-5 w-1/2 flex flex-col gap-3">
-              <Input
-                label="Current Password"
-                type="password"
-                name="currentPassword"
-                value={formData.currentPassword}
-                onChange={handleChange}
-                placeholder="Enter current password"
-                error={errors.currentPassword}
-              />
 
-              <Input
-                label="New Password"
-                type="password"
-                name="newPassword"
-                value={formData.newPassword}
-                onChange={handleChange}
-                placeholder="Enter new password"
-                error={errors.newPassword}
-              />
+                    <Link to={"/password"}
+                      className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
+                    >
+                      <MdLockOutline size={20} />
+                      <span>Password</span>
+                    </Link>
 
-              <Input
-                label="Confirm New Password"
-                type="password"
-                name="confirmNewPassword"
-                value={formData.confirmNewPassword}
-                onChange={handleChange}
-                placeholder="Confirm new password"
-                error={errors.confirmNewPassword}
-              />
+                    <Link to={'/preferences'}
+                      className="flex items-center gap-1 border-b-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
+                    >
+                      <FaBell size={20} />
+                      <span>Notifications</span>
+                    </Link>
 
-              <button
-                onClick={handleSubmit}
-                className="mt-3 px-4 py-2 rounded bg-primaryColor-600 text-white"
-              >
-                Update Password
-              </button>
+                    <a
+                      href=""
+                      className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
+                    >
+                      <FaCalendar size={20} />
+                      <span>Calendar</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              {/* Header */}
+              <div className="p-4 flex justify-between">
+                <h1 className="text-xl font-semibold">Change Password</h1>
+              </div>
+
+              {/* Password fields */}
+              <div className="p-5 w-1/2 flex flex-col gap-3">
+                <Input
+                  label="Current Password"
+                  type="password"
+                  name="currentPassword"
+                  value={formData.currentPassword}
+                  onChange={handleChange}
+                  placeholder="Enter current password"
+                  error={errors.currentPassword}
+                />
+
+                <Input
+                  label="New Password"
+                  type="password"
+                  name="newPassword"
+                  value={formData.newPassword}
+                  onChange={handleChange}
+                  placeholder="Enter new password"
+                  error={errors.newPassword}
+                />
+
+                <Input
+                  label="Confirm New Password"
+                  type="password"
+                  name="confirmNewPassword"
+                  value={formData.confirmNewPassword}
+                  onChange={handleChange}
+                  placeholder="Confirm new password"
+                  error={errors.confirmNewPassword}
+                />
+
+                <button
+                  onClick={handleSubmit}
+                  className="mt-3 px-4 py-2 rounded bg-primaryColor-600 text-white"
+                >
+                  Update Password
+                </button>
+              </div>
             </div>
           </div>
         </div>
