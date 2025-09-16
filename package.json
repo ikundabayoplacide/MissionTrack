@@ -18,6 +18,10 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "render:build": "npm run build && npm run db:setup",
+    "db:migrate:prod": "cross-env NODE_ENV=production npx sequelize-cli db:migrate",
+    "db:seed:prod": "cross-env NODE_ENV=production npx sequelize-cli db:seed:all",
+    "db:setup": "npm run db:migrate:prod && npm run db:seed:prod",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
