@@ -8,7 +8,7 @@ console.log(`Current environment: ${env}`);
 
 let sequelize: Sequelize;
 
-if (process.env.DATABASE_URL) {
+if (env === "PROD" && process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
     protocol: "postgres",
