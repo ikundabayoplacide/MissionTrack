@@ -10,7 +10,7 @@ const getPrefix = () => {
 const databaseConfig = () => {
   const env = getPrefix();
 
-  if (process.env.DATABASE_URL) {
+  if (env === "PROD" && process.env.DATABASE_URL) {
     return {
       use_env_variable: 'DATABASE_URL',
       url: process.env.DATABASE_URL,
@@ -35,4 +35,8 @@ const databaseConfig = () => {
   };
 };
 
-module.exports = databaseConfig;
+module.exports = {
+  DEV: databaseConfig(),
+  PROD: databaseConfig(),
+  TEST: databaseConfig(),
+};

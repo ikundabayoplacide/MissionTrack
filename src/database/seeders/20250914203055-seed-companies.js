@@ -6,7 +6,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("companies", [
       {
-        id: uuidv4(), // ✅ use uuidv4 here
+        id: uuidv4(), 
         companyName: "Tech Innovators Ltd",
         companyEmail: "info@techinnovators.com",
         proofDocument: "proof_doc_1.pdf",

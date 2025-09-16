@@ -3,7 +3,7 @@ import swaggerUi from "swagger-ui-express";
 import { Express } from "express";
 
 const serverUrl =
-  process.env.ENV === "production"
+  process.env.ENV === "PROD"
     ? process.env.PROD_URL || "https://missiontrack-backend.onrender.com" 
     : "http://localhost:5000/api";
 

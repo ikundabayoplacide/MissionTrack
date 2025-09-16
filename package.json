@@ -18,30 +18,31 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "render:build": "npm run build && npm run db:setup",
-    "db:migrate:prod": "cross-env ENV=production npx sequelize-cli db:migrate",
-    "db:seed:prod": "cross-env ENV=production npx sequelize-cli db:seed:all",
-    "db:setup": "npm run db:migrate:prod && npm run db:seed:prod",
-    "test": "cross-env ENV=test jest",
-    "test:watch": "cross-env ENV=test jest --watch",
-    "test:coverage": "cross-env ENV=test jest --coverage",
-    "test:unit": "cross-env ENV=test jest src/__tests__/unit",
-    "test:integration": "cross-env ENV=test jest src/__tests__/integration",
-    "test:verbose": "cross-env ENV=test jest --verbose",
-    "test:silent": "cross-env ENV=test jest --silent",
-    "test:auth": "cross-env ENV=test jest --testPathPattern=auth",
-    "test:ci": "cross-env ENV=test jest --ci --coverage --watchAll=false",
+   
     "dev": "cross-env ENV=DEV nodemon src/index.ts",
+    "migrate:dev": "cross-env ENV=DEV npx sequelize-cli db:migrate --env DEV",
+    "seed:dev": "cross-env ENV=DEV npx sequelize-cli db:seed:all --env DEV",
+    "undo:migrate:dev": "cross-env ENV=DEV npx sequelize-cli db:migrate:undo --env DEV",
+    "undo:all:dev": "cross-env ENV=DEV npx sequelize-cli db:migrate:undo:all --env DEV",
+    "undo:seed:dev": "cross-env ENV=DEV npx sequelize-cli db:seed:undo:all --env DEV",
+
+  
     "prod": "cross-env ENV=PROD node ./dist/index.js",
+    "migrate:prod": "cross-env ENV=PROD npx sequelize-cli db:migrate --env PROD",
+    "seed:prod": "cross-env ENV=PROD npx sequelize-cli db:seed:all --env PROD",
+    "undo:migrate:prod": "cross-env ENV=PROD npx sequelize-cli db:migrate:undo --env PROD",
+    "undo:all:prod": "cross-env ENV=PROD npx sequelize-cli db:migrate:undo:all --env PROD",
+    "undo:seed:prod": "cross-env ENV=PROD npx sequelize-cli db:seed:undo:all --env PROD",
+
+  
     "build": "tsc",
-    "start": "node ./dist/index.js",
-    "db:migrate": "sequelize-cli db:migrate",
-    "db:migrate:undo": "sequelize-cli db:migrate:undo",
-    "db:migrate:undo:all": "sequelize-cli db:migrate:undo:all",
-    "db:seed": "sequelize-cli db:seed:all",
-    "db:seed:undo": "sequelize-cli db:seed:undo:all",
+    "start": "cross-env ENV=PROD node ./dist/index.js",
+
+  
+    "db:setup": "npm run migrate:prod && npm run seed:prod",
+
+
     "migration:create": "sequelize-cli migration:generate --name",
-    "migration:run": "npx sequelize-cli db:migrate",
     "seed:create": "sequelize-cli seed:generate --name",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix",

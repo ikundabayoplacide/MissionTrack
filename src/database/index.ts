@@ -12,7 +12,7 @@ if (env === "PROD" && process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
     protocol: "postgres",
-    logging: env === "PROD" ? false : console.log,
+    logging:  false,
     dialectOptions: {
       ssl: {
         require: true,
@@ -28,7 +28,7 @@ if (env === "PROD" && process.env.DATABASE_URL) {
     host: process.env[`${env}_HOST`],
     port: parseInt(process.env[`${env}_PORT`] || "5432"),
     dialect: "postgres",
-    logging: env === "TEST" ? false : console.log,
+    logging: env === "DEV" ? console.log : false,
   });
 }
 
