@@ -8,7 +8,7 @@ console.log(`Current environment: ${env}`);
 
 let sequelize: Sequelize;
 
-if (env === "PROD" && process.env.DATABASE_URL) {
+if (process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
     protocol: "postgres",
@@ -21,7 +21,7 @@ if (env === "PROD" && process.env.DATABASE_URL) {
     },
   });
 } else {
-   sequelize = new Sequelize({
+  sequelize = new Sequelize({
     username: process.env[`${env}_USERNAME`],
     password: process.env[`${env}_PASSWORD`],
     database: process.env[`${env}_DATABASE`],
