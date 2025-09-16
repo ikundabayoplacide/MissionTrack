@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from "cors";
 import { config } from 'dotenv';
 import redis from './utils/redis';
 import { errorLogger, logger, logStartup } from './utils/logger';
@@ -17,13 +18,17 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 app.get('/', (req, res) => {
-   res.redirect('/api-docs');
+    res.redirect('/api-docs');
 });
-
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(routers);
 setupSwagger(app);
-redis.connect().catch((err) => 
-  logger.error("Redis connection error", { error: err.message, stack: err.stack })
+redis.connect().catch((err) =>
+    logger.error("Redis connection error", { error: err.message, stack: err.stack })
 );
 
 const PORT = parseInt(process.env.PORT as string) || 5000;

@@ -2,6 +2,11 @@ import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { Express } from "express";
 
+const serverUrl =
+  process.env.ENV === "production"
+    ? process.env.PROD_URL || "https://missiontrack-backend.onrender.com" 
+    : "http://localhost:5000/api";
+
 const options: swaggerJsdoc.Options = {
   definition: {
     openapi: "3.0.0",
@@ -12,7 +17,7 @@ const options: swaggerJsdoc.Options = {
     },
      servers: [
       {
-        url: "http://localhost:5000/api",
+        url:serverUrl,
       },
     ],
     tags: [
