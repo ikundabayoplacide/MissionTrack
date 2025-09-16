@@ -6,18 +6,19 @@ import LandingPage from "../pages/LandingPage";
 import Profile from "../Components/Settings/Profile";
 import Password from "../Components/Settings/Password";
  import Notification from "../Components/Settings/Notification";
-import Details from "../Components/EmployeeDashboard/Request/Details";
+import Details from "../Components/Request/Details";
 
 import RecoverPassword from "../Components/forgetPassword/RecoverPassword";
 
-import NotificationPage from "../Components/EmployeeDashboard/NotificationPage";
-import MissionList from "../Components/EmployeeDashboard/MissionList";
-import Report from "../Components/EmployeeDashboard/Report";
-import MissionExpenses from "../Components/EmployeeDashboard/expenseLogging/MissionExpenses";
+import NotificationPage from "../Components/Dashboard/NotificationPage";
+import MissionList from "../Components/Dashboard/MissionList";
+import Report from "../Components/Dashboard/Report";
+import MissionExpenses from "../Components/expenseLogging/MissionExpenses";
 import UpdatePassword from "../Components/forgetPassword/UpdatePassword";
 import ManagerDashboard from "../pages/ManagerDashboard";
 import ApplicationForm from "../Components/ApplicationForm";
 import TeamManagement from "../manager/TeamManagement";
+import RequestManager from "../manager/RequestManager";
 
 
 const AppRoute = () => {
@@ -50,6 +51,7 @@ const AppRoute = () => {
         <Route path="/manager" element={<ManagerDashboard/>}/>
         <Route path="/apply" element={<ApplicationForm/>}/>
         <Route path="/team" element={<TeamManagement/>}/>
+         <Route path="/requested" element={<RequestManager/>}/>
       </Routes>
     </>
   );

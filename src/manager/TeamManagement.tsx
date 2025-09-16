@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../Components/EmployeeDashboard/HeaderDash";
+import Header from "../Components/HeaderDash";
 import ManagerSideBar from "./ManagerSideBar";
 import { VscEye } from "react-icons/vsc";
 

@@ -4,7 +4,7 @@ import { FaCheck } from "react-icons/fa";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { RiFileCloseLine } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
-import Header from "./HeaderDash";
+import Header from "../HeaderDash";
 import Sidebar from "./Sidebar";
 
 const MissionList: React.FC = () => {

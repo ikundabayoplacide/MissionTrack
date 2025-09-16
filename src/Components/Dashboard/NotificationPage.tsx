@@ -1,7 +1,7 @@
 // import React, { useState } from "react";
 // import Input from "./Input";
 import { SiTicktick } from "react-icons/si";
-import Header from "./HeaderDash"
+import Header from "../HeaderDash";
 import Sidebar from "./Sidebar";
 import { FaCheck } from "react-icons/fa";
 import { MdOutlinePendingActions } from "react-icons/md";

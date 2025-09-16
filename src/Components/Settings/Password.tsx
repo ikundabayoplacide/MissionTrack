@@ -3,8 +3,8 @@ import Input from "../Input";
 import { FiUser } from "react-icons/fi";
 import { MdLockOutline } from "react-icons/md";
 import { FaBell, FaCalendar } from "react-icons/fa";
-import Header from "../EmployeeDashboard/HeaderDash";
-import Sidebar from "../EmployeeDashboard/Sidebar";
+import Header from "../HeaderDash";
+import Sidebar from "../Dashboard/Sidebar";
 import { Link } from "react-router-dom";
 
 

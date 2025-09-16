@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import Header from "../HeaderDash";
-import Sidebar from "../Sidebar";
+import Sidebar from "../Dashboard/Sidebar";
 
 const MissionExpenses: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"daily" | "calendar">("daily");

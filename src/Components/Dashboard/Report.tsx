@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Input from "../Input";
 import { FiCalendar } from "react-icons/fi";
-import Header from "./HeaderDash";
+import Header from "../HeaderDash";
 import Sidebar from "./Sidebar";
 import DragDrop from "../DragDrop";
 import {
@@ -101,7 +101,7 @@ const Report: React.FC = () => {
     return (
         <>
             <Header />
-            <div className="flex gap-70  bg-primaryColor-10 mt-20">
+            <div className="flex gap-70 h-full bg-primaryColor-10 mt-20">
                 <Sidebar />
                 <div className="flex flex-col ">
                     <div className="w-[1000px]  py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">

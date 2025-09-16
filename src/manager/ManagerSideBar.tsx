@@ -23,7 +23,7 @@ const ManagerSideBar: React.FC = () => {
   // Quick actions (fixed icons)
   const quickActions = [
     { icon: RiTeamLine, label: "Team Management", path: "/team" },
-    { icon: FiList, label: "Requests", path: "/requests" },
+    { icon: FiList, label: "Requests", path: "/requested" },
     { icon: FiFileText, label: "Reports", path: "/reports" },
   ];
 
