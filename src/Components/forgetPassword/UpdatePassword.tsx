@@ -50,13 +50,13 @@ const UpdatePassword: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-2">
+    <div className="min-h-screen  bg-gradient-to-r from-primaryColor-10 via-primaryColor-10 to-primaryColor-50 flex  gap-40 justify-center">
       {/* Left Side */}
-      <div className="bg-primaryColor-10 flex flex-col justify-center pl-40">
-        <h2 className="text-blue-600 font-bold text-2xl mb-4">
+      <div className=" flex flex-col justify-center items-center">
+        <h2 className="text-primaryColor-800 font-bold text-2xl mb-4">
           Recover Your Password
         </h2>
-        <p className="text-green-600 mb-10">
+        <p className="text-accent-800 mb-10">
           Choose a new password to secure your account.
         </p>
         <div className="mt-10">
@@ -65,19 +65,19 @@ const UpdatePassword: React.FC = () => {
       </div>
 
       {/* Right Side */}
-      <div className="flex flex-col items-center justify-center pr-20 bg-gradient-to-r from-primaryColor-10 via-primaryColor-10 to-primaryColor-50">
+      <div className="flex flex-col items-center justify-center pr-20">
         {/* Logo */}
         <div className="flex items-center gap-2 mb-10">
           <img src="/logo.svg" alt="logo" className="h-10 w-10" />
           <h1 className="font-bold text-xl">
-            <span className="text-blue-700">Mission</span>
-            <span className="text-green-700">Track.</span>
+            <span className="text-primaryColor-700">Mission</span>
+            <span className="text-accent-700">Track.</span>
           </h1>
         </div>
 
         {/* Reset Password Card */}
-        <div className="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-md">
-          <h2 className="text-2xl font-bold text-green-700 text-center mb-10">
+        <div className="bg-white shadow-2xl rounded-2xl px-15 w-full max-w-md">
+          <h2 className="text-2xl font-bold text-accent-600 text-center mb-10">
             Create New Password
           </h2>
           <p className="font-bold text-center mb-6">Choose a new password</p>
@@ -140,18 +140,18 @@ const UpdatePassword: React.FC = () => {
               className={`w-full mt-10 py-3 rounded-2xl font-semibold text-white shadow-md transition ${
                 loading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
+                  : "bg-primaryColor-800"
               }`}
             >
-              {loading ? "Updating..." : "Update Password"}
+              {loading ? "Updating..." : "Send"}
             </button>
           </form>
 
           {/* Back to Sign In */}
-          <div className="mt-10 text-center">
+          <div className="mt-5 mb-5 text-center">
             <button
               onClick={() => navigate("/login")}
-              className="text-sm text-green-600 hover:underline font-medium"
+              className="text-sm text-accent-500 hover:underline font-medium"
             >
               Back to Sign In
             </button>

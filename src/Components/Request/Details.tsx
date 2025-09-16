@@ -4,6 +4,7 @@ import Header from "../HeaderDash";
 import Sidebar from "../Sidebar";
 import Stepper from "../Stepper";
 import DragDrop from "../DragDrop";
+import { useCreateMissionMutation } from "../../app/api/missions";
 
 import {
   FaFilePdf,
@@ -53,7 +54,8 @@ const Details: React.FC = () => {
 
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isSubmitted, setIsSubmitted] = useState(false); // ✅ success state
+  const [isSubmitted, setIsSubmitted] = useState(false); 
+  const [createMission] = useCreateMissionMutation();
 
   const steps = ["Mission Details", "Attachments", "Submission"];
   const [currentStep, setCurrentStep] = useState(0);

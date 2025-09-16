@@ -54,10 +54,10 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-primaryColor-10 via-primaryColor-10 to-primaryColor-50  flex justify-center gap-30  ">
+    <div className="min-h-screen bg-gradient-to-r from-primaryColor-10 via-primaryColor-10 to-primaryColor-50  flex justify-center gap-40  ">
       {/* Left Side */}
       <div className="  flex flex-col justify-center  items-center">
-        <h2 className="text-primaryColor-800 font-bold text-2xl mb-4">
+        <h2 className="text-primaryColor-800 font-bold text-2xl ">
           Stay Organized, Stay Ahead
         </h2>
         <p className="text-accent-800 mb-10 ">
@@ -70,9 +70,9 @@ const LoginForm: React.FC = () => {
       </div>
 
       {/* Right Side */}
-      <div className="flex flex-col items-center justify-center pr-20 ">
+      <div className="flex flex-col items-center justify-center  pr-20 ">
         {/* Logo */}
-        <div className="flex items-center gap-2 mb-10">
+        <div className="flex items-center gap-2 mb-5 ">
           <img src="logo.svg" alt="logo" className="h-10 w-10" />
           <h1 className="font-bold text-xl">
             <span className="text-primaryColor-700">Mission</span>
@@ -81,7 +81,7 @@ const LoginForm: React.FC = () => {
         </div>
 
         {/* Login Card */}
-        <div className="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-md">
+        <div className="bg-white shadow-2xl rounded-2xl px-10 w-full max-w-md">
           <h2 className="text-2xl font-bold text-accent-700 text-center mb-15">
             Welcome
           </h2>
@@ -153,10 +153,10 @@ const LoginForm: React.FC = () => {
           </form>
 
           {/* Forgot Password */}
-          <div className="mt-10 text-center">
+          <div className="mt-5 mb-5 text-center">
             <button
               onClick={() => navigate("/forgot-password")}
-              className="text-sm text-green-600 hover:underline font-medium"
+              className="text-sm text-accent-500 hover:underline font-medium"
             >
               Forgot Password?
             </button>

@@ -8,13 +8,13 @@ import Password from "../Components/Settings/Password";
  import Notification from "../Components/Settings/Notification"
 import Details from "../Components/Request/Details";
 
-import RecoverPassword from "../forgetPassword/RecoverPassword";
+import RecoverPassword from "../Components/forgetPassword/RecoverPassword";
 
 import NotificationPage from "../Components/NotificationPage";
 import MissionList from "../Components/MissionList";
 import Report from "../Components/Report";
 import MissionExpenses from "../Components/expenseLogging/MissionExpenses";
-import UpdatePassword from "../forgetPassword/UpdatePassword";
+import UpdatePassword from "../Components/forgetPassword/UpdatePassword";
 import ManagerDashboard from "../pages/ManagerDashboard";
 import ApplicationForm from "../Components/ApplicationForm";
 
