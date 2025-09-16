@@ -1,50 +1,43 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const getPrefix = () => {
-  let env = process.env.NODE_ENV;
-
-  console.log('🔍 NODE_ENV:', env);
-
-  if (!env) {
-    env = 'DEV'; // default if nothing is set
-  }
-
-  // ✅ Explicit check for production
-  if (env.toLowerCase() === 'production') {
-    console.log('🚀 Running in PRODUCTION mode');
-    return 'PROD';
-  }
-
-  console.log('🔍 Using prefix:', env.toUpperCase());
-  return env.toUpperCase();
-};
-
 const databaseConfig = () => {
-  const env = getPrefix();
-
-  // ✅ If production, use DATABASE_URL directly
-  if (env === 'PROD' && process.env.DATABASE_URL) {
+  const env = process.env.NODE_ENV || 'DEV';  
+  
+  // Use DATABASE_URL only in PRODUCTION environment
+  if (env.toUpperCase() === 'PROD' && process.env.DATABASE_URL) {
+    console.log('Using DATABASE_URL for production connection');
     return {
       url: process.env.DATABASE_URL,
       dialect: 'postgres',
       dialectOptions: {
         ssl: {
-          require: true, // most providers need SSL in production
+          require: true,
           rejectUnauthorized: false,
         },
       },
     };
   }
 
-  // ✅ Otherwise use per-env credentials
+  // For DEVELOPMENT or when DATABASE_URL is not available in production
+  const prefix = env.toUpperCase();
+  console.log(`Using ${prefix}_* environment variables for connection`);
+  
   return {
-    username: process.env[`${env}_USERNAME`],
-    database: process.env[`${env}_DATABASE`],
-    password: process.env[`${env}_PASSWORD`],
-    host: process.env[`${env}_HOST`],
-    port: parseInt(process.env[`${env}_PORT`]) || 5432,
+    username: process.env[`${prefix}_USERNAME`],
+    database: process.env[`${prefix}_DATABASE`],
+    password: process.env[`${prefix}_PASSWORD`],
+    host: process.env[`${prefix}_HOST`],
+    port: parseInt(process.env[`${prefix}_PORT`]) || 5432,
     dialect: 'postgres',
+    ...(env.toUpperCase() === 'PROD' && {
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
+    }),
   };
 };
 

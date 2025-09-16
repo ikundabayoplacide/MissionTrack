@@ -1,7 +1,7 @@
 import express from 'express';
 import { config } from 'dotenv';
 import redis from './utils/redis';
-import { errorLogger, logStartup } from './utils/logger';
+import { errorLogger, logger, logStartup } from './utils/logger';
 import { database } from './database';
 import { routers } from './routes';
 import { setupSwagger } from './swagger/swagger';
@@ -22,8 +22,9 @@ app.get('/', (req, res) => {
 
 app.use(routers);
 setupSwagger(app);
-
-redis.connect().catch((err) => console.log("Redis connection error", err));
+redis.connect().catch((err) => 
+  logger.error("Redis connection error", { error: err.message, stack: err.stack })
+);
 
 const PORT = parseInt(process.env.PORT as string) || 5000;
 
