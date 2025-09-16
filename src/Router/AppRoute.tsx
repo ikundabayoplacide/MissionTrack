@@ -19,6 +19,8 @@ import ManagerDashboard from "../pages/ManagerDashboard";
 import ApplicationForm from "../Components/ApplicationForm";
 import TeamManagement from "../manager/TeamManagement";
 import RequestManager from "../manager/RequestManager";
+import ReportManager from "../manager/ReportManager";
+import ReportDetails from "../manager/ReportDetails";
 
 
 const AppRoute = () => {
@@ -52,6 +54,8 @@ const AppRoute = () => {
         <Route path="/apply" element={<ApplicationForm/>}/>
         <Route path="/team" element={<TeamManagement/>}/>
          <Route path="/requested" element={<RequestManager/>}/>
+         <Route path="/reported" element={<ReportManager/>}/>
+         <Route path="/missions/:id" element={<ReportDetails />} />
       </Routes>
     </>
   );

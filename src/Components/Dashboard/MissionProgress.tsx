@@ -14,7 +14,7 @@ const MissionProgress: React.FC = () => {
   return (
     <div
       className={`rounded-xl h-37 shadow-sm p-5 ${
-        theme === "light" ? "bg-white text-black" : "bg-gray-800 text-white"
+        theme === "light" ? "bg-[#E6EAF5] text-black" : "bg-gray-800 text-white"
       }`}
     >
       <h3 className="font-bold text-gray-800 mb-4">Mission Progress</h3>

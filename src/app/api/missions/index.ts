@@ -1,6 +1,6 @@
 import { apiSlice } from "../apiEntry";
 
-export const productApi = apiSlice.injectEndpoints({
+export const missionApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getMissions: builder.query<any, void>({
       query: () => ({
@@ -39,4 +39,4 @@ export const {
   useCreateMissionMutation,
   useUpdateMissionMutation,
   useDeleteMissionMutation,
-} = productApi;
+} = missionApi;

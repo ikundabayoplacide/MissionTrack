@@ -15,7 +15,7 @@ const OngoingMissions: React.FC = () => {
   return (
     <div
       className={`rounded-xl shadow-sm p-5 ${
-        theme === "light" ? "bg-white text-black" : "bg-gray-800 text-white"
+        theme === "light" ? "bg- text-black" : "bg-gray-800 text-white"
       }`}
     >
       <h3 className="font-bold text-gray-800 mb-4">Ongoing Missions</h3>

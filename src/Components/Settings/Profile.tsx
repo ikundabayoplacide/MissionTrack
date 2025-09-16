@@ -58,7 +58,7 @@ const Profile: React.FC = () => {
       <Header />
       <div className="flex gap-12">
         <Sidebar />
-        <div className="flex flex-col min-h-screen  w-full bg-primaryColor-10 mt-20">
+        <div className="flex flex-col min-h-screen  w-full bg-[#E6EAF5] mt-20">
           <div className="w-[1200px] py-2 mt-5 ml-64 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
             <h1 className="font-bold text-2xl text-center">
               Manage your information and preferences

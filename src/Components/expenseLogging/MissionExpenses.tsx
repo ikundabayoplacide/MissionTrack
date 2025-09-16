@@ -29,7 +29,7 @@ const MissionExpenses: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex gap-70  min-h-screen bg-primaryColor-10">
+      <div className="flex gap-70  min-h-screen bg-[#E6EAF5]">
         <Sidebar />
         <div className="mt-25 w-[1200px] ml-4 rounded-lg">
           {/* Header with gradient */}

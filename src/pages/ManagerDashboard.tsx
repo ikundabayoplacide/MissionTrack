@@ -13,7 +13,7 @@ import TeamMembers from "../manager/TeamMembers";
 
 const ManagerDashboard: React.FC = () => {
   return (
-    <div className=" mt-20 flex bg-gray-100 min-h-screen ">
+    <div className=" mt-20 flex bg-[#E6EAF5] min-h-screen ">
       {/* Sidebar */}
       <ManagerSideBar />
 

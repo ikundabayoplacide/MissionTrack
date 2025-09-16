@@ -18,7 +18,7 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Header />
-      <div className={`flex gap-70 mt-20  ${twTheme("bg-primaryColor-10", "bg-gray-900")}`} >
+      <div className={`flex gap-70 mt-20  ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`} >
         <Sidebar />
         <main
           className={`min-h-screen   ${twTheme(
