@@ -15,7 +15,7 @@ app.use(express.json());
 // app.use(i18n.init);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// ✅ Root route for health check
+
 app.get('/', (req, res) => {
    res.redirect('/api-docs');
 });
@@ -33,7 +33,7 @@ database.sequelize.authenticate().then(async () => {
         setupAssociations();
 
         app.listen(PORT, () => {
-            logStartup(PORT, process.env.NODE_ENV || 'DEV');
+            logStartup(PORT, process.env.ENV || 'DEV');
         });
     } catch (error) {
         errorLogger(error as Error, 'Error starting server');

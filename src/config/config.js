@@ -1,43 +1,37 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
+const getPrefix = () => {
+  let env = process.env.ENV;
+  if (!env) return 'DEV';
+  return env.toUpperCase();
+};
+
 const databaseConfig = () => {
-  const env = process.env.NODE_ENV || 'DEV';  
-  
-  // Use DATABASE_URL only in PRODUCTION environment
-  if (env.toUpperCase() === 'PROD' && process.env.DATABASE_URL) {
-    console.log('Using DATABASE_URL for production connection');
+  const env = getPrefix();
+
+  if (process.env.DATABASE_URL) {
     return {
+      use_env_variable: 'DATABASE_URL',
       url: process.env.DATABASE_URL,
       dialect: 'postgres',
       dialectOptions: {
         ssl: {
           require: true,
-          rejectUnauthorized: false,
+          rejectUnauthorized: false, 
         },
       },
     };
   }
 
-  // For DEVELOPMENT or when DATABASE_URL is not available in production
-  const prefix = env.toUpperCase();
-  console.log(`Using ${prefix}_* environment variables for connection`);
   
   return {
-    username: process.env[`${prefix}_USERNAME`],
-    database: process.env[`${prefix}_DATABASE`],
-    password: process.env[`${prefix}_PASSWORD`],
-    host: process.env[`${prefix}_HOST`],
-    port: parseInt(process.env[`${prefix}_PORT`]) || 5432,
+    username: process.env[`${env}_USERNAME`] || '',
+    database: process.env[`${env}_DATABASE`] || '',
+    password: process.env[`${env}_PASSWORD`] || '',
+    host: process.env[`${env}_HOST`] || '',
+    port: Number(process.env[`${env}_PORT`] || 5432),
     dialect: 'postgres',
-    ...(env.toUpperCase() === 'PROD' && {
-      dialectOptions: {
-        ssl: {
-          require: true,
-          rejectUnauthorized: false,
-        },
-      },
-    }),
   };
 };
 
