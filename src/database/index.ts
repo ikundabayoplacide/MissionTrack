@@ -8,8 +8,7 @@ console.log(`Current environment: ${env}`);
 
 let sequelize: Sequelize;
 
-if (process.env.DATABASE_URL) {
-  // ✅ Use hosted DB (Render, Railway, etc.)
+if (env === "PROD" && process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
     protocol: "postgres",
@@ -22,8 +21,7 @@ if (process.env.DATABASE_URL) {
     },
   });
 } else {
-  // ✅ Local/dev connection
-  sequelize = new Sequelize({
+   sequelize = new Sequelize({
     username: process.env[`${env}_USERNAME`],
     password: process.env[`${env}_PASSWORD`],
     database: process.env[`${env}_DATABASE`],
