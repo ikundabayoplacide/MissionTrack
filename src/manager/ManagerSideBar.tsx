@@ -30,7 +30,7 @@ const ManagerSideBar: React.FC = () => {
   return (
     <div className="">
       <aside
-      className={`fixed top-20 h-full left-0 w-64 flex flex-col justify-between shadow-md z-40 overflow-y-auto ${twTheme(
+      className={`fixed top-20 h-full left-0 w-75 flex flex-col justify-between shadow-md z-40 overflow-y-auto ${twTheme(
         "bg-blue-50",
         "bg-gray-900 text-white"
       )}`}
