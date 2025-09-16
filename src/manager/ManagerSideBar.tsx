@@ -15,9 +15,9 @@ const ManagerSideBar: React.FC = () => {
 
   // Sidebar navigation
   const navItems = [
-    { icon: VscHome, label: "Dashboard", path: "/dashboard" },
-    { icon: CiBellOn, label: "Notifications", path: "/notifications" },
-    { icon: FiUser, label: "Profile", path: "/profile" },
+    { icon: VscHome, label: "Dashboard", path: "/manager" },
+    { icon: CiBellOn, label: "Notifications", path: "/notificationsM" },
+    { icon: FiUser, label: "Profile", path: "/profileM" },
   ];
 
   // Quick actions (fixed icons)

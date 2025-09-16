@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
         >
           {/* Overview */}
           <div className="mb-6 mt-5">
-            <div className="bg-gradient-to-r mb-5 ml-4 from-primaryColor-10 to-accent-10 p-3 rounded-lg shadow">
+            <div className=" mb-5 ml-4 bg-gradient-to-r from-primaryColor-10 to-accent-10 p-3 rounded-lg shadow">
               <h1 className={`font-bold ${twTheme("text-black", "text-white")}`}>
                 Here's your mission request overview
               </h1>

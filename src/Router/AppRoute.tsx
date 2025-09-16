@@ -16,6 +16,7 @@ import Report from "../Components/Report";
 import MissionExpenses from "../expenseLogging/MissionExpenses";
 import UpdatePassword from "../forgetPassword/UpdatePassword";
 import ManagerDashboard from "../pages/ManagerDashboard";
+import TeamManagement from "../manager/TeamManagement";
 
 
 const AppRoute = () => {
@@ -46,6 +47,7 @@ const AppRoute = () => {
         <Route path="/report" element={<Report/>} />
         <Route path="/missions/history" element={<MissionExpenses/>}/>
         <Route path="/manager" element={<ManagerDashboard/>}/>
+        <Route path="/team" element={<TeamManagement/>}/>
       </Routes>
     </>
   );
