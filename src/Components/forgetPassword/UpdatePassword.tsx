@@ -11,10 +11,14 @@ const UpdatePassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Replace with actual backend call
-  const send = async (newPassword: string) => {
-    return new Promise((resolve) => setTimeout(resolve, 1000));
-  };
+const send = async (newPassword: string) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("Password being sent to backend:", newPassword);
+      resolve(true);
+    }, 1000);
+  });
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

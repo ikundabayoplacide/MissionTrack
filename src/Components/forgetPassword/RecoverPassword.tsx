@@ -13,6 +13,7 @@ const RecoverPassword: React.FC = () => {
   const send = async (email: string) => {
     return new Promise<{ token: string }>((resolve) => {
       setTimeout(() => {
+        console.log("Sending reset link to:", email); 
         resolve({ token: "mock-reset-token-123" });
       }, 1000);
     });
