@@ -18,20 +18,20 @@ const ManagerDashboard: React.FC = () => {
       <ManagerSideBar />
 
       {/* Main Content */}
-      <div className="flex ml-64 ">
+      <div className="flex ml-80 ">
         <Header />
         
         <main className="p-6 ">
-          <div className="bg-gradient-to-r w-[1200px] from-primaryColor-100 to-accent-10 text-black p-2 rounded-xl mb-3">
+          <div className="bg-gradient-to-r  from-primaryColor-100 to-accent-10 text-black p-2 rounded-xl mb-3">
             <h1 className="font-bold text-xl ml-2">Hello Manager, Here's Mission Requests Overview </h1>
           </div>
-          <div className="grid grid-cols-1   w-[1200px] md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1    md:grid-cols-4 gap-6">
             <PendingRequests />
             <ApprovedMissions />
             <MissionsInProgress/>
             <TotalSpend />
           </div>
-          <div className="flex  w-[1200px] gap-6">
+          <div className="flex  w-[1390px] gap-9">
 
             <div className="grid  grid-cols-1 w-[1100px] md:grid-cols-2 gap-10 mt-6">
             <MissionPurpose/>
