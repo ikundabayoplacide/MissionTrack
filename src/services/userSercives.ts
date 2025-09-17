@@ -2,6 +2,7 @@
 import { User } from "../database/models/users"; 
 import bcrypt from "bcrypt";
 import { AddUserInterface, userInterface, userUpateInterface } from "../types/userInterface";
+import { Op } from "sequelize";
 
 export class UserService {
     static async createUser(userData: AddUserInterface): Promise<userInterface> {
@@ -18,28 +19,36 @@ export class UserService {
             return user.toJSON() as userInterface;
     }
     static async getAllUsers(): Promise<userInterface[]> {
-            const users = await User.findAll();
+            const users = await User.findAll({    where: {
+            role: { [Op.ne]: "admin" } 
+        }});
             return users.map(user => user.toJSON() as userInterface);
     }
-    static async updateUser(id: string, updateData: Partial<userUpateInterface>): Promise<userUpateInterface> {
-            const [affectedCount,updatedUser] = await User.update(updateData, {
-                where: { id },
-                returning:true
-            });
-            if (affectedCount===0){
-                throw new Error(`User with id ${id} not found`);
-            };
-            return updatedUser[0].toJSON() as userInterface;
+   static async updateUser(id: string, updateData: Partial<userUpateInterface>): Promise<userUpateInterface> {
+    const user = await User.findByPk(id);
 
+    if (!user) {
+        throw new Error(`User with id ${id} not found`);
     }
-    static async deleteUser(id: string): Promise<number> {
-            const deleteUser = await User.destroy({
-                where: { id }
-            });
-            if(deleteUser===0){
-                throw new Error(`User with id ${id} not found`);
-            }
-            return deleteUser;
+    if (user.role === "admin") {
+        throw new Error("Admin user cannot be updated");
     }
+
+    await user.update(updateData);
+    return user.toJSON() as userUpateInterface;
+}
+
+static async deleteUser(id: string): Promise<number> {
+    const user = await User.findByPk(id);
+    if (!user) {
+        throw new Error(`User with id ${id} not found`);
+    }
+    if (user.role === "admin") {
+        throw new Error("Admin user cannot be deleted");
+    }
+    await user.destroy();
+    return 1;
+}
+
 
 }
