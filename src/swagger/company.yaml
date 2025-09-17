@@ -1,3 +1,4 @@
+
 paths:
   /company/register:
     post:
@@ -24,12 +25,10 @@ paths:
                 companyName:
                   type: string
                   example: "Tech Solutions Ltd"
-                  description: "Company name"
                 companyEmail:
                   type: string
                   format: email
                   example: "info@techsolutions.com"
-                  description: "Company email address"
                 proofDocument:
                   type: string
                   format: binary
@@ -37,41 +36,31 @@ paths:
                 companyContact:
                   type: string
                   example: "+250788123456"
-                  description: "Company contact/phone number"
                 district:
                   type: string
                   example: "Gasabo"
-                  description: "Company district (required)"
                 province:
                   type: string
                   example: "Kigali"
-                  description: "Company province "
                 sector:
                   type: string
                   example: "Technology"
-                  description: "Company sector "
                 fullName:
                   type: string
                   example: "John Doe"
-                  description: "Manager's full name"
                 email:
                   type: string
                   format: email
                   example: "john.doe@techsolutions.com"
-                  description: "Manager's email address"
                 password:
                   type: string
-                  format: string
                   example: "SecurePassword123"
-                  description: "Manager's password"
                 phoneNumber:
                   type: string
                   example: "0788888888"
-                  description: "Manager's phone number (optional)"
                 department:
                   type: string
                   example: "Management"
-                  description: "Manager's department (optional)"
             encoding:
               proofDocument:
                 contentType: application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, image/jpeg, image/png
@@ -106,7 +95,6 @@ paths:
           schema:
             type: string
             format: uuid
-          description: Company ID
       responses:
         "200":
           description: Company retrieved successfully
@@ -158,8 +146,6 @@ paths:
                 companyContact:
                   type: string
                   example: "+250788654321"
-               
-                
                 province:
                   type: string
                   example: "Northern Province"
@@ -172,6 +158,8 @@ paths:
             encoding:
               proofDocument:
                 contentType: application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, image/jpeg, image/png
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Company updated successfully
@@ -195,6 +183,8 @@ paths:
     delete:
       summary: Delete a company by ID 
       tags: [Company]
+      security:
+        - bearerAuth: []
       parameters:
         - name: companyId
           in: path
@@ -226,6 +216,8 @@ paths:
     get:
       summary: Get all companies
       tags: [Company]
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: All companies fetched successfully
@@ -258,6 +250,8 @@ paths:
     patch:
       summary: Block or unblock a company by ID
       tags: [Company]
+      security:
+        - bearerAuth: []
       parameters:
         - name: companyId
           in: path
@@ -303,6 +297,8 @@ paths:
     patch:
       summary: Approve or reject a company by ID
       tags: [Company]
+      security:
+        - bearerAuth: []
       parameters:
         - name: companyId
           in: path
@@ -347,6 +343,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     Company:
       type: object
