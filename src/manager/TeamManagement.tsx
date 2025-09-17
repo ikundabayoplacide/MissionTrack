@@ -28,7 +28,7 @@ const TeamManagement: React.FC = () => {
       <div className="flex-1 flex flex-col">
         <Header />
 
-        <main className="p-6 ml-70 mr-10 mt-20">
+        <main className="p-6 ml-80 mr-10 mt-20">
           <div className="grid mb-6">
             <h1 className="bg-gradient-to-r from-primaryColor-10 to-accent-10 text-lg text-black font-bold px-4 py-2 rounded-xl shadow">Employee Management</h1>
     

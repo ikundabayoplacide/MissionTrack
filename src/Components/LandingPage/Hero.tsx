@@ -2,6 +2,8 @@ import React from "react";
 import rectImg from "../../assets/Rectangle51.jpg";
 import dashImg from "../../assets/Group40.png";
 import frameImg from "../../assets/Frame400.png"
+import { Link } from "react-router-dom";
+
 
 
 const Hero: React.FC = () => {
@@ -36,9 +38,9 @@ const Hero: React.FC = () => {
                 </p>
               </div>
               <div className="flex justify-center gap-5">
-                <button className="bg-primaryColor-700 text-white rounded-lg px-15 max-sm:p-1 ml-2 py-2">
+                <Link to="/login" className="bg-primaryColor-700 text-white rounded-lg px-15 max-sm:p-1 ml-2 py-2">
                   Get Started
-                </button>
+                </Link>
                 <button className="bg-accent-400 text-white rounded-lg px-15 max-sm:p-1 ml-2 py-2">
                   Request Demo
                 </button>

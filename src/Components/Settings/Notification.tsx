@@ -49,7 +49,7 @@ const Notification: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex bg-[#E6EAF5]gap-6 ">
+      <div className="flex bg-[#E6EAF5] gap-6 ">
         <Sidebar />
         <div className=" ml-70 h-[600px] w-[1000px] mt-25 flex bg-gradient-to-br to-accent-10/50 rounded-md shadow">
           <div className="flex flex-col w-full">

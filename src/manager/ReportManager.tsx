@@ -48,7 +48,7 @@ const ReportManager: React.FC = () => {
     return (
         <>
             <Header />
-            <div className="flex gap-70 min-h-screen  bg-primaryColor-10 mt-20">
+            <div className="flex gap-80 min-h-screen  bg-[#E6EAF5] mt-20">
                 <ManagerSideBar />
                 <div className="flex flex-col">
                     <div className="w-[1200px] py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
