@@ -23,7 +23,7 @@ export interface CompanyAttributes {
   approveComment:string;
   blockUnblockComment:string;
   status?: 'pending' | 'approved' | 'rejected';
-  state?: 'active' | 'inactive';
+  state?: 'active' | 'trial'|'blocked';
   province: string;
   district: string;
   sector: string;
@@ -50,6 +50,6 @@ export interface ApproveRejectData{
 }
 
 export interface BlockUnblockCompany{
-  state:'active'|'inactive';
+  state:'active'|'trial'|'blocked';
   comment?:string;
 }

@@ -58,9 +58,6 @@ paths:
                 phoneNumber:
                   type: string
                   example: "0788888888"
-                department:
-                  type: string
-                  example: "Management"
             encoding:
               proofDocument:
                 contentType: application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, image/jpeg, image/png
@@ -268,8 +265,8 @@ paths:
               properties:
                 state:
                   type: string
-                  enum: [active, inactive]
-                  example: "inactive"
+                  enum: [active, blocked,trial]
+                  example: "trial"
                 comment:
                   type: string
                   example: "Violation of terms"
@@ -369,7 +366,7 @@ components:
           enum: [pending, approved, rejected]
         state:
           type: string
-          enum: [active, inactive]
+          enum: [active, blocked,trial]
           nullable: true
         province:
           type: string

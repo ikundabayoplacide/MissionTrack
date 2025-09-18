@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import Joi from "joi";
 
 export const companySchema = Joi.object({
@@ -6,7 +5,7 @@ export const companySchema = Joi.object({
     companyName: Joi.string().min(2).max(100).required(),
     companyEmail: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
-    state: Joi.string().valid('active', 'inactive').default('null'),
+    state: Joi.string().valid('active', 'blocked','trial').default('null'),
     companyContact: Joi.string().min(10).max(15).required(),
     proofDocument:Joi.string().required(),
     approveComment:Joi.string().allow(''),

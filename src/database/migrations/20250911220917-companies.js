@@ -49,9 +49,9 @@ module.exports = {
         allowNull:false
       },
       state:{
-        type:Sequelize.ENUM('active','inactive'),
+        type:Sequelize.ENUM('active','trial','blocked'),
         allowNull:false,
-        defaultValue:"active"
+        defaultValue:"trial"
       },
       blockUnblockComment:{
         type:Sequelize.TEXT,

@@ -1,5 +1,6 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, Association } from "sequelize";
 import { sequelize } from "..";
+import { Company } from "./company";
 
 
 interface userAttributes {
@@ -19,8 +20,9 @@ interface userAttributes {
     deletedAt?: Date | null;
 }
 
-export interface userCreationAttributes extends Omit<userAttributes, "id" | "createdAt" | "updatedAt"> {
+export interface userCreationAttributes extends Omit<userAttributes,"id" | "createdAt" | "updatedAt" | "deletedAt" | "is_active" | "role"> {
     id?: string;
+    role?:string
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -59,6 +61,10 @@ export interface userCreationAttributes extends Omit<userAttributes, "id" | "cre
             updatedAt: this.updatedAt
         };
     }
+     public static associations: {
+    company: Association<User, Company>;
+  };
+    public company?: Company;
 }
 
 User.init(
