@@ -30,6 +30,7 @@ export class AuthServices {
   {
     id: user.id.toString(),
     role: user.role,
+    fullName:user.fullName,
     email: user.email,
     companyId: user.companyId,
     companyStatus: companyStatus,
