@@ -72,13 +72,13 @@ const Details: React.FC = () => {
         }
       }
     }
-    if (currentStep === 1) {
-      if (!formData.description) newErrors.description = "Please enter a description";
-      if (uploadedFiles.length === 0) newErrors.files = "Please upload at least one file";
-    }
-    if (currentStep === 2) {
-      if (uploadedFiles.length === 0) newErrors.files = "Please attach at least one file before submitting";
-    }
+    // if (currentStep === 1) {
+    //   if (!formData.description) newErrors.description = "Please enter a description";
+    //   if (uploadedFiles.length === 0) newErrors.files = "Please upload at least one file";
+    // }
+    // if (currentStep === 2) {
+    //   if (uploadedFiles.length === 0) newErrors.files = "Please attach at least one file before submitting";
+    // }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };

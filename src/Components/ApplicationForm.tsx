@@ -1,14 +1,14 @@
 // src/components/ApplicationForm.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+
 import Input from "./Input";
 import Select from "./Select";
 import Checkbox from "./Checkbox";
 
 const ApplicationForm: React.FC = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  
 
   const [formData, setFormData] = useState({
     companyName: "",

@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 const QuickLinks: React.FC = () => {
   const { theme } = useTheme();
   const isLight = theme === "light";
-
   return (
     <div
       className={`rounded-xl shadow-sm p-5 ${

@@ -1,6 +1,6 @@
 import React from "react";
 import { CiBellOn } from "react-icons/ci";
-import { FiUser, FiFileText, FiList, FiPlusCircle } from "react-icons/fi";
+import { FiUser, FiFileText, FiList } from "react-icons/fi";
 import { VscHome } from "react-icons/vsc";
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../hook/useTheme";
