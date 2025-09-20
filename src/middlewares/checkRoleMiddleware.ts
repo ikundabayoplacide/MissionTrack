@@ -26,7 +26,7 @@ export const checkRoleMiddleware = (allowedRoles: string[]) => {
       const token = authHeader.split(" ")[1];
       const decoded = jwt.verify(token, secretkey) as UserPayload;
 
-      console.log("Token 😉 :", decoded);
+      // console.log("Token 😉 :", decoded);
 
       if (!allowedRoles.includes(decoded.role)) {
         return ResponseService({

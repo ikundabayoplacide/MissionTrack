@@ -150,6 +150,7 @@ components:
         - email
         - password
         - role
+        - bankAccount
       properties:
         companyId:
           type: string
@@ -172,6 +173,9 @@ components:
         department:
           type: string
           example: "IT"
+        bankAccount:
+          type: string
+          example: "263632762762"
         role:
           type: string
           enum:

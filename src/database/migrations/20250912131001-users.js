@@ -48,6 +48,14 @@ module.exports = {
         allowNull: false,
         defaultValue: true,
       },
+      bankAccount:{
+        type:Sequelize.STRING,
+        allowNull:true
+      },
+      profilePhoto:{
+        type:Sequelize.STRING,
+        allowNull:true
+      },
       resetToken:{
         type:Sequelize.STRING,
         allowNull:true,

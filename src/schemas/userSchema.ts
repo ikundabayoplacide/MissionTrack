@@ -8,7 +8,9 @@ export const addUserSchema=joi.object({
     companyId:joi.string().min(10).required(),
     phoneNumber:joi.string().min(10).max(15).required(),
     role:joi.string().valid("admin","employee","manager","finance_manager").required(),
-    department:joi.string().min(2).required()
+    department:joi.string().min(2).required(),
+    bankAccount:joi.string().min(5).optional(),
+    profilePhoto:joi.string().uri().optional()
 });
 
 export const updateUserSchema=joi.object({

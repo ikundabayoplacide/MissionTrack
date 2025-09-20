@@ -1,51 +1,56 @@
 import { Request,Response } from "express";
 import { ResponseService } from "../utils/response";
-import { userInterface } from "../types/userInterface";
 import { UserService } from "../services/userSercives";
-import { User } from "../database/models/users";
+import { AuthRequest } from "../utils/helper";
 
 
-interface IRequestUserData extends Request{
-    body:userInterface
-}
-export const createUser=async(req:IRequestUserData,res:Response)=>{
+
+export const createUser=async(req:AuthRequest,res:Response)=>{
     try {
         const userData=req.body;
-        const userFound = await User.findOne({ where: { email: userData.email } });
-        if(userFound){
+        if (!req.user || !req.user.companyId) {
             return ResponseService({
-                data:null,
-                status:400,
-                success:false,
-                message:"User with this email arleady exists",
+                data: null,
+                status: 400,
+                success: false,
+                message: "User information is missing from request",
                 res
-            })}
-            const newUser=await UserService.createUser(userData);
-            return ResponseService({
-                data:newUser,
-                status:201,
-                success:true,
-                message:"User Created successfully",
-                res
-            })
+            });
         }
-        catch (error) {
+        userData.companyId=req.user.companyId;
+        const newUser=await UserService.createUser(userData);
+        return ResponseService({
+            data:newUser,
+            status:201,
+            success:true,
+            message:"User created successfully",
+            res
+        })
+    } catch (error) {
         const {message,stack}=error as Error;
         return ResponseService({
             data:stack,
             status:500,
             success:false,
-            message:message|| "Intenal server error",
+            message:message|| "Internal server error",
             res
-        })
-        
+        });
     }
 }
 
 
-export const getAllUsers=async(req:Request,res:Response)=>{
+export const getAllUsers=async(req:AuthRequest,res:Response)=>{
     try {
-        const users=await UserService.getAllUsers();
+        if (!req.user || !req.user.companyId) {
+            return ResponseService({
+                data: [],
+                status: 400,
+                success: false,
+                message: "User information is missing from request",
+                res
+            });
+        }
+        const users = await UserService.getAllUsers(req.user.companyId);
         if(!users){
             return ResponseService({
                 data:[],
@@ -73,10 +78,19 @@ export const getAllUsers=async(req:Request,res:Response)=>{
     }}
 
 
-    export const getUserById=async(req:Request,res:Response)=>{
+    export const getUserById=async(req:AuthRequest,res:Response)=>{
         try {
             const id=req.params.id;
-            const user=await UserService.getUserById(id);
+            if (!req.user || !req.user.companyId) {
+                return ResponseService({
+                    data: null,
+                    status: 400,
+                    success: false,
+                    message: "User information is missing from request",
+                    res
+                });
+            }
+            const user=await UserService.getUserById(id,req.user.companyId);
             return ResponseService({
                 data:user,
                 status:200,
@@ -96,11 +110,20 @@ export const getAllUsers=async(req:Request,res:Response)=>{
         }
     }
 
-export const updateUser=async(req:IRequestUserData,res:Response)=>{
+export const updateUser=async(req:AuthRequest,res:Response)=>{
     try {
         const id=req.params.id;
         const updateData=req.body;
-        const affectedCount=await UserService.updateUser(id,updateData);
+        if (!req.user || !req.user.companyId) {
+            return ResponseService({
+                data: null,
+                status: 400,
+                success: false,
+                message: "User information is missing from request",
+                res
+            });
+        }
+        const affectedCount=await UserService.updateUser(id,req.user.companyId,updateData);
         if(!affectedCount){
             return ResponseService({
                 data:null,
@@ -130,10 +153,19 @@ export const updateUser=async(req:IRequestUserData,res:Response)=>{
 
 }
 
-export const deleteUser=async(req:Request,res:Response)=>{
+export const deleteUser=async(req:AuthRequest,res:Response)=>{
     try {
         const id=req.params.id;
-        const deletedUser=await UserService.deleteUser(id);
+        if (!req.user || !req.user.companyId) {
+            return ResponseService({
+                data: null,
+                status: 400,
+                success: false,
+                message: "User information is missing from request",
+                res
+            });
+        }
+        const deletedUser=await UserService.deleteUser(id,req.user.companyId);
         if(!deletedUser){
             return ResponseService({
               data:deletedUser,

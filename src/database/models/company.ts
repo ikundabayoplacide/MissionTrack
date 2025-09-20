@@ -19,6 +19,7 @@ class Company extends Model<CompanyAttributes, CompanyCreationAttributes> implem
     public companyName!: string;
     public companyEmail!: string;
     public companyContact!: string;
+    public profileLogo!: string | null;
 
 }
 
@@ -58,6 +59,10 @@ Company.init({
     sector: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    profileLogo:{
+        type:DataTypes.STRING,
+        allowNull:true
     },
     state: {
         type: DataTypes.ENUM('active', 'trial','blocked'),

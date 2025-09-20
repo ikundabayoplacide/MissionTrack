@@ -44,6 +44,10 @@ module.exports = {
         type:Sequelize.STRING,
         allowNull:false
       },
+      profileLogo:{
+        type:Sequelize.STRING,
+        allowNull:true
+      },
         proofDocument:{
         type:Sequelize.STRING,
         allowNull:false

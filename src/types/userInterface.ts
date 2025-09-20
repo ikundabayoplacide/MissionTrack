@@ -7,22 +7,27 @@ const enumRole={
 
 export type UserRole = typeof enumRole[keyof typeof enumRole];
 
-export interface userInterface{
-    id:string;
-    fullName:string;
-    email:string;
-    password:string;
-    phoneNumber?:string;
-    companyId:string;
-    is_active?:boolean;
-    role:UserRole;
-    department?:string;
-    createdAt?:Date;
-    updatedAt?:Date;
+export interface userAttributes {
+    id?: string;
+    fullName: string;
+    email: string;
+    password: string;
+    phoneNumber?: string;
+    department?: string;
+    companyId: string;
+    role?: string;
+    profilePhoto?:string;
+    bankAccount?:string;
+    is_active?: boolean;
+    resetToken?:string;
+    resetTokenExpiry?:Date;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date | null;
 }
 export interface userUpateInterface{
     department?:string,
     role?:string,
     fullName?:string
 }
-export type AddUserInterface = Omit<userInterface, 'id' | 'createdAt' | 'updatedAt'>;
+export type AddUserInterface = Omit<userAttributes, 'id' | 'createdAt' | 'updatedAt'>;

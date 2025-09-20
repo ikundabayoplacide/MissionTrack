@@ -27,6 +27,7 @@ export interface CompanyAttributes {
   province: string;
   district: string;
   sector: string;
+  profileLogo: string | null;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date | null;
