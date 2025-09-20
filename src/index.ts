@@ -1,6 +1,6 @@
 import express from 'express';
-import cors from "cors";
 import { config } from 'dotenv';
+import cors from "cors";
 import redis from './utils/redis';
 import { errorLogger, logger, logStartup } from './utils/logger';
 import { database } from './database';

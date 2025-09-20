@@ -18,7 +18,7 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-   
+    
     "dev": "cross-env ENV=DEV nodemon src/index.ts",
     "migrate:dev": "cross-env ENV=DEV npx sequelize-cli db:migrate --env DEV",
     "seed:dev": "cross-env ENV=DEV npx sequelize-cli db:seed:all --env DEV",
@@ -26,22 +26,15 @@
     "undo:all:dev": "cross-env ENV=DEV npx sequelize-cli db:migrate:undo:all --env DEV",
     "undo:seed:dev": "cross-env ENV=DEV npx sequelize-cli db:seed:undo:all --env DEV",
 
-  
     "prod": "cross-env ENV=PROD node ./dist/index.js",
     "migrate:prod": "cross-env ENV=PROD npx sequelize-cli db:migrate --env PROD",
     "seed:prod": "cross-env ENV=PROD npx sequelize-cli db:seed:all --env PROD",
     "undo:migrate:prod": "cross-env ENV=PROD npx sequelize-cli db:migrate:undo --env PROD",
     "undo:all:prod": "cross-env ENV=PROD npx sequelize-cli db:migrate:undo:all --env PROD",
     "undo:seed:prod": "cross-env ENV=PROD npx sequelize-cli db:seed:undo:all --env PROD",
-
-  
     "build": "tsc",
     "start": "cross-env ENV=PROD node ./dist/index.js",
-
-  
     "db:setup": "npm run migrate:prod && npm run seed:prod",
-
-
     "migration:create": "sequelize-cli migration:generate --name",
     "seed:create": "sequelize-cli seed:generate --name",
     "lint": "eslint . --ext .ts",

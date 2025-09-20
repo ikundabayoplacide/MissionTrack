@@ -37,6 +37,9 @@ export class UserService {
     await user.update(updateData);
     return user.toJSON() as userUpateInterface;
 }
+// update user profile
+
+
 
 static async deleteUser(id: string): Promise<number> {
     const user = await User.findByPk(id);
@@ -49,6 +52,8 @@ static async deleteUser(id: string): Promise<number> {
     await user.destroy();
     return 1;
 }
+
+
 
 
 }

@@ -1,6 +1,7 @@
 import { CompanyController } from "../controllers/companyController";
+
 import { Router } from "express";
-import { uploadCompanyProof } from "../middlewares/uploadFiles";
+import { uploadCompanyLogo, uploadCompanyProof } from "../middlewares/uploadFiles";
 import { checkRoleMiddleware } from "../middlewares/checkRoleMiddleware";
 
 
@@ -10,8 +11,10 @@ companyRouter.post("/company/register",uploadCompanyProof.single("proofDocument"
 companyRouter.get("/company/allCompanies",checkRoleMiddleware(["admin"]),CompanyController.getAllCompanies);
 companyRouter.get("/company/:companyId", checkRoleMiddleware(["admin"]),CompanyController.getCompanyById);
 companyRouter.put("/company/:companyId", checkRoleMiddleware(["admin"]), uploadCompanyProof.single("proofDocument"),CompanyController.updateCompany);
+companyRouter.patch("/company/:companyId/profile", checkRoleMiddleware(["manager"]), uploadCompanyLogo.single("companyLogo"),CompanyController.updateCompanyProfile);
 companyRouter.delete("/company/:companyId",checkRoleMiddleware(["admin"]), CompanyController.deleteCompany);
 companyRouter.patch("/company/block/:companyId",checkRoleMiddleware(["admin"]), CompanyController.blockAndUnblockCompany);
 companyRouter.patch("/company/approveReject/:companyId",checkRoleMiddleware(["admin"]),CompanyController.approveAndRejectCompany);
+
 
 export default companyRouter;

@@ -1,8 +1,10 @@
+//mport { updateUserProfile } from './userController';
 import { Request,Response } from "express";
 import { ResponseService } from "../utils/response";
 import { userInterface } from "../types/userInterface";
-import { UserService } from "../services/userSercives";
+import { UserService } from "../services/userService";
 import { User } from "../database/models/users";
+import { userUpdateProfileInterface } from "../types/updateProfile";
 
 
 interface IRequestUserData extends Request{
@@ -129,6 +131,34 @@ export const updateUser=async(req:IRequestUserData,res:Response)=>{
     }
 
 }
+
+export const updateUserprofile = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const updateData: Partial<userUpdateProfileInterface> = req.body;
+        
+        const updatedUser = await UserService.updateUser(id, updateData);
+
+        return ResponseService({
+            data: updatedUser,
+            status:200,
+            success:true,
+            message: "User profile updated successfully",
+            res,
+        });
+    } catch (error) {
+        const {message, stack } = error as Error;
+        return ResponseService ({
+            data:stack,
+            status: 500,
+            success: false,
+            message: message || "internal server error",
+            res,
+
+        });
+    }
+};
+
 
 export const deleteUser=async(req:Request,res:Response)=>{
     try {
