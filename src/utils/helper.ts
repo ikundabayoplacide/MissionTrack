@@ -27,14 +27,32 @@ export async function extractReceiptData(filePath: string): Promise<{ amount?: n
   try {
     
     let text = '';
-    if(filePath.toLowerCase().endsWith('.pdf')){
-      const dataBuffer = fs.readFileSync(filePath);
-      const pdfData = await pdf(dataBuffer);
-      text = pdfData.text;
-    }
-    else{
-      const result = await Tesseract.recognize(filePath, 'eng');
-      text = result.data.text;
+     const isCloudinaryUrl = /^https?:\/\//.test(filePath);
+   if (isCloudinaryUrl) {
+      // Fetch file from Cloudinary
+      const response = await fetch(filePath);
+      const buffer = await response.arrayBuffer();
+
+      if (filePath.toLowerCase().endsWith(".pdf")) {
+        const pdfData = await pdf(Buffer.from(buffer));
+        text = pdfData.text;
+      } else {
+        const tempPath = "/tmp/tempfile.jpg"; // or png
+        fs.writeFileSync(tempPath, Buffer.from(buffer));
+        const result = await Tesseract.recognize(tempPath, "eng");
+        text = result.data.text;
+        fs.unlinkSync(tempPath);
+      }
+    } else {
+      // Local file (development)
+      if (filePath.toLowerCase().endsWith(".pdf")) {
+        const dataBuffer = fs.readFileSync(filePath);
+        const pdfData = await pdf(dataBuffer);
+        text = pdfData.text;
+      } else {
+        const result = await Tesseract.recognize(filePath, "eng");
+        text = result.data.text;
+      }
     }
 
     // Extract amount
