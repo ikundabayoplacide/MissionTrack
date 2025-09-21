@@ -18,7 +18,6 @@ class MissionActionService {
     const action = await MissionAction.create(data);
 
 
-
     let missionStatus = mission.status;
     let subject="";
     let message="";
@@ -27,36 +26,34 @@ class MissionActionService {
         case 'Approve':
             missionStatus='manager_approved';
             subject=`Mission to go ${mission.location}  have been Approved 👍`;
-            message=`The mission "${mission.missionTitle}" has been approved by ${user.role}. Thank you!
-            <br/><br/>  <strong>Comment:  </strong>${data.comment || 'No comment provided'}`;
+            message=`The mission "${mission.missionTitle}" has been approved by <strong>${user.role}</strong>. Thank you!
+            `;
             break;
         case 'Reject':
             missionStatus = 'rejected';
             subject=`Mission to go ${mission.location}  have been Rejected 👎`;
-            message=`The mission "${mission.missionTitle}" has been rejected by ${user.role}.
-            <br/><br/>  <strong>Comment:  </strong>${data.comment || 'No comment provided'}`;
+            message=`The mission "${mission.missionTitle}" has been rejected by <strong>${user.role}.</strong>
+            `;
             break;
         case 'Complete':
             missionStatus = 'completed';
             subject=`Mission to go ${mission.location}  have been Completed 🎉`;
-            message=`The mission "${mission.missionTitle}" has been completed by ${user.role}. Congratulations! 
-            <br/><br/>  <strong>Comment:  </strong>${data.comment || 'No comment provided'}`;
+            message=`The mission "${mission.missionTitle}" has been completed by <strong>${user.role}</strong>. Congratulations! 
+            `;
             break;
         case 'Update':
             missionStatus = mission.status;
             subject=`Mission to go ${mission.location}  have been Updated ✏️`;
-            message=`The mission "${mission.missionTitle}" has been updated by ${user.role}.
-            <br/> <br/>  <strong>Comment:  </strong>${data.comment || 'No comment provided'}`;
+            message=`The mission "${mission.missionTitle}" has been updated by <strong>${user.role}.</strong>`;
             break;
         case 'Cancel':
             missionStatus = 'canceled';
             subject=`Mission to go ${mission.location}  have been Canceled ❌`;
-            message=`The mission "${mission.missionTitle}" has been canceled by ${user.role}.
-            <br/> <br/>  <strong>Comment:  </strong>${data.comment || 'No comment provided'}`;
+            message=`The mission "${mission.missionTitle}" has been canceled by <strong>${user.role}.</strong>`;
             break;
     }
     await Mission.update({ status: missionStatus }, { where: { id: data.missionId } });
-    await Mailer.notifyManager(creator.companyId, subject, message);
+    await Mailer.notifyEmpAboutMission(creator.email, creator.fullName, subject, message, data.comment || "");
 
     return action;
 }

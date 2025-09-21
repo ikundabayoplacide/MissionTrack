@@ -29,7 +29,7 @@ export class CompanyService{
             const updateData = Object.fromEntries(
             Object.entries(data).filter(([_, value]) => value !== '' && value !== null && value !== undefined)
         );
-         await Mailer.notifyManager(company.id, "Company Updated ✏️", `Your company "${company.companyName}" information has been updated.`);
+         await Mailer.notifyManagerAboutCompany(company.id, "Company Updated ✏️", `Your company "${company.companyName}" information has been updated.`);
         await company.update(updateData);
         return company;
     }
@@ -41,7 +41,7 @@ export class CompanyService{
   static  async deleteCompany(companyId:string){
         const company=await Company.findByPk(companyId);
         if(!company) throw new Error("Company not found");
-        await Mailer.notifyManager(company.id, "Company Deleted ❌", `Your company "${company.companyName}" has been deleted from the system.`);
+        await Mailer.notifyManagerAboutCompany(company.id, "Company Deleted ❌", `Your company "${company.companyName}" has been deleted from the system.`);
         await User.destroy({where:{companyId:company.id}});
         await company.destroy();
         return { message: "Company deleted successfully" };
@@ -50,14 +50,14 @@ export class CompanyService{
       const company=await Company.findByPk(companyId);
       if(!company) throw new Error("Company not found");
     const newState= await company.update({state:data.state,blockUnblockComment:data.comment});
-      await Mailer.notifyManager(company.id, data.state === 'blocked' ? "Company Blocked ⛔" : "Company Unblocked ✅", `Your company "${company.companyName}" has been ${data.state}.<br/><br/>  <strong>Comment:  </strong> ${data.comment}`);
+      await Mailer.notifyManagerAboutCompany(company.id, data.state === 'blocked' ? "Company Blocked ⛔" : "Company Unblocked ✅", `Your company "${company.companyName}" has been ${data.state}.<br/><br/>  <strong>Comment:  </strong> ${data.comment}`);
       return newState;
     }
 
     static async approveAndRejectCompany(companyId:string,data:ApproveRejectData){
       const company=await Company.findByPk(companyId);
       if(!company) throw new Error("Company not found");
-      await Mailer.notifyManager(company.id, data.status === 'approved' ? "Company Approved ✅" : "Company Rejected ❌", `Your company "${company.companyName}" has been ${data.status}.<br/> <br/>  <strong>Comment:  </strong>${data.comment}`);
+      await Mailer.notifyManagerAboutCompany(company.id, data.status === 'approved' ? "Company Approved ✅" : "Company Rejected ❌", `Your company "${company.companyName}" has been ${data.status}.<br/> <br/>  <strong>Comment:  </strong>${data.comment}`);
      const newStatus= await company.update({status:data.status,approveComment:data.comment});
       return newStatus;
     }

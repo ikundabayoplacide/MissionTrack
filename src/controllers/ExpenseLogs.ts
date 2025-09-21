@@ -2,38 +2,45 @@ import { Request, RequestHandler, Response } from "express";
 import { ExpenseLogService } from "../services/expenseLogs";
 import { ExpenseLogCreate, ExpenseLogUpdate } from "../types/expenseLogs";
 import { ResponseService } from "../utils/response";
-import { ParamsDictionary } from "express-serve-static-core";
-import { ParsedQs } from "qs";
+import { extractReceiptData } from "../utils/helper";
 
 
 export class ExpenseLogController {
     static async createExpenseLog(req: Request, res: Response) {
         try {
-            const ExLogsdata: ExpenseLogCreate = {
+            const data: ExpenseLogCreate = {
                 ...req.body,
                 missionId: req.body.missionId
             }
 
-            if (req.files) {
-                const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-
-                if (files.accommodationFile && files.accommodationFile[0]) {
-                    ExLogsdata.accommodationFile = files.accommodationFile[0].path;
+          const files = req.files as { [key: string]: Express.Multer.File[] } | undefined;
+            if (files) {
+                if (files.accommodationFile?.[0]){
+                     data.accommodationFile = files.accommodationFile[0].path;
+                     const result=await extractReceiptData(data.accommodationFile);
+                     if(result.amount) data.accommodationAmount=result.amount;
+                        if(result.date && !data.date) data.date=result.date;
                 }
-                if (files.mealsFile && files.mealsFile[0]) {
-                    ExLogsdata.mealsFile = files.mealsFile[0].path;
+                if (files.mealsFile?.[0]){ 
+                    data.mealsFile = files.mealsFile[0].path;
+                    const result=await extractReceiptData(data.mealsFile);
+                    if(result.amount) data.mealsAmount=result.amount;
+                    if(result.date && !data.date) data.date=result.date;
                 }
-                if (files.transportFile && files.transportFile[0]) {
-                    ExLogsdata.transportFile = files.transportFile[0].path;
+                if (files.transportFile?.[0]) {
+                    data.transportFile = files.transportFile[0].path;
+                    const result=await extractReceiptData(data.transportFile);
+                    if(result.amount) data.transportAmount=result.amount;
+                    if(result.date && !data.date) data.date=result.date;
                 }
             }
-            Object.keys(ExLogsdata).forEach(
-                (key) =>
-                    (ExLogsdata as any)[key] === "" || (ExLogsdata as any)[key] === undefined
-                        ? delete (ExLogsdata as any)[key]
-                        : null
-            );
-            const newElog = await ExpenseLogService.createExpenseLog(ExLogsdata);
+          for (const key in data) {
+                if (data[key as keyof ExpenseLogCreate] === "" || 
+                    data[key as keyof ExpenseLogCreate] === undefined) {
+                    delete data[key as keyof ExpenseLogCreate];
+                }
+            }
+            const newElog = await ExpenseLogService.createExpenseLog(data);
             return ResponseService({
                 res,
                 status: 201,
@@ -79,26 +86,17 @@ export class ExpenseLogController {
             const id = req.params.id;
             const existingElog = await ExpenseLogService.getExpenseLogById(id);
             const updateData: ExpenseLogUpdate = { ...req.body, ...existingElog.toJSON() };
-            if (req.files) {
-                const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-                if (files.accommodationFile && files.accommodationFile[0]) {
-                    updateData.accommodationFile = files.accommodationFile[0].path;
-                }
-
-                // Handle meals file
-                if (files.mealsFile && files.mealsFile[0]) {
-                    updateData.mealsFile = files.mealsFile[0].path;
-                }
-                if (files.transportFile && files.transportFile[0]) {
-                    updateData.transportFile = files.transportFile[0].path;
+           const files = req.files as { [key: string]: Express.Multer.File[] } | undefined;
+            if (files) {
+                if (files.accommodationFile?.[0]) updateData.accommodationFile = files.accommodationFile[0].path;
+                if (files.mealsFile?.[0]) updateData.mealsFile = files.mealsFile[0].path;
+                if (files.transportFile?.[0]) updateData.transportFile = files.transportFile[0].path;
+            }
+           for (const key in updateData) {
+                if (updateData[key as keyof ExpenseLogUpdate] === "" || updateData[key as keyof ExpenseLogUpdate] === undefined) {
+                    delete updateData[key as keyof ExpenseLogUpdate];
                 }
             }
-            Object.keys(updateData).forEach(
-                (key) =>
-                    (updateData as any)[key] === "" || (updateData as any)[key] === undefined
-                        ? delete (updateData as any)[key]
-                        : null
-            );
             const updatedElog = await ExpenseLogService.updateExpenseLog(id, updateData);
             return ResponseService({
                 res,
@@ -181,4 +179,27 @@ export class ExpenseLogController {
 
         }
     }
+  static async changeExpenseLogStatus(req: Request, res: Response) {
+    try{
+        const id=req.params.id;
+        const {status,statusChangeComment}=req.body as {status:"pending" | "accepted" | "rejected",statusChangeComment?:string|null};
+        const updatedElog=await ExpenseLogService.changeExpenseLogStatus(id,status,statusChangeComment);
+        return ResponseService({
+            res,
+            status:200,
+            success:true,
+            message:"Expense Log status updated successfully",
+            data:updatedElog
+        })
+    }
+ catch(error){
+    return ResponseService({
+        res,
+        status:500,
+        success:false,
+        message:(error as Error).message,
+        data:null
+    })
+}
+}
 }
