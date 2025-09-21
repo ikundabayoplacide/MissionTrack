@@ -24,7 +24,6 @@
     "undo:migrate:dev": "cross-env ENV=DEV npx sequelize-cli db:migrate:undo --env DEV",
     "undo:all:dev": "cross-env ENV=DEV npx sequelize-cli db:migrate:undo:all --env DEV",
     "undo:seed:dev": "cross-env ENV=DEV npx sequelize-cli db:seed:undo:all --env DEV",
-    
     "prod": "cross-env ENV=PROD node ./dist/index.js",
     "migrate:prod": "cross-env ENV=PROD npx sequelize-cli db:migrate --env PROD",
     "seed:prod": "cross-env ENV=PROD npx sequelize-cli db:seed:all --env PROD",
@@ -97,7 +96,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
-    "cloudinary": "^2.7.0",
+    "cloudinary": "^1.41.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "csurf": "^1.2.2",
