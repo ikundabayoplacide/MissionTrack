@@ -36,7 +36,10 @@ export async function extractReceiptData(filePath: string): Promise<{ amount?: n
       const arrayBuffer = await response.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
-      if (filePath.toLowerCase().endsWith(".pdf")) {
+
+      const contentType = response.headers.get("content-type") || "";
+      
+      if (contentType.includes("pdf")||filePath.toLowerCase().endsWith(".pdf")) {
         const pdfData = await pdf(Buffer.from(buffer));
         text = pdfData.text;
       } else {
