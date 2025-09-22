@@ -38,37 +38,18 @@ export async function extractReceiptData(filePath: string): Promise<{ amount?: n
 
 
       const contentType = response.headers.get("content-type") || "";
-
+      
       if (contentType.includes("pdf")||filePath.toLowerCase().endsWith(".pdf")) {
-        try {
         const pdfData = await pdf(Buffer.from(buffer));
         text = pdfData.text;
-        if(!text || text.trim().length===0){
-          const tempPath = path.join("/tmp", "tempfile_" + Date.now() + ".pdf");
-          fs.writeFileSync(tempPath, buffer);
-
-          const result=await Tesseract.recognize(tempPath, "eng");
-          text=result.data.text;
-          fs.unlinkSync(tempPath);
-        }
-      } catch (error) {
-        console.error("Error processing PDF from Cloudinary:", error);
-         const tempPath = path.join("/tmp", "tempfile_" + Date.now() + ".pdf");
-      fs.writeFileSync(tempPath, buffer);
-
-      const result = await Tesseract.recognize(tempPath, "eng");
-      text = result.data.text;
-
-      fs.unlinkSync(tempPath);
+      } else {
+          const tempPath = path.join("/tmp", "tempfile_" + Date.now() + path.extname(filePath));
+        fs.writeFileSync(tempPath, buffer);
+        const result = await Tesseract.recognize(tempPath, "eng");
+        text = result.data.text;
+        fs.unlinkSync(tempPath);
       }
-    } 
-    else{
-       const tempPath = path.join("/tmp", "tempfile_" + Date.now() + path.extname(filePath));
-    fs.writeFileSync(tempPath, buffer);
-    const result = await Tesseract.recognize(tempPath, "eng");
-    text = result.data.text;
-    fs.unlinkSync(tempPath);
-    } }else {
+    } else {
       // Local file (development)
       if (filePath.toLowerCase().endsWith(".pdf")) {
         const dataBuffer = fs.readFileSync(filePath);
