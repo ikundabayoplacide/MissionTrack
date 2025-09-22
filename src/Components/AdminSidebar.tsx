@@ -79,7 +79,7 @@ const AdminSidebar: React.FC = () => {
                             ))}
                         </div>
                         {/* Logout Button */}
-                        <div className="p-5 mt-58 bg-accent-500 w-30 text-center ml-10 hover:bg-green-600 text-white font-semibold py-2 rounded-2xl">
+                        <div className="p-5 mt-30 bg-accent-500 w-30 text-center ml-10  text-white font-semibold py-2 rounded-2xl">
                             <Link to={"/login"}>
                                 Logout
                             </Link>

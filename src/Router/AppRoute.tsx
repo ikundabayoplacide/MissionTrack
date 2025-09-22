@@ -22,6 +22,10 @@ import RequestManager from "../manager/RequestManager";
 import ReportManager from "../manager/ReportManager";
 import ReportDetails from "../manager/ReportDetails";
 import Pending from "../Components/Pending";
+import AdminDashboard from "../pages/AdminDashboard";
+import Rejected from "../Components/Rejected";
+import Subscriptions from "../Components/Subscriptions";
+
 
 
 const AppRoute = () => {
@@ -58,6 +62,11 @@ const AppRoute = () => {
          <Route path="/reported" element={<ReportManager/>}/>
          <Route path="/missions/:id" element={<ReportDetails />} />
          <Route path="/pending" element={<Pending />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/pending" element={<Pending />} />
+              <Route path="/rejected" element={<Rejected/>} />
+              <Route path="/subscriptions" element={<Subscriptions/>} />
+
       </Routes>
     </>
   );

@@ -3,7 +3,7 @@ import { MdOutlinePendingActions, MdOutlineBusiness } from "react-icons/md";
 
 const AdminStats = () => {
     return (
-        <div className="flex flex-col  md:flex-row space-y-4 md:space-y-0 md:space-x-4 p-4">
+        <div className="flex flex-col  w-[1050px] md:flex-row space-y-4 md:space-y-0 md:space-x-4 p-4">
             {/* Total Registered Companies Card */}
             <div className="p-6 bg-white  w-[230px] rounded-xl shadow-md flex-1">
                 <div className="flex justify-between items-center">

@@ -1,57 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../Components/HeaderDash";
 import AdminSidebar from "../Components/AdminSidebar";
 import AdminStats from "../Components/AdminStats";
+import CompaniesTable from "../Components/CompaniesTable";
+import { FiSearch } from "react-icons/fi";
+import { BsChevronDown } from "react-icons/bs";
 
-// ✅ Utility for light/dark theming
-const twTheme = (light: string, dark: string) => {
-  return `${light} dark:${dark}`;
-};
+const twTheme = (light: string, dark: string) => `${light} dark:${dark}`;
 
 const AdminDashboard: React.FC = () => {
-  // ✅ Example company data (replace with API/state)
-  const filteredCompany = [
+  const companies = [
     {
-      company: "Tech Solutions Ltd",
+      companyName: "Tech Innovations Ltd",
+      email: "info@techinnovations.com",
       status: "Active",
       plan: "Premium",
       contactPerson: "John Doe",
       payment: "Paid",
-      activity: "2025-09-15",
+      lastActivity: "2h ago",
     },
     {
-      company: "SmartBiz Inc",
+      companyName: "Global Solutions Inc",
+      email: "contact@globalsolutions.com",
       status: "Pending",
       plan: "Basic",
       contactPerson: "Jane Smith",
       payment: "Unpaid",
-      activity: "2025-09-10",
+      lastActivity: "1d ago",
+    },
+    {
+      companyName: "Creative Minds LLC",
+      email: "hello@creativeminds.com",
+      status: "Rejected",
+      plan: "Standard",
+      contactPerson: "Mike Johnson",
+      payment: "Refunded",
+      lastActivity: "3d ago",
     },
   ];
 
-  // ✅ Handlers (replace with your logic)
-  const startEdit = (index: number) => {
-    console.log("Edit company at index:", index);
-  };
+  // Search and filter states
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All Status");
+  const [paymentFilter, setPaymentFilter] = useState("All Payments");
 
-  const deleteTask = (index: number) => {
-    console.log("Delete company at index:", index);
-  };
+  // Filter companies by search and selected filters
+  const filteredCompany = companies.filter((c) => {
+    const matchesSearch =
+      c.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.contactPerson.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.status.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "All Status" || c.status === statusFilter;
+
+    const matchesPayment =
+      paymentFilter === "All Payments" || c.payment === paymentFilter;
+
+    return matchesSearch && matchesStatus && matchesPayment;
+  });
+
+  const statusOptions = ["All Status", "Active", "Pending", "Rejected"];
+  const paymentOptions = ["All Payments", "Paid", "Unpaid", "Refunded"];
 
   return (
     <>
       <Header />
-      <div
-        className={`flex gap-70 mt-20 ${twTheme(
-          "bg-[#E6EAF5]",
-          "bg-gray-900"
-        )}`}
-      >
+      <div className={`flex gap-70 mt-20 ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`}>
         <AdminSidebar />
+
         <main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
           <AdminStats />
 
-          {/* Add Company Button */}
           <button className="bg-primaryColor-700 w-60 mb-5 text-lg text-center rounded-2xl text-white">
             <div className="flex items-center justify-center">
               <span className="text-4xl mr-2">+</span>
@@ -59,46 +79,54 @@ const AdminDashboard: React.FC = () => {
             </div>
           </button>
 
-          {/* Company Table */}
-          <table className="min-w-full table-auto border rounded-md">
-            <thead className="text-white bg-primaryColor-500">
-              <tr>
-                <th className="px-4 py-2 text-left">Company Name</th>
-                <th className="px-4 py-2 text-left">Status</th>
-                <th className="px-4 py-2 text-left">Plan</th>
-                <th className="px-4 py-2 text-left">Contact Person</th>
-                <th className="px-4 py-2 text-left">Payment</th>
-                <th className="px-4 py-2 text-left">Last Activity</th>
-                <th className="px-4 py-2 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCompany.map((company, index) => (
-                <tr key={index} className="border-t">
-                  <td className="px-4 py-2 font-bold">{company.company}</td>
-                  <td className="px-4 py-2">{company.status}</td>
-                  <td className="px-4 py-2">{company.plan}</td>
-                  <td className="px-4 py-2">{company.contactPerson}</td>
-                  <td className="px-4 py-2">{company.payment}</td>
-                  <td className="px-4 py-2">{company.activity}</td>
-                  <td className="px-4 py-2">
-                    <button
-                      onClick={() => startEdit(index)}
-                      className="text-primaryColor-500 pr-3 hover:underline"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => deleteTask(index)}
-                      className="text-red-500 hover:underline"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="w-[1050px] bg-white rounded-2xl overflow-x-auto">
+            <div className="flex flex-col sm:flex-row gap-2 items-center justify-center p-4">
+              {/* Search Input */}
+              <div className="flex-1 w-full sm:w-auto flex gap-2 items-center bg-white rounded-xl border border-gray-300 shadow-sm py-1 mb-2 sm:mb-0 px-2">
+                <FiSearch className="text-gray-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-8 text-gray-700 placeholder-gray-400 focus:outline-none"
+                  placeholder="Search by company, contact, or status"
+                />
+              </div>
+
+              {/* Status Filter Dropdown */}
+              <div className="relative">
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="px-4 py-2 rounded-xl border border-gray-300 shadow-sm bg-white cursor-pointer text-gray-700"
+                >
+                  {statusOptions.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Payment Filter Dropdown */}
+              <div className="relative">
+                <select
+                  value={paymentFilter}
+                  onChange={(e) => setPaymentFilter(e.target.value)}
+                  className="px-4 py-2 rounded-xl border border-gray-300 shadow-sm bg-white cursor-pointer text-gray-700"
+                >
+                  {paymentOptions.map((payment) => (
+                    <option key={payment} value={payment}>
+                      {payment}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Companies Table */}
+            <CompaniesTable data={filteredCompany} />
+          </div>
         </main>
       </div>
     </>

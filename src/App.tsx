@@ -1,11 +1,11 @@
+// import Subscriptions from "./Components/Subscriptions";
 
-// import RequestManager from "./manager/RequestManager";
+// import Rejected from "./Components/Rejected";
 
-import AdminDashboard from "./pages/AdminDashboard";
 
-// import Pending from "./Components/Pending"/;
 
-// import AppRoute from "./Router/AppRoute";
+import AppRoute from "./Router/AppRoute";
+// Rejected
 
 
 
@@ -14,9 +14,9 @@ function App() {
   return (
 
     <>
-   
-       {/* <AppRoute/> */}
-       <AdminDashboard/>
+  {/* <Subscriptions/> */}
+       <AppRoute/>
+       {/* <AdminDashboard/> */}
     </>
       );
 }
