@@ -41,7 +41,6 @@ module.exports = {
       role: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: "employee",
       },
       is_active: {
         type: Sequelize.BOOLEAN,

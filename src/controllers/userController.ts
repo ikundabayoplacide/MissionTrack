@@ -4,7 +4,7 @@ import { UserService } from "../services/userSercives";
 import { AuthRequest } from "../utils/helper";
 
 
-
+const ALLOWED_ROLES = ["employee", "finance_manager"] as const;
 export const createUser=async(req:AuthRequest,res:Response)=>{
     try {
         const userData=req.body;
@@ -14,6 +14,15 @@ export const createUser=async(req:AuthRequest,res:Response)=>{
                 status: 400,
                 success: false,
                 message: "User information is missing from request",
+                res
+            });
+        }
+        if (!userData.role || !ALLOWED_ROLES.includes(userData.role)) {
+            return ResponseService({
+                data: null,
+                status: 400,
+                success: false,
+                message: "Invalid user role",
                 res
             });
         }

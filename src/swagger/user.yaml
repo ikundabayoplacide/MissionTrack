@@ -131,7 +131,7 @@ components:
           example: IT
         role:
           type: string
-          enum: [admin, employee, manager, finance_manager]
+          enum: [employee, finance_manager]
           example: employee
         is_active:
           type: boolean
@@ -179,9 +179,7 @@ components:
         role:
           type: string
           enum:
-            - admin
             - employee
-            - manager
             - finance_manager
           example: "employee"
 
@@ -196,5 +194,5 @@ components:
           example: Sales
         role:
           type: string
-          enum: [admin, employee, manager, finance_manager]
-          example: manager
+          enum: [employee,finance_manager,]
+          example: employee

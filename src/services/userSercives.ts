@@ -19,7 +19,7 @@ export class UserService {
             return user.toJSON() as userAttributes;
     }
     static async getAllUsers(companyId:string): Promise<userAttributes[]> {
-            const users = await User.findAll({    where: {
+            const users = await User.findAll({where: {
             companyId,
             role: { [Op.ne]: "admin" } 
         }});
@@ -31,9 +31,6 @@ export class UserService {
     if (!user) {
         throw new Error(`User with id ${id} not found`);
     }
-    if (user.role === "admin") {
-        throw new Error("Admin user cannot be updated");
-    }
 
     await user.update(updateData);
     return user.toJSON() as userUpateInterface;
@@ -43,9 +40,6 @@ static async deleteUser(id: string,companyId:string): Promise<number> {
     const user = await User.findOne({ where: { id, companyId } });
     if (!user) {
         throw new Error(`User with id ${id} not found`);
-    }
-    if (user.role === "admin") {
-        throw new Error("Admin user cannot be deleted");
     }
     await user.destroy();
     return 1;

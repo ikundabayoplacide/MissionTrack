@@ -1,11 +1,3 @@
-const enumRole={
-    ADMIN:"admin",
-    EMPLOYEE:"employee",
-    MANAGER:"manager",
-    FINANCE:"finance_manager"
-} as const;
-
-export type UserRole = typeof enumRole[keyof typeof enumRole];
 
 export interface userAttributes {
     id?: string;
@@ -15,7 +7,7 @@ export interface userAttributes {
     phoneNumber?: string;
     department?: string;
     companyId: string;
-    role?: string;
+    role?: 'admin' | 'employee' | 'manager' | 'finance_manager';
     profilePhoto?:string;
     bankAccount?:string;
     is_active?: boolean;
@@ -27,7 +19,7 @@ export interface userAttributes {
 }
 export interface userUpateInterface{
     department?:string,
-    role?:string,
+    role?: 'admin' | 'employee' | 'manager' | 'finance_manager';
     fullName?:string
 }
 export type AddUserInterface = Omit<userAttributes, 'id' | 'createdAt' | 'updatedAt'>;

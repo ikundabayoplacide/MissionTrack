@@ -21,7 +21,7 @@ export interface userCreationAttributes extends Omit<userAttributes,"id" | "crea
     public password!: string;
     public phoneNumber!: string | undefined;
     public companyId!: string;
-    public role!: string;
+    public role!: 'admin' | 'employee' | 'manager' | 'finance_manager';
     public is_active?: boolean | undefined;
     public profilePhoto?:string| undefined;
     public bankAccount?:string| undefined;
@@ -83,9 +83,8 @@ User.init(
        
         role: {
             type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: "employee",
-        },
+            allowNull: false,     
+           },
         is_active: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
