@@ -3,79 +3,64 @@ import { ExpenseLogService } from "../services/expenseLogs";
 import { ExpenseLogCreate, ExpenseLogUpdate } from "../types/expenseLogs";
 import { ResponseService } from "../utils/response";
 import { extractReceiptData } from "../utils/helper";
-
-interface CloudinaryFile extends Express.Multer.File {
-  secure_url?: string;
-  url?: string;
-}
 export class ExpenseLogController {
- static async createExpenseLog(req: Request, res: Response) {
-    try {
-        const data: ExpenseLogCreate = {
-            ...req.body,
-            missionId: req.body.missionId
-        }
+    static async createExpenseLog(req: Request, res: Response) {
+        try {
+            const data: ExpenseLogCreate = {
+                ...req.body,
+                missionId: req.body.missionId,
+                userId: (req as any).user.id
+            }
 
-        const files = req.files as { [key: string]: Express.Multer.File[] } | undefined;
-        if (files) {
-            if (files.accommodationFile?.[0]) {
-                const file = files.accommodationFile[0] as CloudinaryFile;
-                const filePath = file.secure_url || file.url || file.path;
-                if (filePath) {
-                    data.accommodationFile = filePath;
-                    const result = await extractReceiptData(filePath);
-                    if (result.amount) data.accommodationAmount = result.amount;
-                    if (result.date && !data.date) data.date = result.date;
+            const files = req.files as { [key: string]: Express.Multer.File[] } | undefined;
+            if (files) {
+                if (files.accommodationFile?.[0]) {
+                    const file = files.accommodationFile[0];
+                    data.accommodationFile = (file as any).path || (file as any).location || file.path;
+                    if (data.accommodationFile) {
+                        const result = await extractReceiptData(data.accommodationFile);
+                        if (result.amount) data.accommodationAmount = result.amount;
+                        if (result.date && !data.date) data.date = result.date;
+                    }
                 }
-            }
-            if (files.mealsFile?.[0]) {
-                const file = files.mealsFile[0] as CloudinaryFile;
-                const filePath = file.secure_url || file.url || file.path;
-                if (filePath) {
-                    data.mealsFile = filePath;
-                    const result = await extractReceiptData(filePath);
-                    if (result.amount) data.mealsAmount = result.amount;
-                    if (result.date && !data.date) data.date = result.date;
+                if (files.mealsFile?.[0]) {
+                    const file = files.mealsFile[0];
+                    data.mealsFile = (file as any).path || (file as any).location || file.path;
+                    if (data.mealsFile) {
+                        const result = await extractReceiptData(data.mealsFile);
+                        if (result.amount) data.mealsAmount = result.amount;
+                        if (result.date && !data.date) data.date = result.date;
+                    }
                 }
-            }
-            if (files.transportFile?.[0]) {
-                const file = files.transportFile[0] as CloudinaryFile;
-                const filePath = file.secure_url || file.url || file.path;
-                if (filePath) {
-                    data.transportFile = filePath;
-                    const result = await extractReceiptData(filePath);
-                    if (result.amount) data.transportAmount = result.amount;
-                    if (result.date && !data.date) data.date = result.date;
-                }
-            }
-        }
-        
-        // Rest of your code remains the same...
-        for (const key in data) {
-            if (data[key as keyof ExpenseLogCreate] === "" ||
-                data[key as keyof ExpenseLogCreate] === undefined) {
-                delete data[key as keyof ExpenseLogCreate];
-            }
-        }
-        const newElog = await ExpenseLogService.createExpenseLog(data);
-        return ResponseService({
-            res,
-            status: 201,
-            success: true,
-            message: "Expense Log created successfully",
-            data: newElog
-        })
+                if (files.transportFile?.[0]) {
+                    const file = files.transportFile[0];
+                    data.transportFile = (file as any).path || (file as any).location || file.path;
 
-    } catch (error) {
-        return ResponseService({
-            res,
-            status: 500,
-            success: false,
-            message: (error as Error).message,
-            data: null
-        })
+                    if (data.transportFile) {
+                        const result = await extractReceiptData(data.transportFile);
+                        if (result.amount) data.transportAmount = result.amount;
+                        if (result.date && !data.date) data.date = result.date;
+                    }
+                }
+            }
+            const Elog = await ExpenseLogService.createExpenseLog(data);
+            return ResponseService({
+                res,
+                status: 201,
+                success: true,
+                message: "Expense log created successfully",
+                data: Elog
+            })
+        } catch (error) {
+            return ResponseService({
+                res,
+                status: 500,
+                success: false,
+                message: (error as Error).message,
+                data: null
+            })
+        }
     }
-}
     static async getExpenseLogById(req: Request, res: Response) {
         try {
             const id = req.params.id;

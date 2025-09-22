@@ -5,6 +5,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 
+
 const ENV = process.env.ENV || "DEV";
 
 // Base upload directory
@@ -51,7 +52,7 @@ cloudinary.config({
 
 
 const cloudinaryStorage = new CloudinaryStorage({
-  cloudinary,
+   cloudinary,
   params: async (req, file) => {
     let folder = "others";
 
@@ -59,13 +60,16 @@ const cloudinaryStorage = new CloudinaryStorage({
     if (file.fieldname === "mealsFile") folder = "meals";
     if (file.fieldname === "transportFile") folder = "transport";
 
+   
     return {
       folder: `expense-logs/${folder}`,
       public_id: file.originalname.split('.')[0] + '-' + Date.now(),
-      resource_type: 'auto'
+      resource_type: 'auto',
+      format: (file.mimetype === 'application/pdf') ? 'pdf' : undefined, // Convert to pdf if it's a PDF
     };
   },
 });
+
 const fileFilter = (
   req: any,
   file: Express.Multer.File,
