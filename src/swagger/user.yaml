@@ -114,9 +114,7 @@ components:
         id:
           type: string
           example: af4357d9-72a9-45d7-a288-4fcfbb59fc9a
-        companyId:
-          type: string
-          example: 123e4567-e89b-12d3-a456-426614174000
+      
         fullName:
           type: string
           example: John Doe
@@ -152,10 +150,7 @@ components:
         - role
         - bankAccount
       properties:
-        companyId:
-          type: string
-          example: "123e4567-e89b-12d3-a456-426614174000"
-          description: Company ID that the user belongs to
+        
         fullName:
           type: string
           example: "John Doe"
