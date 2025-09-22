@@ -24,33 +24,43 @@ export interface AuthRequest extends Request {
     companyStatus: string | null
   }
 }
-
 export async function extractReceiptData(filePath: string): Promise<{ amount?: number | null; date?: Date | null }> {
   try {
-    
     let text = '';
-     const isCloudinaryUrl = /^https?:\/\//.test(filePath);
-   if (isCloudinaryUrl) {
-      // Fetch file from Cloudinary
+    const isCloudinaryUrl = /^https?:\/\//.test(filePath);
+    
+    if (isCloudinaryUrl) {
       const response = await fetch(filePath);
+      if (!response.ok) {
+        return { amount: null, date: null };
+      }
+      
       const arrayBuffer = await response.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
-
       const contentType = response.headers.get("content-type") || "";
       
-      if (contentType.includes("pdf")||filePath.toLowerCase().endsWith(".pdf")) {
-        const pdfData = await pdf(Buffer.from(buffer));
+      if (contentType.includes("pdf") || filePath.toLowerCase().includes(".pdf")) {
+        const pdfData = await pdf(buffer);
         text = pdfData.text;
       } else {
-          const tempPath = path.join("/tmp", "tempfile_" + Date.now() + path.extname(filePath));
-        fs.writeFileSync(tempPath, buffer);
-        const result = await Tesseract.recognize(tempPath, "eng");
-        text = result.data.text;
-        fs.unlinkSync(tempPath);
+        // Use process.cwd() + '/tmp' or os.tmpdir()
+        const os = require('os');
+        const tempDir = os.tmpdir();
+        const tempPath = path.join(tempDir, "tempfile_" + Date.now() + "_" + Math.random().toString(36).substring(7));
+        
+        try {
+          fs.writeFileSync(tempPath, buffer);
+          const result = await Tesseract.recognize(tempPath, "eng");
+          text = result.data.text;
+        } finally {
+          if (fs.existsSync(tempPath)) {
+            fs.unlinkSync(tempPath);
+          }
+        }
       }
     } else {
-      // Local file (development)
+      // Local file processing remains the same
       if (filePath.toLowerCase().endsWith(".pdf")) {
         const dataBuffer = fs.readFileSync(filePath);
         const pdfData = await pdf(dataBuffer);
@@ -61,23 +71,21 @@ export async function extractReceiptData(filePath: string): Promise<{ amount?: n
       }
     }
 
-    // Extract amount
-    const amountMatch =
-      text.match(/(?:Total|Amount|Total Amount|Balance Due|Balance|Amount Due)[^\d]*([\d,]+(?:\.\d{1,2})?)(?:\s?rwf)?/i) ||
-      text.match(/([\d,]+(?:\.\d{1,2})?)(?:\s?rwf)?/i);
+    // Enhanced amount extraction
+    const amountMatch = 
+      text.match(/(?:Total|Amount|Total Amount|Balance Due|Balance|Amount Due|TOTAL|AMOUNT)[\s\D]*([\d,]+(?:\.\d{1,2})?)(?:\s?(?:rwf|RWF|frw|FRW))?/i) ||
+      text.match(/([\d,]+(?:\.\d{1,2})?)(?:\s?(?:rwf|RWF|frw|FRW))/i) ||
+      text.match(/\b([\d,]+\.\d{2})\b/);
 
     const amount = amountMatch ? parseFloat(amountMatch[1].replace(/,/g, "")) : null;
 
-
-    // Extract date
+    // Enhanced date extraction  
     const dateMatch = text.match(
-      /(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})|(\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2})/);
+      /(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})|(\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2})|(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{2,4})/i);
     const date = dateMatch ? new Date(dateMatch[0]) : null;
 
     return { amount, date };
-  }
-  catch (error) {
-    console.error("Error extracting receipt data:", error);
+  } catch (error) {
     return { amount: null, date: null };
   }
 }
