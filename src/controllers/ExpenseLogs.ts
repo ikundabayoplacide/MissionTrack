@@ -101,21 +101,33 @@ export class ExpenseLogController {
             if (files) {
                 if (files.accommodationFile?.[0]) {
                     updateData.accommodationFile = files.accommodationFile[0].path;
+                    try{
                     const result = await extractReceiptData(updateData.accommodationFile);
                     if (result.amount) updateData.accommodationAmount = result.amount;
                     if (result.date && !updateData.date) updateData.date = result.date;
+                    }catch(error){
+                        console.error("Error extracting data from accommodation file:", error);
+                    }
                 }
                 if (files.mealsFile?.[0]) {
                     updateData.mealsFile = files.mealsFile[0].path;
                     const result = await extractReceiptData(updateData.mealsFile);
+                    try{
                     if (result.amount) updateData.mealsAmount = result.amount;
                     if (result.date && !updateData.date) updateData.date = result.date;
+                    }catch(error){
+                        console.error("Error extracting data from meals file:", error);
+                    }
                 }
                 if (files.transportFile?.[0]) {
                     updateData.transportFile = files.transportFile[0].path;
                     const result = await extractReceiptData(updateData.transportFile);
+                    try{
                     if (result.amount) updateData.transportAmount = result.amount;
                     if (result.date && !updateData.date) updateData.date = result.date;
+                    }catch(error){
+                        console.error("Error extracting data from transport file:", error);
+                    }
                 }
             }
 
