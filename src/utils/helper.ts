@@ -1,9 +1,11 @@
 import bcrypt from "bcrypt";
 import { Request } from "express";
 import Tesseract from "tesseract.js";
+import fetch from "node-fetch";
 import pdf from "pdf-parse";
 import fs from "fs";
 import dotenv from "dotenv";
+import path from "path";
 dotenv.config();
 
 
@@ -31,14 +33,15 @@ export async function extractReceiptData(filePath: string): Promise<{ amount?: n
    if (isCloudinaryUrl) {
       // Fetch file from Cloudinary
       const response = await fetch(filePath);
-      const buffer = await response.arrayBuffer();
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
 
       if (filePath.toLowerCase().endsWith(".pdf")) {
         const pdfData = await pdf(Buffer.from(buffer));
         text = pdfData.text;
       } else {
-        const tempPath = "/tmp/tempfile.jpg"; // or png
-        fs.writeFileSync(tempPath, Buffer.from(buffer));
+          const tempPath = path.join("/tmp", "tempfile_" + Date.now() + path.extname(filePath));
+        fs.writeFileSync(tempPath, buffer);
         const result = await Tesseract.recognize(tempPath, "eng");
         text = result.data.text;
         fs.unlinkSync(tempPath);
