@@ -13,42 +13,55 @@ import TeamMembers from "../manager/TeamMembers";
 
 const ManagerDashboard: React.FC = () => {
   return (
-    <div className=" mt-20 flex bg-[#E6EAF5] min-h-screen ">
-      {/* Sidebar */}
-      <ManagerSideBar />
+    <>
+      <Header />
+      <div className="flex gap-70 ">
+        <ManagerSideBar />
+        <div className=" mt-20 ">
+          <div className="  w-[1050px] py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
+            <h1 className="font-bold text-2xl">
+              Hello Manager, Here’s Mission Requests Overview
+            </h1>
+          </div>
+          <main className="py-6  w-[1050px]">
+            <div className="">
 
-      {/* Main Content */}
-      <div className="flex  ml-30">
-        <Header />
-        
-        <main className="p-6 ml-25 w-[1250px]">
-          <div className="ml-20">
-            <div className="bg-gradient-to-r  from-primaryColor-100 to-accent-10 text-black p-2 rounded-xl mb-3">
-            <h1 className="font-bold text-xl ml-2">Hello Manager, Here's Mission Requests Overview </h1>
-          </div>
-          <div className="grid grid-cols-1  md:grid-cols-4 gap-6">
-            <PendingRequests />
-            <ApprovedMissions />
-            <MissionsInProgress/>
-            <TotalSpend />
-          </div>
-          <div className="flex  w-[1100px] gap-9">
 
-            <div className="grid  grid-cols-1 w-[1250px] md:grid-cols-2 gap-10 mt-6">
-            <MissionPurpose/>
-            <MissionsPerEmployee/>
-            <QuickLinks/>
-            <RecentActivities/>
-          </div>
-          <div className="mt-6">
-            <TeamMembers/>
-          </div>
-          </div>
-          
-          </div>
-        </main>
+              <div className="grid grid-cols-1  md:grid-cols-4 gap-6">
+                <PendingRequests />
+                <ApprovedMissions />
+                <MissionsInProgress />
+                <TotalSpend />
+              </div>
+              <div className="flex   gap-9">
+
+                <div className="grid  grid-cols-1 md:grid-cols-2 gap-10 mt-6">
+                  <MissionPurpose />
+                  <MissionsPerEmployee />
+                  <QuickLinks />
+                  <RecentActivities />
+                </div>
+                <div className="mt-6">
+                  <TeamMembers />
+                </div>
+              </div>
+
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </>
+    // <div className=" mt-20 flex bg-[#E6EAF5] min-h-screen ">
+    //   
+    //   
+
+    //   {/* Main Content */}
+    //   <div className="flex  ml-30">
+    // 
+
+
+    //   </div>
+    // </div>
   );
 };
 

@@ -27,13 +27,13 @@ const CustomLegend: React.FC<CustomLegendProps> = ({ data }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
   return (
-    <div className="flex flex-col items-start space-y-2 text-sm">
+    <div className="flex flex-col items-start  text-sm">
       {data.map((entry, index) => {
         const percentage = ((entry.value / total) * 100).toFixed(0);
         return (
           <div
             key={`legend-${index}`}
-            className="flex items-center space-x-2"
+            className="flex items-center  "
             aria-label={`${entry.name}: ${percentage}%`}
           >
             <div

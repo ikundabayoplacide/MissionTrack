@@ -26,6 +26,7 @@ import AllCompanies from "../pages/AllCompanies";
 import AdminDashboard from "../pages/AdminDashboard";
 import Rejected from "../Components/Rejected";
 import Subscriptions from "../Components/Subscriptions";
+import FinanceDashboard from "../pages/FinanceDashboard";
 
 
 
@@ -68,6 +69,7 @@ const AppRoute = () => {
         <Route path="/rejected" element={<Rejected />} />
         <Route path="/companies" element={<AllCompanies/>} />
         <Route path="/subscriptions" element={<Subscriptions />} />
+        <Route path="/finance" element={<FinanceDashboard />} />
 
 
       </Routes>
