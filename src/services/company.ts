@@ -19,7 +19,9 @@ export class CompanyService{
         return company;
     }
      static  async getCompanyById(companyId:string){
-        const company=await Company.findByPk(companyId);
+        const company=await Company.findByPk(companyId,{
+          include:[{model:User,as:'manager',attributes:['id','fullName','email'],required:false}]
+        });
         if(!company) throw new Error('Company not found');
         return company;
     }
@@ -35,7 +37,9 @@ export class CompanyService{
     }
 
   static  async getAllCompanies(){
-        const companies=await Company.findAll();
+        const companies=await Company.findAll({
+          include:[{model:User,as:'manager',attributes:['id','fullName','email'],required:false}]
+        });
         return companies;
     }
   static  async deleteCompany(companyId:string){
