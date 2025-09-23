@@ -8,6 +8,9 @@ import { Mailer } from "../utils/mailer";
 
 export class CompanyService{
      static async createCompany(companyData:CompanyAttributes,userData:CompanyManager){
+      
+        const userExist=await User.findOne({where:{email:userData.email}});
+        if(userExist) throw new Error("Manager with this email already exists");
         const company=await Company.create(companyData);
           const hashedPassword = await bcrypt.hash(userData.password, 10);
         await User.create({
@@ -16,7 +19,9 @@ export class CompanyService{
             companyId:company.id,
             role:"manager"
         });
-        return company;
+
+        const createCompany=await Company.findOne({where:{id:company.id},include:[{model:User,as:'manager',attributes:['id','fullName','email'],required:false}]});
+        return createCompany;
     }
      static  async getCompanyById(companyId:string){
         const company=await Company.findByPk(companyId,{
