@@ -6,7 +6,7 @@ import { secretkey } from "../utils/helper";
 interface UserPayload extends JwtPayload {
   id: string;
   email: string;
-  role: "admin" | "manager" | "employee"|string; 
+  role: "admin" | "manager" | "employee" | "finance_manager" | string;
 }
 
 export const checkRoleMiddleware = (allowedRoles: string[]) => {
