@@ -21,7 +21,7 @@ const data = [
 
 const AnnualMissionStatuses: React.FC = () => {
   return (
-    <div className="bg-white shadow-lg rounded-2xl w-[400px] p-4">
+    <div className="bg-white shadow-lg rounded-2xl w-[320px] p-4">
       <h2 className="font-semibold mb-4">Annual Mission Statuses</h2>
       <ResponsiveContainer width="100%" height={280}>
         <AreaChart data={data}>

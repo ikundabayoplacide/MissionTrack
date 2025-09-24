@@ -25,8 +25,8 @@ const AdminSidebar: React.FC = () => {
 
     // Quick actions (fixed icons)
     const quickActions = [
-        { icon: GrGroup, label: "All Companies", path: "/companies" },
-        { icon: FaFileAlt, label: "Billing/Subscription", path: "/subscriptions" },
+        { icon: GrGroup, label: "All Companies", path: "companies" },
+        { icon: FaFileAlt, label: "Billing/Subscription", path: "subscriptions" },
         { icon: FaChartBar, label: "Analytics", path: "" },
 
     ];
@@ -34,7 +34,7 @@ const AdminSidebar: React.FC = () => {
     return (
         <div className="">
             <aside
-                className={`fixed top-20 h-full left-0 w-64 flex flex-col justify-between shadow-md z-40 overflow-y-auto ${twTheme(
+                className={`hidden w-64 sm:fixed  top-20 h-full left-0  sm:flex sm:flex-col justify-between shadow-md z-40 overflow-y-auto ${twTheme(
                     "bg-blue-50",
                     "bg-gray-900 text-white"
                 )}`}

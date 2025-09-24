@@ -68,11 +68,7 @@ const AllCompanies: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <div
-        className={`flex gap-70 mt-20 ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`}
-      >
-        <AdminSidebar />
+      
 
         <main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
           <div>
@@ -91,11 +87,11 @@ const AllCompanies: React.FC = () => {
           </button>
 
           {/* Filters + Table */}
-          <div className=" bg-amber-100 sm:overflow-x-auto md:w-[550px] lg:w-full px-10 md:px-6 rounded-2xl ">
+          <div className=" bg-white  lg:w-full px-10 md:px-6 rounded-2xl ">
             <div className="flex flex-col sm:flex-row gap-2 items-center justify-center p-4">
               {/* Search Input */}
               
-              <div className="flex-1  flex gap-2 items-center bg-accent-100 rounded-xl border border-gray-300 shadow-sm py-1 mb-2 sm:mb-0 px-2">
+              <div className="flex-1  flex gap-2 items-center  rounded-xl border border-gray-300 shadow-sm py-1 mb-2 sm:mb-0 px-2">
                 <FiSearch className="text-gray-400" />
                 <input
                   type="text"
@@ -134,12 +130,12 @@ const AllCompanies: React.FC = () => {
             </div>
 
             {/* Companies Table */}
-            <div className="  sm:overflow-x-auto  flex justify-center">
+            <div className=" ">
               <CompaniesTable data={filteredCompany} />
             </div>
           </div>
         </main>
-      </div>
+     
 
       {/* Modal */}
       {isModalOpen && (

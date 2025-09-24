@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-
-import AdminSidebar from "../Components/Admin/AdminSidebar";
 import TopCard from "../Components/Admin/TopCard";
 import RegistrationChart from "../Components/Admin/RegistrationChart";
 import ActivityChart from "../Components/Admin/ActivityChart";
 import PendingActions from "../Components/Admin/PendingAction";
 import RecentActivity from "../Components/RecentActivity";
 import Summary from "../Components/Admin/Summary";
-import HeaderAdmin from "../Components/Admin/HeaderAdmin";
+
 
 
 const twTheme = (light: string, dark: string) => `${light} dark:${dark}`;

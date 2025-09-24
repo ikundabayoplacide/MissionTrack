@@ -22,7 +22,7 @@ const COLORS = {
 
 const ThisMonthChart: React.FC = () => {
   return (
-    <div className="bg-white shadow-lg w-[400px] rounded-2xl p-4">
+    <div className="bg-white shadow-lg w-[320px] rounded-2xl p-4">
       <h2 className="font-semibold mb-4">This Month</h2>
       <ResponsiveContainer width="100%" height={280}>
         <PieChart>

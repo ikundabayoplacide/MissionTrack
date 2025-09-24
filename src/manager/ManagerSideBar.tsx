@@ -25,16 +25,16 @@ const ManagerSidebar: React.FC = () => {
 
   // Sidebar navigation
   const navItems = [
-    { icon: VscHome, label: "Dashboard", path: "/dashboardM" },
+    { icon: VscHome, label: "Dashboard", path: "/manager" },
     { icon: CiBellOn, label: "Notifications", path: "/notificationsM" },
     { icon: FiUser, label: "Profile", path: "/profileM" },
   ];
 
   // Quick actions (fixed icons)
   const quickActions = [
-    { icon: RiTeamLine, label: "Team Management", path: "/team" },
-    { icon: FiList, label: "Requests", path: "/requested" },
-    { icon: FiFileText, label: "Reports", path: "/reported" },
+    { icon: RiTeamLine, label: "Team Management", path: "team" },
+    { icon: FiList, label: "Requests", path: "requested" },
+    { icon: FiFileText, label: "Reports", path: "reported" },
   ];
 
   return (
@@ -91,7 +91,7 @@ const ManagerSidebar: React.FC = () => {
         {/* ✅ Proper Logout Button */}
         <button
           onClick={handleLogout}
-          className="mt-30 w-32 bg-accent-600 text-white font-semibold py-2 rounded-2xl hover:bg-orange-500 transition"
+          className="mt-25 w-32 bg-accent-600 text-white font-semibold py-2 rounded-2xl hover:bg-orange-500 transition"
         >
           Logout
         </button>

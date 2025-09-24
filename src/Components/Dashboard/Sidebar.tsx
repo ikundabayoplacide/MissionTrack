@@ -24,7 +24,7 @@ const Sidebar: React.FC = () => {
   // Sidebar navigation
   const navItems = [
     { icon: VscHome, label: "Dashboard", path: "/dashboard" },
-    { icon: CiBellOn, label: "Notifications", path: "/notifications" },
+    { icon: CiBellOn, label: "Notifications", path: "notifications" },
     { icon: FiUser, label: "Profile", path: "/profile" },
   ];
 
@@ -90,7 +90,7 @@ const Sidebar: React.FC = () => {
         {/* ✅ Proper Logout Button */}
         <button
           onClick={handleLogout}
-          className="mt-6  w-32 bg-green-600 text-white font-semibold py-2 rounded-2xl hover:bg-orange-500 transition"
+          className="mt-6  w-32 bg-accent-600 text-white font-semibold py-2 rounded-2xl hover:bg-orange-500 transition"
         >
           Logout
         </button>

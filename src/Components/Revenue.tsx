@@ -24,7 +24,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
     iconColor,
 }) => {
     return (
-        <div className="flex-1 p-6 bg-white rounded-xl shadow-md flex w-[240px] flex-col space-y-4">
+        <div className="flex-1 p-6 bg-white rounded-xl shadow-md flex w-[200px] flex-col space-y-4">
             <div className="flex justify-between items-center">
                 <p className="text-gray-700 text-sm font-medium whitespace-nowrap">{title}</p>
                 <div className={`p-2 rounded-lg ${iconBgColor}`}>

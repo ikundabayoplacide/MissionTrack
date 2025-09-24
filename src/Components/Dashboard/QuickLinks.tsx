@@ -10,7 +10,7 @@ const QuickLinks: React.FC = () => {
   return (
     <div
       className={`rounded-xl shadow-sm p-5 ${
-        isLight ? "bg-white text-black" : "bg-gray-800 text-white"
+        isLight ? "bg-white w-[320px] text-black" : "bg-gray-800 text-white"
       }`}
     >
       {/* Section title */}

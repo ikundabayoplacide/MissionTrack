@@ -77,12 +77,15 @@ const AddEmployeeModal: React.FC<AddEmployeeModalProps> = ({ onClose, onEmployee
   };
 
   return (
-    <div className="fixed mt-20 inset-0 bg-gray-600/70 overflow-y-auto w-full flex items-center justify-center">
-      <div className="relative p-8 bg-white w-96 md:w-[600px] mx-auto rounded-xl shadow-lg">
+    <div className="fixed  inset-0 bg-gray-600/70  z-1000  w-full flex items-center justify-center">
+      
+      <div className="relative p-8 bg-white  overflow-y-auto h-[500px] w-96 md:w-[600px] mx-auto rounded-2xl  shadow-lg">
         {/* Header */}
+        
         <div className="flex justify-between items-center pb-3">
           <h3 className="text-2xl font-semibold text-[#0C326E]">Add a new employee</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">✕</button>
+          
         </div>
 
         {success ? (

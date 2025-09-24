@@ -16,8 +16,8 @@ const PlanCard: React.FC<PlanCardProps> = ({
   features,
 }) => {
   return (
-    <div className="flex-1 p-6 bg-white rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-      <div>
+    <div className="flex-1 p-6 w-[250px] rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+      
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-semibold text-gray-800">{planName}</h3>
           <span className="text-sm text-gray-700 bg-gray-100 rounded-full px-3 py-1">
@@ -49,7 +49,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
             </li>
           ))}
         </ul>
-      </div>
+      
       <button className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200">
         Edit Plan
       </button>
