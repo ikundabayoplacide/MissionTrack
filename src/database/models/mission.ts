@@ -17,6 +17,7 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
     missionDescription!: string;
     id!: string;
     userId!: string;
+    companyId!: string;
     location!: string;
     jobPosition!: string;
     status!: MissionStatus;
@@ -55,6 +56,14 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
                 allowNull:false,
                 references:{
                     model:"users",
+                    key:"id"
+                }
+            },
+            companyId:{
+                type: DataTypes.UUID,
+                allowNull:false,
+                references:{
+                    model:"companies",
                     key:"id"
                 }
             },

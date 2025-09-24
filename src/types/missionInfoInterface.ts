@@ -16,6 +16,7 @@ export interface missionInterfaces{
     missionTitle:string;
     fullName:string;
     jobPosition:string;
+    companyId:string;
     location:string;
     startDate:Date;
     endDate:Date;
@@ -32,6 +33,7 @@ export interface MissionPayload{
     missionTitle:string;
     fullName:string;
     jobPosition:string;
+    companyId:string;
     location:string;
     startDate:Date;
     endDate:Date;

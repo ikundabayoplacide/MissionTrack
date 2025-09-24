@@ -23,6 +23,10 @@ module.exports = {
           key:'id'
         }
       },
+      companyId:{
+        type:Sequelize.STRING,
+        allowNull:false
+      },
       fullName: {
         type: Sequelize.STRING,
         allowNull: false

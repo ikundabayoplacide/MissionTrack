@@ -55,8 +55,21 @@ async updateMission(id: string, payload: MissionUpdatePayload){
     if (!mission) return null;
     return mission;
   }
-  async getAllMissions(): Promise<Mission[]> {
-    const missions = await Mission.findAll();
+  async getAllMissionsbyEmployee(userId:string): Promise<Mission[]> {
+    const missions = await Mission.findAll({
+      where: {
+        userId
+      }
+    });
+    return missions;
+  }
+
+  async getAllMissionsByManager(companyId: string): Promise<Mission[]> {
+    const missions = await Mission.findAll({
+      where: {
+        companyId
+      }
+    });
     return missions;
   }
 
