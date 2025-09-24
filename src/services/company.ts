@@ -4,6 +4,7 @@ import { User } from "../database/models/users";
 import { ApproveRejectData, BlockUnblockCompany, CompanyAttributes, CompanyManager } from "../types/companyInterface";
 import bcrypt from "bcrypt";
 import { Mailer } from "../utils/mailer";
+import { Op } from "sequelize";
 
 
 export class CompanyService{
@@ -43,7 +44,7 @@ export class CompanyService{
 
   static  async getAllCompanies(){
         const companies=await Company.findAll({
-          include:[{model:User,as:'manager',attributes:['id','fullName','email'],required:false}]
+          include:[{model:User,as:'manager',attributes:['id','fullName','email'],where:{role:{[Op.ne]:'admin'}},required:false}]
         });
         return companies;
     }
