@@ -6,7 +6,7 @@ import { secretkey } from "../utils/helper";
 interface UserPayload extends JwtPayload {
   id: string;
   email: string;
-  role: "admin" | "manager" | "employee"|string; 
+  role:string; 
 }
 
 export const checkRoleMiddleware = (allowedRoles: string[]) => {
@@ -23,8 +23,18 @@ export const checkRoleMiddleware = (allowedRoles: string[]) => {
         });
       }
 
-      const token = authHeader.split(" ")[1];
-      const decoded = jwt.verify(token, secretkey) as UserPayload;
+      const parts = authHeader.trim().split(/\s+/);
+      const token = parts.length >= 2 ? parts[1] : null;
+      if (!token) {
+        return ResponseService({
+          status: 401,
+          res,
+          message: "Token not provided",
+          success: false,
+          data: null,
+        });
+      }
+      const decoded = jwt.verify(token, secretkey) as unknown as UserPayload;
 
       console.log("Token 😉 :", decoded);
 

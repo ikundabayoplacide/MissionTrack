@@ -18,14 +18,12 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    
     "dev": "cross-env ENV=DEV nodemon src/index.ts",
     "migrate:dev": "cross-env ENV=DEV npx sequelize-cli db:migrate --env DEV",
     "seed:dev": "cross-env ENV=DEV npx sequelize-cli db:seed:all --env DEV",
     "undo:migrate:dev": "cross-env ENV=DEV npx sequelize-cli db:migrate:undo --env DEV",
     "undo:all:dev": "cross-env ENV=DEV npx sequelize-cli db:migrate:undo:all --env DEV",
     "undo:seed:dev": "cross-env ENV=DEV npx sequelize-cli db:seed:undo:all --env DEV",
-
     "prod": "cross-env ENV=PROD node ./dist/index.js",
     "migrate:prod": "cross-env ENV=PROD npx sequelize-cli db:migrate --env PROD",
     "seed:prod": "cross-env ENV=PROD npx sequelize-cli db:seed:all --env PROD",
@@ -108,7 +106,6 @@
     "joi": "^18.0.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.1",
-    "multer": "^2.0.2",
     "nodemailer": "^7.0.6",
     "nodemon": "^3.1.10",
     "pg": "^8.16.3",

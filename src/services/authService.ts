@@ -4,6 +4,8 @@ import { database } from "../database";
 import {ChangePasswordData,ForgotPasswordPayload,ResetPassPayload} from "../types/authInterface";
 import jwt from "jsonwebtoken";
 import { redisClient } from "../utils/redisClient";
+import {Company} from "../database/models/company";
+
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 dotenv.config();
@@ -15,7 +17,7 @@ export class AuthServices {
    * Authenticate user login
    */
    static async login(email:string,password:string) {
-    const user = await database.User.findOne({ where: { email } });
+     const user = await database.User.findOne({ where: { email },include:[{model:Company,as:'company',attributes:['id','status','state']}] });
     if (!user) {
       throw new Error("Invalid credentials");
     }
@@ -24,11 +26,21 @@ export class AuthServices {
     if (!isValidPassword) {
       throw new Error("Invalid credentials");
     }
-
-  const token = jwt.sign(
-      { id: user.id.toString() as string, role: user.role as string, email: user.email as string }, JWT_SECRET,{ expiresIn: "1d" }
-    );
+const companyStatus = user.company? user.company.status : null;
+ const token = jwt.sign(
+  {
+    id: user.id.toString(),
+    role: user.role,
+    fullName:user.fullName,
+    email: user.email,
+    companyId: user.companyId,
+    companyStatus: companyStatus,
+  },
+  JWT_SECRET,
+  { expiresIn: "1d" }
+);
   return {token,user};
+
 
   }
 

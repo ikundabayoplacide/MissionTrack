@@ -57,7 +57,7 @@ paths:
           description: User not found
 
     patch:
-      summary: Update a user
+      summary: Update a user (admin/manager)
       tags: [Users]
       security:
         - bearerAuth: []
@@ -100,40 +100,28 @@ paths:
         "404":
           description: User not found
 
-  /users/profile/{id}:
+  /users/profile:
     patch:
-      summary: Update user profile (Employee only)
-      description: Allows employees to update their own profile information
+      summary: Update employee profile (self-update)
+      description: Allows an **employee** to update their own profile. The logged-in user's ID is used, no need to provide it in the path.
       tags: [Users]
-      operationId: updateUserProfile
       security:
         - bearerAuth: []
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: User ID
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: "#/components/schemas/UserProfileUpdate"
       responses:
         "200":
-          description: User profile updated successfully
+          description: Employee profile updated successfully
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-        "400":
-          description: Bad request - Invalid input data
-        "401":
-          description: Unauthorized - Invalid or missing token
         "403":
-          description: Forbidden - Employee role required
+          description: Forbidden - user cannot update other profiles
         "404":
           description: User not found
 
@@ -234,22 +222,19 @@ components:
 
     UserProfileUpdate:
       type: object
-      description: Schema for employee profile updates - limited fields that employees can modify
+      description: Schema for employee profile updates - supports file upload
       properties:
+        profilePhoto:
+          type: string
+          format: binary
+          description: Upload profile photo
         fullName:
           type: string
           example: "John Doe"
-          description: Full name of the user
         email:
           type: string
           format: email
           example: "john.doe@example.com"
-          description: Email address of the user
         phoneNumber:
           type: string
           example: "0788888888"
-          description: Phone number of the user
-        department:
-          type: string
-          example: "IT"
-          description: Department of the user

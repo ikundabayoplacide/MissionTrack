@@ -4,6 +4,7 @@ import { ResponseService } from "../utils/response";
 import { Company } from "../database/models/company";
 
 import { Op } from "sequelize";
+import { AuthRequest } from "../utils/helper";
 
 export class CompanyController {
   static async createCompany(req: Request, res: Response) {
@@ -99,16 +100,23 @@ export class CompanyController {
     }
   }
 
-  static async updateCompanyProfile(req: Request, res: Response) {
+  static async updateCompanyProfile(req:AuthRequest, res: Response) {
     try {
-      const { companyId } = req.params;
-
+      const companyId = req.user?.companyId;
+      
+      if (!companyId) {
+        return ResponseService({
+          res,
+          status: 403,
+          success: false,
+          message: "Forbidden",
+          data: null,
+        });
+      }
       const updatedata: any = { ...req.body };
-
       if (req.file) {
         updatedata.companyLogo = req.file.path;
       }
-
       const updatedCompany = await CompanyService.updateCompany(
         companyId,
         updatedata

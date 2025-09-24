@@ -41,3 +41,8 @@ export const uploadMissionFiles = multer({
   storage: makeStorage("missions"),
   limits: { fileSize: 10 * 1024 * 1024 } 
 });
+
+export const uploadProfilePhoto = multer({
+  storage: makeStorage("profile-photos"),
+  limits: { fileSize: 5 * 1024 * 1024 }, 
+});

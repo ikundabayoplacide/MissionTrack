@@ -1,10 +1,8 @@
-export interface userUpdateProfileInterface {
+export interface EmployeeUpdateProfileInterface {
     profilePhoto?: string;
     fullName?: string;
     email?: string;
     phoneNumber?: string;
-    
-    
 }
 
 export interface companyUpdateProfileInterface {

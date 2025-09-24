@@ -8,6 +8,7 @@ import companyRouter from './company';
 import authRouter from './authRoutes';
 
 
+
 const routers = Router();
 const allRoutes=[userRouter,missionRoutes,dailyRoutes,expenseLogRoutes,ActionsRouter,companyRouter,authRouter];
 routers.use('/api',...allRoutes);

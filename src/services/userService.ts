@@ -39,8 +39,6 @@ export class UserService {
 }
 // update user profile
 
-
-
 static async deleteUser(id: string): Promise<number> {
     const user = await User.findByPk(id);
     if (!user) {
