@@ -22,24 +22,24 @@ const AdminDashboard: React.FC = () => {
 
                 <main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
                     <TopCard />
-                    <div className="flex gap-10git">
-                        <div className="grid grid-cols-2 gap-10 w-[800px]">
-                            <div className="w-[400px]">
+                    <div className="flex gap-10">
+                        <div className="grid grid-cols-2 mt-4 gap-10 ">
+                            <div className="w-[380px]">
                                 <RegistrationChart />
                             </div>
-                            <div className="w-[400px]">
+                            <div className="w-[380px]">
                                 <ActivityChart />
                             </div>
-                            <div className="w-[400px]">
+                            <div className="w-[380px]">
                                 <PendingActions />
                             </div>
-                            <div className="w-[400px]">
+                            <div className="w-[380px]">
                                 <RecentActivity />
                             </div>
 
 
                         </div>
-                        <div>
+                        <div className=" ">
                             <Summary />
                         </div>
                     </div>

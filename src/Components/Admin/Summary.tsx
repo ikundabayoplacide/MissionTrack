@@ -32,6 +32,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ title, data }) => {
   };
 
   return (
+    
     <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm">
       <h3 className="text-lg font-semibold text-gray-800 mb-4">{title}</h3>
       <div className="flex flex-col space-y-3">
@@ -48,6 +49,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ title, data }) => {
         ))}
       </div>
     </div>
+    
   );
 };
 

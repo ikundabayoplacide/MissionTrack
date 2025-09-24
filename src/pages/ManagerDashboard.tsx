@@ -11,13 +11,18 @@ import QuickLinks from "../manager/QuickLinks";
 import RecentActivities from "../manager/RecentActivities";
 import TeamMembers from "../manager/TeamMembers";
 
+
+const twTheme = (light: string, dark: string) => {
+  return `${light} dark:${dark}`;
+};
+
 const ManagerDashboard: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex gap-70 ">
+      <div className={`flex gap-70 mt-20  ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`} >
         <ManagerSideBar />
-        <div className=" mt-20 ">
+        <div className=" ">
           <div className="  w-[1050px] py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
             <h1 className="font-bold text-2xl">
               Hello Manager, Here’s Mission Requests Overview
@@ -51,17 +56,7 @@ const ManagerDashboard: React.FC = () => {
         </div>
       </div>
     </>
-    // <div className=" mt-20 flex bg-[#E6EAF5] min-h-screen ">
-    //   
-    //   
-
-    //   {/* Main Content */}
-    //   <div className="flex  ml-30">
-    // 
-
-
-    //   </div>
-    // </div>
+    
   );
 };
 

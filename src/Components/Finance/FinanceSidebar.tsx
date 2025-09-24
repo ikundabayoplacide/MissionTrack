@@ -18,9 +18,9 @@ const FinanceSidebar: React.FC = () => {
 
     // Sidebar navigation
     const navItems = [
-        { icon: VscHome, label: "Dashboard", path: "/admin" },
-        { icon: CiBellOn, label: "Notifications", path: "/notificationsA" },
-        { icon: FiUser, label: "Profile", path: "/profileA" },
+        { icon: VscHome, label: "Dashboard", path: "/finance" },
+        { icon: CiBellOn, label: "Notifications", path: "/notificationsF" },
+        { icon: FiUser, label: "Profile", path: "/profileF" },
     ];
 
     // Quick actions (fixed icons)
