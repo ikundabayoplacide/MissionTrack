@@ -1,3 +1,7 @@
+openapi: 3.0.0
+info:
+  title: Company Management API
+  version: 1.0.0
 paths:
   /company/register:
     post:
@@ -85,7 +89,7 @@ paths:
       summary: Get a company by ID
       tags: [Company]
       security:
-      - bearerAuth: [] 
+        - bearerAuth: [] 
       parameters:
         - name: companyId
           in: path
@@ -266,6 +270,10 @@ paths:
               properties:
                 state:
                   type: string
+                  description: |
+                    Desired company state.  
+                    - For companies with status `pending`, this **must always be `trial`**.  
+                    - For companies with status `rejected`, state cannot be changed.  
                   enum: [active, blocked, trial]
                   example: "trial"
                 comment:

@@ -133,6 +133,52 @@ export class CompanyController{
         try {
             const {companyId}=req.params;
             const updatedData=req.body;
+            const company=await Company.findByPk(companyId);
+            if(!company) throw new Error("Company not found");
+            if(company.status==='pending'){
+                return ResponseService({
+                    res,
+                    status:400,
+                    success:false,
+                    message:"Cannot block or unblock a pending company",
+                    data:null
+                })
+            } else if(company.status==='rejected'){
+                return ResponseService({
+                    res,
+                    status:400,
+                    success:false,
+                    message:"Cannot block or unblock a rejected company",
+                    data:null
+                })
+            }
+            if(company.state===updatedData.state){
+                return ResponseService({
+                    res,
+                    status:400,
+                    success:false,
+                    message:`Company is already ${company.state}`,
+                    data:null
+                })
+            }
+            if(!['active','trial','blocked'].includes(updatedData.state)){
+                return ResponseService({
+                    res,
+                    status:400,
+                    success:false,
+                    message:"Invalid state value",
+                    data:null
+                })
+            }
+            if(updatedData.state==='blocked' && (!updatedData.comment || updatedData.comment.trim()==='')){
+                return ResponseService({
+                    res,
+                    status:400,
+                    success:false,
+                    message:"Comment is required when blocking a company",
+                    data:null
+                })
+            }
             const blockedCompany=await CompanyService.blockAndUnblockCompany(companyId,updatedData);
             return ResponseService({
                 res,
