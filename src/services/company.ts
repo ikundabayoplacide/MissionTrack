@@ -44,7 +44,7 @@ export class CompanyService{
 
   static  async getAllCompanies(){
         const companies=await Company.findAll({
-          include:[{model:User,as:'manager',attributes:['id','fullName','email'],where:{role:{[Op.ne]:'admin'}},required:false}]
+          include:[{model:User,as:'manager',attributes:['id','fullName','email'],where:{role:{[Op.ne]:'admin'}},required:true}]
         });
         return companies;
     }
