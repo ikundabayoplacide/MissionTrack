@@ -73,6 +73,16 @@ async updateMission(id: string, payload: MissionUpdatePayload){
     return missions;
   }
 
+  async getAllMissionsByFinance_manager(companyId:string): Promise<Mission[]> {
+    const missions = await Mission.findAll({
+      where: {
+        companyId,
+        status:"manager_approved"
+      }
+    });
+    return missions;
+  }
+
   async deleteMission(id: string): Promise<void> {
     const mission = await Mission.findByPk(id);
     if (!mission) {

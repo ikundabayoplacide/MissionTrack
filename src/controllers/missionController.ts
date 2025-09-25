@@ -135,6 +135,37 @@ export class MissionController {
             })
         }
     }
+
+ static async getAllMissionsByFinance_manager(req: AuthRequest, res: Response): Promise<Response> {
+        try {
+            if (!req.user || !req.user.companyId) {
+                return ResponseService({
+                    res,
+                    data: null,
+                    success: false,
+                    message: "User not authenticated",
+                    status: 401
+                });
+            }
+            const missions = await missionService.getAllMissionsByFinance_manager(req.user.companyId);
+            return ResponseService({
+                res,
+                data: missions,
+                success: true,
+                message: "All missions retrieved",
+                status: 200
+            })
+        } catch (error) {
+            const { message, stack } = error as Error;
+            return ResponseService({
+                data: stack,
+                status: 500,
+                success: false,
+                message: message,
+                res
+            })
+        }
+    }
     static async getSingleMissionById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         try {

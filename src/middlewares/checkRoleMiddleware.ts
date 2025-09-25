@@ -9,7 +9,7 @@ interface UserPayload extends JwtPayload {
   role: "admin" | "manager" | "employee" | "finance_manager" | string;
 }
 
-export const checkRoleMiddleware = (allowedRoles: string[]) => {
+export const checkRoleMiddleware = (allowedRoles: UserPayload["role"][]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers.authorization;

@@ -1,66 +1,64 @@
 import { Mission } from "../database/models/mission";
-import {MissionAction} from "../database/models/missionActions";
+import { MissionAction } from "../database/models/missionActions";
 import { User } from "../database/models/users";
 import { Mailer } from "../utils/mailer";
 import { CreateMissionActionParams, UpdateMissionActionParams } from "../types/managerMissionActions";
 
 class MissionActionService {
 
- async createActionAndUpdateMission(data: CreateMissionActionParams) {
-    const mission = await Mission.findByPk(data.missionId);
-    const user = await User.findByPk(data.actorId);
+    async createActionAndUpdateMission(data: CreateMissionActionParams, actorId: string) {
+        const mission = await Mission.findByPk(data.missionId);
+        if (!mission) throw new Error("Mission not found");
+        const action = await MissionAction.create({
+            ...data, actorId
+        });
+        let missionStatus = mission.status;
+        await Mission.update({ status: missionStatus }, { where: { id: data.missionId } });
 
-    if (!mission) throw new Error("Mission not found");
-    if (!user) throw new Error("User not found");
-
-    const creator = await User.findByPk(mission.userId);
-    if (!creator) throw new Error("Mission creator not found");
-    const action = await MissionAction.create(data);
-
-
-    let missionStatus = mission.status;
-    let subject="";
-    let message="";
-    
-    switch (data.action) {
-        case 'Approve':
-            missionStatus='manager_approved';
-            subject=`Mission to go ${mission.location}  have been Approved 👍`;
-            message=`The mission "${mission.missionTitle}" has been approved by <strong>${user.role}</strong>. Thank you!
-            `;
-            break;
-        case 'Reject':
-            missionStatus = 'rejected';
-            subject=`Mission to go ${mission.location}  have been Rejected 👎`;
-            message=`The mission "${mission.missionTitle}" has been rejected by <strong>${user.role}.</strong>
-            `;
-            break;
-        case 'Complete':
-            missionStatus = 'completed';
-            subject=`Mission to go ${mission.location}  have been Completed 🎉`;
-            message=`The mission "${mission.missionTitle}" has been completed by <strong>${user.role}</strong>. Congratulations! 
-            `;
-            break;
-        case 'Update':
-            missionStatus = mission.status;
-            subject=`Mission to go ${mission.location}  have been Updated ✏️`;
-            message=`The mission "${mission.missionTitle}" has been updated by <strong>${user.role}.</strong>`;
-            break;
-        case 'Cancel':
-            missionStatus = 'canceled';
-            subject=`Mission to go ${mission.location}  have been Canceled ❌`;
-            message=`The mission "${mission.missionTitle}" has been canceled by <strong>${user.role}.</strong>`;
-            break;
+        return action;
     }
-    await Mission.update({ status: missionStatus }, { where: { id: data.missionId } });
-    await Mailer.notifyEmpAboutMission(creator.email, creator.fullName, subject, message, data.comment || "");
 
-    return action;
-}
-    async updateAction(actionId: string, data: UpdateMissionActionParams) {
+    async financeManagerUpdateAction(actionId: string, data: UpdateMissionActionParams) {
         const action = await MissionAction.findByPk(actionId);
         if (!action) throw new Error("action not found");
         await action.update(data);
+        const currentComment = data.comment?.trim() || "No comment provided";
+        const mission = await Mission.findByPk(action.missionId);
+        if (!mission) throw new Error("Mission not found");
+
+        const creator = await User.findByPk(mission.userId);
+        if (!creator) throw new Error("Mission creator not found");
+
+        const financeManager = await User.findByPk(action.actorId);
+        if (!financeManager) throw new Error("Finance manager not found");
+
+        let missionStatus = mission.status;
+        let subject = "";
+        let message = "";
+        switch (data.action) {
+            case "Approve":
+                missionStatus = "financial_approved";
+                subject = `Mission to ${mission.location} has been Approved by Finance 👍`;
+                message = `The mission "<strong>${mission.missionTitle}</strong>" has been approved by <strong>${financeManager.role}</strong>. Thank you!`;
+                break;
+            case "Reject":
+                missionStatus = "rejected";
+                subject = `Mission to ${mission.location} has been Rejected 👎`;
+                message = `The mission "<strong>${mission.missionTitle}</strong>" has been rejected by <strong>${financeManager.role}</strong>.`;
+                break;
+            case "Complete":
+                missionStatus = "completed";
+                subject = `Mission to ${mission.location} has been Completed 🎉`;
+                message = `The mission "<strong>${mission.missionTitle}</strong>" has been completed by <strong>${financeManager.role}</strong>.`;
+                break;
+            case "Cancel":
+                missionStatus = "canceled";
+                subject = `Mission to ${mission.location} has been Canceled ❌`;
+                message = `The mission "<strong>${mission.missionTitle}</strong>" has been canceled by <strong>${financeManager.role}</strong>.`;
+                break;
+        }
+        await Mission.update({ status: missionStatus }, { where: { id: action.missionId } });
+        await Mailer.notifyEmpAboutMission(creator.email, creator.fullName, subject, message, currentComment);
         return action;
 
     }

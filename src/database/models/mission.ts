@@ -19,6 +19,10 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
     userId!: string;
     companyId!: string;
     location!: string;
+    accommodationAmount!: string;
+    transportAmount!: string;
+    dailyAllowanceAmount!: string;
+    totalAmount!: string;
     jobPosition!: string;
     status!: MissionStatus;
     createdAt!: Date;
@@ -36,6 +40,12 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
             startDate: this.startDate,
             endDate: this.endDate,
             jobPosition: this.jobPosition,
+            accomodationAmount: this.accommodationAmount,
+            transportAmount: this.transportAmount,
+            dailyAllowanceAmount: this.dailyAllowanceAmount,
+            totalAmount: this.totalAmount,
+            userId: this.userId,
+            companyId: this.companyId,
             status: this.status,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
@@ -82,13 +92,33 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
             },
             location: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
+            accommodationAmount: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
+                transportAmount: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
+                dailyAllowanceAmount: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
+                totalAmount: {
+                type: DataTypes.STRING,
+                allowNull: true
+                },
             jobPosition: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-
+             status: {
+                type: DataTypes.ENUM('pending', 'Approved', 'Rejected', 'Updated', 'Cancelled', 'Completed'),
+                defaultValue: 'pending',
+                allowNull: false
+            },
 
             startDate: {
                 type: DataTypes.DATE,
@@ -98,11 +128,7 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
                 type: DataTypes.DATE,
                 allowNull: false
             },
-            status: {
-                type: DataTypes.ENUM('pending', 'Approved', 'Rejected', 'Updated', 'Cancelled', 'Completed'),
-                defaultValue: 'pending',
-                allowNull: false
-            },
+          
             createdAt: {
                 type: DataTypes.DATE,
                 allowNull: false,
