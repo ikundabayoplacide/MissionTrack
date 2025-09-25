@@ -88,12 +88,12 @@ const AllMission: React.FC = () => {
 
         <main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
           {/* Add Mission Button */}
-          <button className="bg-primaryColor-700 w-60 mb-5 text-lg text-center rounded-2xl text-white">
+          {/* <button className="bg-primaryColor-700 w-60 mb-5 text-lg text-center rounded-2xl text-white">
             <div className="flex items-center justify-center">
               <span className="text-4xl mr-2">+</span>
               <span>Add Mission</span>
             </div>
-          </button>
+          </button> */}
 
           <div className="w-[1050px] bg-white rounded-2xl overflow-x-auto">
             {/* Search + Filter */}

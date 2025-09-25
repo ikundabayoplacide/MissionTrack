@@ -34,8 +34,8 @@ const ManagerSidebar: React.FC = () => {
   const quickActions = [
     { icon: RiTeamLine, label: "All Mission", path: "/all" },
     { icon: RiTeamLine, label: "Team Management", path: "/team" },
-    { icon: FiList, label: "Requests", path: "/requested" },
-    { icon: FiFileText, label: "Reports", path: "/reported" },
+    { icon: FiList, label: "Requests", path: "requested" },
+    { icon: FiFileText, label: "Reports", path: "reported" },
   ];
 
   return (
@@ -92,7 +92,7 @@ const ManagerSidebar: React.FC = () => {
         {/* ✅ Proper Logout Button */}
         <button
           onClick={handleLogout}
-          className="mt-25 w-32 bg-accent-600 text-white font-semibold py-2 rounded-2xl hover:bg-orange-500 transition"
+          className="mt-25 w-32 bg-accent-600 text-white font-semibold py-2 rounded-2xl  transition"
         >
           Logout
         </button>

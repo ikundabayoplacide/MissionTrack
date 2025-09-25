@@ -77,7 +77,7 @@ const LoginForm: React.FC = () => {
         navigate("/manager"); // fallback
       }
     } else if (res?.user?.role === "employee") {
-      navigate("/dashboard");
+      navigate("/employee");
     } else if (res?.user?.role === "admin") {
       navigate("/admin");
     } else {

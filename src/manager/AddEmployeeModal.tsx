@@ -120,7 +120,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             <Input label="Email" type="email" name="email" value={formData.email} onChange={handleChange} error={errors.email} />
             <Input label="Phone Number" type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} error={errors.phoneNumber} />
             
-            <Select label="Role" name="role" value={formData.role} placeholder="Select role" options={["Employee", "Manager", "Finance"]} onChange={handleChange}
+            <Select label="Role" name="role" value={formData.role} placeholder="Select role" options={["employee", "manager", "finance"]} onChange={handleChange}
               className="border text-gray-700 border-gray-300 " labelClassName="text-gray-700 font-semibold"
               error={errors.role}
             />

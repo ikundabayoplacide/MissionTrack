@@ -77,6 +77,7 @@ const AppRoute = () => {
         {/* <Route path="/missions/history" element={<MissionExpenses />} /> */}
         <Route path="/manager" element={<ManagerDashboard />} >
           <Route index element={<ManagerHome />} />
+          <Route path="all" element={<AllMission/>} />
           <Route path="team" element={<TeamManagement />} />
           <Route path="requested" element={<RequestManager />} />
           <Route path="reported" element={<ReportManager />} />
