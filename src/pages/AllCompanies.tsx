@@ -4,7 +4,7 @@ import AdminSidebar from "../Components/Admin/AdminSidebar";
 import AdminStats from "../Components/Admin/AdminStats";
 import CompaniesTable from "../Components/Admin/CompaniesTable";
 import { FiSearch } from "react-icons/fi";
-import ApplicationFormRight from "../Components/ApplicationFormRight";
+
 
 const twTheme = (light: string, dark: string) => `${light} dark:${dark}`;
 
@@ -44,10 +44,7 @@ const AllCompanies: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [paymentFilter, setPaymentFilter] = useState("All Payments");
 
-  // Modal state
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Filter companies
+  // Filter companies by search and selected filters
   const filteredCompany = companies.filter((c) => {
     const matchesSearch =
       c.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -68,99 +65,74 @@ const AllCompanies: React.FC = () => {
 
   return (
     <>
-      
+      <Header />
+      <div className={`flex gap-70 mt-20 ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`}>
+        <AdminSidebar />
 
-        <main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
-          <div>
-            <AdminStats />
+        <main className={`min-h-screen m ${twTheme("", "bg-gray-900")}`}>
+          <div className="">
+          <AdminStats totalCompanies={0} activeCompanies={0} underReview={0} upcomingPayments={0} blockedCompanies={0} rejectedCompanies={0}  />
           </div>
 
-          {/* Add Company Button */}
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-primaryColor-700 w-60 mb-5 text-lg text-center rounded-2xl text-white hover:bg-primaryColor-800 transition"
-          >
+          <button className="bg-primaryColor-700 w-60 mb-5 text-lg text-center rounded-2xl text-white">
             <div className="flex items-center justify-center">
               <span className="text-4xl mr-2">+</span>
               <span>Add Company</span>
             </div>
           </button>
 
-          {/* Filters + Table */}
-          <div className=" bg-white  lg:w-full px-10 md:px-6 rounded-2xl ">
+          <div className="w-[1050px]  bg-white rounded-2xl overflow-x-auto">
             <div className="flex flex-col sm:flex-row gap-2 items-center justify-center p-4">
               {/* Search Input */}
-              
-              <div className="flex-1  flex gap-2 items-center  rounded-xl border border-gray-300 shadow-sm py-1 mb-2 sm:mb-0 px-2">
+              <div className="flex-1 w-full   sm:w-auto flex gap-2 items-center bg-white rounded-xl border border-gray-300 shadow-sm py-1 mb-2 sm:mb-0 px-2">
                 <FiSearch className="text-gray-400" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className=" h-8   text-gray-700 placeholder-gray-400 focus:outline-none"
+                  className="w-full h-8 text-gray-700 placeholder-gray-400 focus:outline-none"
                   placeholder="Search by company, contact, or status"
                 />
               </div>
 
-              {/* Status Filter */}
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-2 rounded-xl border border-gray-300 shadow-sm bg-white cursor-pointer text-gray-700"
-              >
-                {statusOptions.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
+              {/* Status Filter Dropdown */}
+              <div className="relative">
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="px-4 py-2 rounded-xl border border-gray-300 shadow-sm bg-white cursor-pointer text-gray-700"
+                >
+                  {statusOptions.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-              {/* Payment Filter */}
-              <select
-                value={paymentFilter}
-                onChange={(e) => setPaymentFilter(e.target.value)}
-                className="px-4 py-2 rounded-xl border border-gray-300 shadow-sm bg-white cursor-pointer text-gray-700"
-              >
-                {paymentOptions.map((payment) => (
-                  <option key={payment} value={payment}>
-                    {payment}
-                  </option>
-                ))}
-              </select>
+              {/* Payment Filter Dropdown */}
+              <div className="relative">
+                <select
+                  value={paymentFilter}
+                  onChange={(e) => setPaymentFilter(e.target.value)}
+                  className="px-4 py-2 rounded-xl border border-gray-300 shadow-sm bg-white cursor-pointer text-gray-700"
+                >
+                  {paymentOptions.map((payment) => (
+                    <option key={payment} value={payment}>
+                      {payment}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             {/* Companies Table */}
-            <div className=" ">
-              <CompaniesTable data={filteredCompany} />
-            </div>
+            <div className="w-[970px] ml-5 flex justify-center">
+            <CompaniesTable data={filteredCompany} />
+            </div> 
           </div>
         </main>
-     
-
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black opacity-50"
-            onClick={() => setIsModalOpen(false)}
-          ></div>
-
-          {/* Modal Content */}
-          <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-[600px] max-h-[90vh] overflow-y-auto">
-            {/* Close Button */}
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-3 right-3 text-gray-600 hover:text-red-500"
-            >
-              ✕
-            </button>
-
-            {/* Application Form */}
-            <ApplicationFormRight />
-          </div>
-        </div>
-      )}
+      </div>
     </>
   );
 };

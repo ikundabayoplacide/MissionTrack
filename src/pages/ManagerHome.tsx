@@ -14,8 +14,8 @@ const ManagerHome: React.FC = () => {
     <>
     <div className="flex flex-col">
       {/* Header Section */}
-      <div className=" mx-auto py-4 mt-5 px-6 bg-gradient-to-l from-accent-10 to-primaryColor-50 rounded-md shadow-sm">
-        <h1 className="font-bold text-2xl">
+      <div className=" mx-auto py-2 mt-5 px-6 bg-gradient-to-l from-accent-10 to-primaryColor-50 rounded-md shadow-sm">
+        <h1 className="font-bold text-xl">
           Hello Manager, Here’s Mission Requests Overview
         </h1>
       </div>
@@ -31,9 +31,9 @@ const ManagerHome: React.FC = () => {
         </div>
 
         {/* Charts + Team Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+        <div className="flex gap-6 max-sm:flex-col mt-8">
           {/* Left: Charts & Quick Links */}
-          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="lg:col-span-2 grid grid-cols-1 sm:w-[700px] w-[350px] md:grid-cols-2 gap-6">
             <MissionPurpose />
             <MissionsPerEmployee />
             <QuickLinks />
@@ -41,7 +41,7 @@ const ManagerHome: React.FC = () => {
           </div>
 
           {/* Right: Team Members */}
-          <div>
+          <div className=" ">
             <TeamMembers />
           </div>
         </div>

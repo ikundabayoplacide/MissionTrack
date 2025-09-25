@@ -144,183 +144,181 @@ const Report: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <div className="flex gap-70 min-h-screen  bg-[#E6EAF5] mt-20">
-        <Sidebar />
 
-        <div className="flex flex-col ">
-          <div className="w-[1000px] py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
-            <h1 className="font-bold text-2xl text-center">
-              Daily Mission Report
-            </h1>
-          </div>
 
-          {!showForm && (
-            <>
-              <button
-                className="bg-primaryColor-700 w-[250px] mt-5 text-white rounded-lg px-15 max-sm:p-1 ml-2 py-2"
-                onClick={() => setShowForm(true)}
-              >
-                + New Report
-              </button>
+      <div className="flex flex-col min-h-screen ">
+        <div className="w-[900px] py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
+          <h1 className="font-bold text-2xl text-center">
+            Daily Mission Report
+          </h1>
+        </div>
 
-              {/* 🔹 3 cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                <ReportCard />
-                <ReportCard />
-                <ReportCard />
-              </div>
-            </>
-          )}
-
-          {showForm && (
-            <form
-              onSubmit={handleSubmit}
-              className="w-[1000px] mt-10 flex bg-white rounded-xl shadow-lg"
+        {!showForm && (
+          <>
+            <button
+              className="bg-primaryColor-700 w-[250px] mt-5 text-white rounded-lg px-15 max-sm:p-1 ml-2 py-2"
+              onClick={() => setShowForm(true)}
             >
-              <div className="flex flex-col w-full">
-                {/* Form Content */}
-                <div className="border-b rounded-md border-gray-600">
-                  <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                    <h2 className="text-lg font-semibold text-gray-700">
-                      Today&apos;s Activities
-                    </h2>
-                  </div>
+              + New Report
+            </button>
 
-                  {/* Date input */}
-                  <div className="p-5 w-1/2">
-                    <Input
-                      label="Date"
-                      name="date"
-                      type="date"
-                      value={formData.date}
-                      onChange={handleChange}
-                      icon={<FiCalendar />}
-                    />
-                    {errors.date && (
-                      <span className="text-red-500 text-sm">{errors.date}</span>
-                    )}
-                  </div>
+            {/* 🔹 3 cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+              <ReportCard />
+              <ReportCard />
+              <ReportCard />
+            </div>
+          </>
+        )}
 
-                  {/* Daily activities */}
-                  <div className="px-5 pb-5">
-                    <Input
-                      label="Daily Activities"
-                      name="activities"
-                      placeholder="Write your activities here..."
-                      value={formData.activities}
-                      onChange={handleChange}
-                      className="h-20"
-                    />
-                    {errors.activities && (
-                      <span className="text-red-500 text-sm">
-                        {errors.activities}
-                      </span>
-                    )}
-                  </div>
+        {showForm && (
+          <form
+            onSubmit={handleSubmit}
+            className=" mt-10 flex bg-white rounded-xl shadow-lg"
+          >
+            <div className="flex flex-col w-full">
+              {/* Form Content */}
+              <div className="border-b rounded-md border-gray-600">
+                <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+                  <h2 className="text-lg font-semibold text-gray-700">
+                    Today&apos;s Activities
+                  </h2>
                 </div>
 
-                {/* Attachments */}
-                <div className="p-4 flex justify-between items-start gap-6">
-                  <div className="flex flex-col mt-2 space-y-4 w-1/2">
-                    <h2 className="text-lg font-semibold text-gray-700">
-                      Attachments
-                    </h2>
-
-                    <Input
-                      label="Document Description"
-                      type="text"
-                      name="description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      className="px-5"
-                    />
-                    {errors.description && (
-                      <span className="text-red-500 text-sm">
-                        {errors.description}
-                      </span>
-                    )}
-
-                    <div className="resize-y overflow-auto min-h-[150px] max-h-[400px] border-2 border-dashed border-gray-400 rounded-md">
-                      <DragDrop
-                        onFileSelect={(files) =>
-                          setUploadedFiles([...uploadedFiles, ...files])
-                        }
-                      />
-                    </div>
-                    {errors.files && (
-                      <span className="text-red-500 text-sm">{errors.files}</span>
-                    )}
-                  </div>
-
-                  {/* Uploaded files preview */}
-                  <div className="mt-20 border rounded-md border-gray-300 space-y-2 p-2 h-[210px] overflow-y-auto w-1/2">
-                    {uploadedFiles.map((file, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between p-2 "
-                      >
-                        <div className="flex items-center gap-3">
-                          {getFileIcon(file.name)}
-                          <span>{file.name}</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setUploadedFiles(
-                              uploadedFiles.filter((_, i) => i !== index)
-                            )
-                          }
-                          className="text-red-500 hover:text-red-700 text-sm"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                {/* Date input */}
+                <div className="p-5 w-1/2">
+                  <Input
+                    label="Date"
+                    name="date"
+                    type="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    icon={<FiCalendar />}
+                  />
+                  {errors.date && (
+                    <span className="text-red-500 text-sm">{errors.date}</span>
+                  )}
                 </div>
 
-                {/* Notes */}
+                {/* Daily activities */}
                 <div className="px-5 pb-5">
                   <Input
-                    label="Notes/Description"
-                    name="notes"
-                    value={formData.notes}
+                    label="Daily Activities"
+                    name="activities"
+                    placeholder="Write your activities here..."
+                    value={formData.activities}
                     onChange={handleChange}
+                    className="h-20"
                   />
-                </div>
-
-                {/* Buttons */}
-                <div className="flex justify-center gap-5 pb-6">
-                  <button
-                    type="button"
-                    className="text-red-500 border-2 border-red-500 rounded-2xl px-12 ml-2 py-2"
-                    onClick={() => {
-                      setFormData({
-                        description: "",
-                        date: "",
-                        activities: "",
-                        notes: "",
-                      });
-                      setUploadedFiles([]);
-                      setErrors({});
-                      setShowForm(false); // back to cards
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="text-white bg-accent-500 border-2 rounded-2xl px-12 ml-2 py-2"
-                  >
-                    Save
-                  </button>
+                  {errors.activities && (
+                    <span className="text-red-500 text-sm">
+                      {errors.activities}
+                    </span>
+                  )}
                 </div>
               </div>
-            </form>
-          )}
-        </div>
+
+              {/* Attachments */}
+              <div className="p-4 flex justify-between items-start gap-6">
+                <div className="flex flex-col mt-2 space-y-4 w-1/2">
+                  <h2 className="text-lg font-semibold text-gray-700">
+                    Attachments
+                  </h2>
+
+                  <Input
+                    label="Document Description"
+                    type="text"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    className="px-5"
+                  />
+                  {errors.description && (
+                    <span className="text-red-500 text-sm">
+                      {errors.description}
+                    </span>
+                  )}
+
+                  <div className="resize-y overflow-auto min-h-[150px] max-h-[400px] border-2 border-dashed border-gray-400 rounded-md">
+                    <DragDrop
+                      onFileSelect={(files) =>
+                        setUploadedFiles([...uploadedFiles, ...files])
+                      }
+                    />
+                  </div>
+                  {errors.files && (
+                    <span className="text-red-500 text-sm">{errors.files}</span>
+                  )}
+                </div>
+
+                {/* Uploaded files preview */}
+                <div className="mt-20 border rounded-md border-gray-300 space-y-2 p-2 h-[210px] overflow-y-auto w-1/2">
+                  {uploadedFiles.map((file, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-2 "
+                    >
+                      <div className="flex items-center gap-3">
+                        {getFileIcon(file.name)}
+                        <span>{file.name}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setUploadedFiles(
+                            uploadedFiles.filter((_, i) => i !== index)
+                          )
+                        }
+                        className="text-red-500 hover:text-red-700 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div className="px-5 pb-5">
+                <Input
+                  label="Notes/Description"
+                  name="notes"
+                  value={formData.notes}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* Buttons */}
+              <div className="flex justify-center gap-5 pb-6">
+                <button
+                  type="button"
+                  className="text-red-500 border-2 border-red-500 rounded-2xl px-12 ml-2 py-2"
+                  onClick={() => {
+                    setFormData({
+                      description: "",
+                      date: "",
+                      activities: "",
+                      notes: "",
+                    });
+                    setUploadedFiles([]);
+                    setErrors({});
+                    setShowForm(false); // back to cards
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="text-white bg-accent-500 border-2 rounded-2xl px-12 ml-2 py-2"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
+
     </>
   );
 };

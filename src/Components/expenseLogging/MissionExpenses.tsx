@@ -28,16 +28,14 @@ const MissionExpenses: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <div className="flex gap-70  min-h-screen bg-[#E6EAF5]">
-        <Sidebar />
-        <div className="mt-25 w-[1200px] ml-4 rounded-lg">
+     
+        <div className="w-[900px] ml-4 px-10 rounded-lg">
           {/* Header with gradient */}
-           <div className="w-[1200px] py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
+           <div className="w- py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
             <h1 className="font-bold text-2xl text-center">Mission Expenses</h1>
           </div> 
 
-          <div className="bg-white w-[1200px] mt-5 rounded-lg">
+          <div className="bg-white px-6  mt-5 rounded-lg">
             {/* Tabs */}
             <div className="flex border-b px-4">
               <button
@@ -68,7 +66,7 @@ const MissionExpenses: React.FC = () => {
                 {expenses.map((exp, index) => (
                   <div
                     key={index}
-                    className="border w-[1100px] ml-5 mt-20 rounded-md p-3 bg-white"
+                    className="border ml-5 mt-20 rounded-md p-3 bg-white"
                   >
                     <div className="flex justify-between items-center border p-2 rounded-lg mb-3">
                       <span className="text-sm font-semibold text-gray-600">
@@ -146,7 +144,7 @@ const MissionExpenses: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      
     </>
   );
 };

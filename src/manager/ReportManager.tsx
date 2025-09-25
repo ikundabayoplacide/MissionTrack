@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 
-import { FiSearch } from "react-icons/fi";
-import Header from "../Components/HeaderDash";
-import ManagerSideBar from "./ManagerSideBar";
+
 import { BsCalendar2Event } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
 
@@ -86,7 +84,7 @@ const ReportManager: React.FC = () => {
                 </div>
 
                 {/* Missions List */}
-                <ul className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[10px] mt-5 items-center w-full">
+                <ul className="grid bg-accent-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[10px] mt-5 items-center w-full">
                     {missions.map((mission) => {
                         const progressPercentage = (mission.budgetUsed / mission.totalBudget) * 100;
 
@@ -109,7 +107,7 @@ const ReportManager: React.FC = () => {
                                 </div>
 
                                 {/* Details */}
-                                <div className="mt-4 space-y-2 text-gray-600">
+                                <div className="mt-4 bg-amber-400 space-y-2 text-gray-600">
                                     <div className="flex gap-2 items-center">
                                         <FiUser size={20} />
                                         <span className="text-gray-700">{mission.manager}</span>
@@ -139,7 +137,7 @@ const ReportManager: React.FC = () => {
                                 {/* View Button */}
                                 <div className="mt-6">
                                     <button
-                                        onClick={() => (window.location.href = `/missions/${mission.id}`)} // later with React Router
+
                                         className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 py-2.5 text-center font-semibold text-white transition-colors duration-200 hover:bg-blue-700"
                                     >
                                         <MdOutlineRemoveRedEye size={25} />
@@ -153,7 +151,7 @@ const ReportManager: React.FC = () => {
 
 
             </div>
-        
+
         </>
     );
 };

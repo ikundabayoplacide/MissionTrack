@@ -23,17 +23,17 @@ const Sidebar: React.FC = () => {
 
   // Sidebar navigation
   const navItems = [
-    { icon: VscHome, label: "Dashboard", path: "/dashboard" },
-    { icon: CiBellOn, label: "Notifications", path: "/notifications" },
+    { icon: VscHome, label: "Dashboard", path: "/employee" },
+    { icon: CiBellOn, label: "Notifications", path: "notifications" },
     { icon: FiUser, label: "Profile", path: "/profile" },
   ];
 
   // Quick actions (fixed icons)
   const quickActions = [
-    { icon: FiPlusCircle, label: "New Mission Request", path: "/request" },
-    { icon: FiList, label: "Request List/Tracking", path: "/requestList" },
-    { icon: BiWallet, label: "Expense Logging", path: "/missions/history" },
-    { icon: FiFileText, label: "Mission Reporting", path: "/report" },
+    { icon: FiPlusCircle, label: "New Mission Request", path: "request" },
+    { icon: FiList, label: "Request List/Tracking", path: "requestList" },
+    { icon: BiWallet, label: "Expense Logging", path: "expenses" },
+    { icon: FiFileText, label: "Mission Reporting", path: "report" },
   ];
 
   return (

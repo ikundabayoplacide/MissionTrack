@@ -10,7 +10,7 @@ const members = [
 
 const TeamMembers: React.FC = () => {
   return (
-    <div className="bg-white rounded-xl shadow p-6 w-72">
+    <div className="bg-white rounded-xl shadow p-6 w-[230px]">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">Team members</h2>
       <ul className="space-y-4">
         {members.map((member, index) => (

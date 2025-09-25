@@ -1,12 +1,15 @@
-// import Subscriptions from "./Components/Subscriptions";
 
-// import Rejected from "./Components/Rejected";
-// import FinanceDashboard from "./pages/FinanceDashboard";
+// import MissionReportDetails from "./manager/MissionReportDetails";
 
+// import AdminActions from "./pages/AdminActions";
 
 
 import AppRoute from "./Router/AppRoute";
+
+
+
 // Rejected
+
 
 
 
@@ -18,6 +21,8 @@ function App() {
     {/* <FinanceDashboard/> */}
   {/* <Subscriptions/> */}
        <AppRoute/>
+        {/* <MissionReportDetails/> */}
+       {/* <AdminActions/> */}
        {/* <AdminDashboard/> */}
     </>
       );

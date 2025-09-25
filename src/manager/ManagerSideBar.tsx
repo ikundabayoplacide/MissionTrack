@@ -26,7 +26,7 @@ const ManagerSidebar: React.FC = () => {
   // Sidebar navigation
   const navItems = [
     { icon: VscHome, label: "Dashboard", path: "/manager" },
-    { icon: CiBellOn, label: "Notifications", path: "/notificationsM" },
+    // { icon: CiBellOn, label: "Notifications", path: "/notificationsM" },
     { icon: FiUser, label: "Profile", path: "/profileM" },
   ];
 

@@ -18,7 +18,7 @@ const COLORS = ["#22c55e", "#ef4444", "#f59e0b", "#3b82f6"];
 
 const MissionPurpose: React.FC = () => {
   return (
-    <div className="bg-white rounded-xl h-full shadow p-6">
+    <div className="bg-white  rounded-xl h-full shadow p-6">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">
         Mission Purpose
       </h2>

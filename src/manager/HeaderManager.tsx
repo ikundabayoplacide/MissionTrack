@@ -8,11 +8,9 @@ interface HeaderProps {
   onMenuClick?: () => void; // ✅ optional prop for sidebar toggle
 }
 
-const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
+const HeaderManager: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const { theme } = useTheme();
   const { user } = useAuth();
-
-  
 
   const twTheme = (light: string, dark: string) =>
     theme === "light" ? light : dark;
@@ -42,9 +40,9 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       </div>
 
       {/* Right section */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center  gap-6">
         {/* Notifications */}
-        <Link to={"/notifications"} className="relative mr-4">
+        <Link to={"/notifications"} className="relative max-sm:hidden mr-4">
           <FiBell
             size={22}
             className={twTheme("text-gray-700", "text-gray-200")}
@@ -55,18 +53,20 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         </Link>
 
         {/* Profile */}
-        <div className="flex items-center mr-15 gap-2 cursor-pointer">
+        <div className="flex items-center  gap-2 cursor-pointer">
           <div className="bg-blue-700 rounded-full p-3">
             <FiUser
               size={22}
               className={twTheme("text-white", "text-gray-200")}
             />
           </div>
-          <span className="text-sm font-medium">{user?.fullName || "Employee"}</span>
+          <span className="text-sm max-sm:hidden font-medium">
+            {user?.name || "Employee"}
+          </span>
         </div>
       </div>
     </header>
   );
 };
 
-export default Header;
+export default HeaderManager;

@@ -104,6 +104,15 @@ const TopCard: React.FC = () => {
         iconBgColor="bg-red-100"
         iconColor="text-red-600"
       />
+       <DashboardCard
+        title="Upcoming Payments"
+        value="2"
+        change="+18 from last month"
+        valueColor="text-green-600"
+        icon={calendarIcon}
+        iconBgColor="bg-green-100"
+        iconColor="text-green-600"
+      />
     </div>
   );
 };
