@@ -55,7 +55,7 @@ const HeaderAdmin: React.FC = () => {
               className={twTheme("text-white", "text-gray-200")}
             />
           </div>
-          <span className="text-sm font-medium">{user?.name || "Admin"}</span>
+          <span className="text-sm font-medium">{user?.fullName || "Admin"}</span>
         </div>
       </div>
     </header>

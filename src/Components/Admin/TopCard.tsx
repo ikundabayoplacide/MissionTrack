@@ -24,9 +24,9 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   iconColor,
 }) => {
   return (
-    <div className="flex-1 p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition flex flex-col space-y-4">
+    <div className="flex-1 p-3 bg-white rounded-xl shadow-md hover:shadow-lg transition flex flex-col space-y-4">
       <div className="flex justify-between items-center">
-        <p className="text-gray-700 font-medium line-clamp-2">{title}</p>
+        <p className="text-gray-700 font-small line-clamp-2">{title}</p>
         <div className={`p-2 rounded-lg ${iconBgColor}`}>
           <div className={`${iconColor}`} aria-hidden="true">
             {icon}
@@ -35,7 +35,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       </div>
       <div className="space-y-1">
         <h3
-          className={`text-3xl font-bold ${valueColor}`}
+          className={`text-2xl font-bold ${valueColor}`}
           aria-label={title}
         >
           {value}
@@ -58,7 +58,7 @@ const TopCard: React.FC = () => {
   const calendarIcon = <FaCreditCard/>
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
       <DashboardCard
         title="Total Registered Companies"
         value="54"
@@ -96,8 +96,17 @@ const TopCard: React.FC = () => {
         iconColor="text-red-600"
       />
       <DashboardCard
-        title="Unpaid Subscription"
+        title="Unpaid Subscription and Blocked"
         value="5"
+        change="+18 from last month"
+        valueColor="text-red-600"
+        icon={calendarIcon}
+        iconBgColor="bg-red-100"
+        iconColor="text-red-600"
+      />
+        <DashboardCard
+        title="Incoming payments"
+        value="1"
         change="+18 from last month"
         valueColor="text-red-600"
         icon={calendarIcon}

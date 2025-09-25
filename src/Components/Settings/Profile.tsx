@@ -110,9 +110,13 @@ const Profile: React.FC = () => {
               {/* Content header */}
               <div className="p-4 flex justify-between">
                 <h1 className="text-xl font-semibold">Personal Information</h1>
+                {/* profile image */}
+                <div className="flex items-center">
+               <img src="src/assets/Ellipse 41.png" alt="" />
+                </div>
                 <button
                   onClick={handleSubmit}
-                  className=" px-4 py-2 rounded bg-blue-600 text-white"
+                  className=" px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
                 >
                   Save Changes
                 </button>
@@ -154,14 +158,14 @@ const Profile: React.FC = () => {
                   icon={<FaPhoneAlt />}
                 />
 
-                <Input
+                {/* <Input
                   label="Role"
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
                   placeholder="Employee"
                   error={errors.role}
-                />
+                /> */}
               </div>
             </div>
           </div>

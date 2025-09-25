@@ -19,8 +19,8 @@ const AdminSidebar: React.FC = () => {
     // Sidebar navigation
     const navItems = [
         { icon: VscHome, label: "Dashboard", path: "/admin" },
-        { icon: CiBellOn, label: "Notifications", path: "/notificationsA" },
-        { icon: FiUser, label: "Profile", path: "/profileA" },
+        // { icon: CiBellOn, label: "Notifications", path: "/notificationsA" },
+        { icon: FiUser, label: "Profile", path: "/profile" },
     ];
 
     // Quick actions (fixed icons)

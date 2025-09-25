@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../redux/store";
-import { getAllCompanies, registerCompany } from "../redux/companySlice";
+import { registerCompany, resetCompanyState } from "../redux/companySlice";
 import { useNavigate } from "react-router-dom";
 
 import Input from "./Input";
@@ -36,10 +36,12 @@ const ApplicationFormRight: React.FC = () => {
   );
  useEffect(() => {
     if (success) {
-      dispatch(getAllCompanies());  
-      navigate("/admin/companies");   
+      navigate("/admin/companies"); 
+      dispatch(resetCompanyState()); 
     }
-  });
+  }, [success, dispatch, navigate]);
+
+  // ------------------- State -------------------
   const [formData, setFormData] = useState<any>({
     companyName: "",
     companyEmail: "",
