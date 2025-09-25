@@ -65,12 +65,12 @@ const AppRoute = () => {
         <Route path="/details" element={<Profile />} />
         <Route path="/password" element={<Password />} />
         <Route path="/preferences" element={<Notification />} />
-      
+
 
         <Route path="/forgot-password" element={<RecoverPassword />} />
         <Route path="/reset-password/:token" element={<UpdatePassword />} />
-        
-        
+
+
 
 
         {/* <Route path="/missions/history" element={<MissionExpenses />} /> */}
@@ -92,9 +92,11 @@ const AppRoute = () => {
         <Route path="/admin" element={<AdminDashboard />}>
           <Route index element={<AdminHome />} />
           <Route path="home" element={<AdminHome />} />
-          <Route path="companies" element={<AllCompanies />} />
+          <Route path="companies" element={<AllCompanies />}/>
+
           <Route path="subscriptions" element={<Subscriptions />} />
           <Route path="adminactions" element={<AdminActions />} />
+
         </Route>
 
 

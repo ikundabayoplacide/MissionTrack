@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Input from "../Input";
 import { FiCalendar } from "react-icons/fi";
-import Header from "../HeaderDash";
-import Sidebar from "./Sidebar";
+
 import DragDrop from "../DragDrop";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuFileCheck } from "react-icons/lu";

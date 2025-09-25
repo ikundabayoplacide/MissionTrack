@@ -101,7 +101,7 @@ const CompaniesTable = ({ data }) => {
               <div className="flex justify-center gap-2">
                 <button
                   className="p-2 text-primaryColor-500 rounded-full hover:bg-gray-200 transition"
-                  onClick={() => navigate("adminactions")}
+                  onClick={() => navigate(("/admin/adminactions"))}
                 >
                   <FaEye />
                 </button>

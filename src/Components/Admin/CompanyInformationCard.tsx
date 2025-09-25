@@ -1,4 +1,6 @@
 import React from "react";
+import { FaBuilding, FaFilePdf, FaRegEnvelope } from "react-icons/fa6";
+import { FiPhone } from "react-icons/fi";
 
 // Type definition for reusable InfoField
 type InfoFieldProps = {
@@ -44,77 +46,14 @@ const InfoField: React.FC<InfoFieldProps> = ({
 // Main component for the Company Information card
 const CompanyInformationCard: React.FC = () => {
   // SVG icons
-  const documentIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-6 w-6 text-gray-700"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      aria-label="Company Information"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M9 12h6m-6 4h6m2 5h-7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2z"
-      />
-    </svg>
-  );
+  const documentIcon = <FaBuilding className="text-primaryColor-500" />
 
-  const emailIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-4 w-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      aria-label="Email"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M3 8l7.893 5.421a1.99 1.99 0 002.214 0L21 8m-2 4a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v5z"
-      />
-    </svg>
-  );
+  const emailIcon = <FaRegEnvelope/>
+    
 
-  const phoneIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-4 w-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      aria-label="Phone"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M3 5a2 2 0 012-2h3.293a1 1 0 01.707.293l1.293 1.293a1 1 0 01.293.707V12a1 1 0 01-1 1H9a1 1 0 01-1-1v-2a1 1 0 011-1h1a1 1 0 011 1v2a1 1 0 01-1 1h-1a1 1 0 01-1-1v-2zm9 0a2 2 0 012-2h3.293a1 1 0 01.707.293l1.293 1.293a1 1 0 01.293.707V12a1 1 0 01-1 1h-1a1 1 0 01-1-1v-2a1 1 0 011-1h1a1 1 0 011 1v2a1 1 0 01-1 1h-1a1 1 0 01-1-1v-2z"
-      />
-    </svg>
-  );
+  const phoneIcon = <FiPhone/>
 
-  const licenseIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-4 w-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      aria-label="License"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M9 12h6m-6 4h6m2 5h-7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2z"
-      />
-    </svg>
-  );
+  const licenseIcon = <FaFilePdf className="text-red-500"/>
 
   return (
     <div className="p-6 bg-white rounded-xl shadow-lg w-full max-w-sm mx-auto">

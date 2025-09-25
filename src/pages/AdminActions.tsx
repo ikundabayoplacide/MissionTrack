@@ -15,8 +15,11 @@ const AdminActions: React.FC = () => {
     return (
 
         <main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
+            <div className="mt-5 w-[900px]">
+            <CompanyHeader companyName="TechStart Inc." status="Pending Review"  />
+            </div>
 
-            <CompanyHeader companyName="TechStart Inc." status="Pending Review" />
+            <div className="bg-white p-6 mt-5 rounded-lg shadow-md mx-5">
             <div className="flex  mt-8">
                 <CompanyInformationCard />
                 <ContactPersonCard />
@@ -27,6 +30,7 @@ const AdminActions: React.FC = () => {
             </div>
             <div className="mt-10">
                 <CommentsSection />
+            </div>
             </div>
         </main>
     )

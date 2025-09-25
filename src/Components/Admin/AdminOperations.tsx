@@ -2,7 +2,7 @@ import React from "react";
 
 const AdminOperations: React.FC = () => {
   return (
-    <div className="p-4 bg-white border rounded-lg shadow-sm w-full max-w-md">
+    <div className="p-4 bg-white border rounded-lg shadow-sm  w-[800px]">
       {/* Title */}
       <h3 className="text-sm font-medium text-gray-700 mb-4">
         Admin Operation
