@@ -207,7 +207,7 @@ components:
         action:
           type: string
           enum: [Approve, Reject, Update, Cancel, Complete]
-        accomodationAmount:
+        accommodationAmount:
           type: number
           description: Optional accommodation amount
         transportAmount:
@@ -216,9 +216,6 @@ components:
         dailyAllowanceAmount:
           type: number
           description: Optional daily allowance amount
-        totalAmount:
-          type: number
-          description: Optional total amount
         comment:
           type: string
           description: Optional comment for the action

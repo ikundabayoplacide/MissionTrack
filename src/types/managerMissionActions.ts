@@ -5,7 +5,7 @@ export interface CreateMissionActionParams {
 
 export interface UpdateMissionActionParams {
   action?: 'Approve' | 'Reject' | 'Update' | 'Cancel' | 'Complete';
-  accomodationAmount?: number;
+  accommodationAmount?: number;
   transportAmount?: number;
   dailyAllowanceAmount?: number;
   comment?: string;

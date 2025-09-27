@@ -95,7 +95,7 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
                 allowNull: true
             },
             accommodationAmount: {
-                type: DataTypes.STRING,
+                type: DataTypes.FLOAT,
                 allowNull: true
             },
                 transportAmount: {
@@ -103,11 +103,11 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
                 allowNull: true
             },
                 dailyAllowanceAmount: {
-                type: DataTypes.STRING,
+                type: DataTypes.FLOAT,
                 allowNull: true
             },
                 totalAmount: {
-                type: DataTypes.STRING,
+                type: DataTypes.FLOAT,
                 allowNull: true
                 },
             jobPosition: {
