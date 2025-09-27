@@ -4,18 +4,31 @@ import { AuthRequest } from "../utils/helper";
 import { UpdateProfileService } from "../services/updateProfile";
 import { EmployeeUpdateProfileInterface } from "../types/updateProfile";
 import { UserService } from "../services/userService";
+import { User } from "../database/models/users";
 
 
 const ALLOWED_ROLES = ["employee", "finance_manager"] as const;
 export const createUser = async (req: AuthRequest, res: Response) => {
   try {
+    const userId = req.user?.id;
+    console.log("User ID from token:", userId);
     const userData = req.body;
-    if (!req.user || !req.user.companyId) {
+    if (!userId) {
+      return ResponseService({
+        data: null,
+        status: 401,
+        success: false,
+        message: "Unauthorized: User not logged in",
+        res,
+      });
+    }
+    const existingUser = await User.findOne({ where: { email: userData.email } });
+    if (existingUser) {
       return ResponseService({
         data: null,
         status: 400,
         success: false,
-        message: "User information is missing from request",
+        message: "User with this email already exists",
         res
       });
     }
@@ -28,7 +41,7 @@ export const createUser = async (req: AuthRequest, res: Response) => {
         res
       });
     }
-    userData.companyId = req.user.companyId;
+    userData.companyId = req.user?.companyId;
     const newUser = await UserService.createUser(userData);
     return ResponseService({
       data: newUser,

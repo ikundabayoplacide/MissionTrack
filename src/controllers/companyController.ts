@@ -215,7 +215,7 @@ export class CompanyController {
   static async updateCompanyProfile(req:AuthRequest, res: Response) {
     try {
       const companyId = req.user?.companyId;
-      
+      console.log("Authenticated user's company ID:", companyId);
       if (!companyId) {
         return ResponseService({
           res,
