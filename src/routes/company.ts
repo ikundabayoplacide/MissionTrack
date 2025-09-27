@@ -10,7 +10,7 @@ import { authenticate } from "../middlewares/authMiddleware";
 
 const companyRouter = Router();
 
-companyRouter.post("/company/register",authenticate, uploadCompanyProof.single("proofDocument"),validationMiddleware({type:"body",schema:companySchema}),CompanyController.createCompany);
+companyRouter.post("/company/register", uploadCompanyProof.single("proofDocument"),validationMiddleware({type:"body",schema:companySchema}),CompanyController.createCompany);
 companyRouter.get("/company/allCompanies",authenticate,checkRoleMiddleware(["admin"]),CompanyController.getAllCompanies);
 companyRouter.patch("/company/profile", authenticate,checkRoleMiddleware(["manager"]), uploadCompanyLogo.single("companyLogo"),CompanyController.updateCompanyProfile as unknown as RequestHandler);
 companyRouter.get("/company/:companyId", authenticate,checkRoleMiddleware(["admin"]),CompanyController.getCompanyById);

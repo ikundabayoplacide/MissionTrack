@@ -18,10 +18,10 @@ export interface missionInterfaces{
     jobPosition:string;
     companyId:string;
     location:string;
-    accommodationAmount?:string;
-    transportAmount?:string;
-    dailyAllowanceAmount?:string;
-    totalAmount?:string;
+    accommodationAmount?:number;
+    transportAmount?:number;
+    dailyAllowanceAmount?:number;
+    totalAmount?:number;
     startDate:Date;
     endDate:Date;
     status:MissionStatus;
@@ -39,10 +39,6 @@ export interface MissionPayload{
     jobPosition:string;
     companyId:string;
     location:string;
-    accomodationAmount?:string;
-    transportAmount?:string;
-    dailyAllowanceAmount?:string;
-    totalAmount?:string;
     startDate:Date;
     endDate:Date;
     missionDescription:string;

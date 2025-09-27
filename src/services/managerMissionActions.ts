@@ -32,6 +32,11 @@ class MissionActionService {
         const financeManager = await User.findByPk(action.actorId);
         if (!financeManager) throw new Error("Finance manager not found");
 
+        const dailyAllowanceAmount = data.dailyAllowanceAmount || 0;
+        const transportAmount = data.transportAmount || 0;
+        const accomodationAmount = data.accomodationAmount || 0;
+        const totalAmount = dailyAllowanceAmount + transportAmount + accomodationAmount;
+
         let missionStatus = mission.status;
         let subject = "";
         let message = "";
@@ -57,7 +62,7 @@ class MissionActionService {
                 message = `The mission "<strong>${mission.missionTitle}</strong>" has been canceled by <strong>${financeManager.role}</strong>.`;
                 break;
         }
-        await Mission.update({ status: missionStatus }, { where: { id: action.missionId } });
+        await Mission.update({ status: missionStatus, totalAmount: totalAmount }, { where: { id: action.missionId } });
         await Mailer.notifyEmpAboutMission(creator.email, creator.fullName, subject, message, currentComment);
         return action;
 

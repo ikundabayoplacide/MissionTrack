@@ -8,6 +8,5 @@ export interface UpdateMissionActionParams {
   accomodationAmount?: number;
   transportAmount?: number;
   dailyAllowanceAmount?: number;
-  totalAmount?: number;
   comment?: string;
 }

@@ -19,10 +19,10 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
     userId!: string;
     companyId!: string;
     location!: string;
-    accommodationAmount!: string;
-    transportAmount!: string;
-    dailyAllowanceAmount!: string;
-    totalAmount!: string;
+    accommodationAmount!: number;
+    transportAmount!: number;
+    dailyAllowanceAmount!: number;
+    totalAmount!: number;
     jobPosition!: string;
     status!: MissionStatus;
     createdAt!: Date;
@@ -99,7 +99,7 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
                 allowNull: true
             },
                 transportAmount: {
-                type: DataTypes.STRING,
+                type: DataTypes.FLOAT,
                 allowNull: true
             },
                 dailyAllowanceAmount: {
