@@ -7,11 +7,15 @@ import { Mailer } from "../utils/mailer";
 
 export class ExpenseLogService {
 
-    static async createExpenseLog(data: ExpenseLogCreate) {
+    static async createExpenseLog(userId: string, data: ExpenseLogCreate) {
         const mission = await Mission.findByPk(data.missionId);
         if (!mission) {
             throw new Error('Mission not found');
         }
+        const user=await User.findByPk(userId);
+        if(!user) throw new Error("User not found");
+        data.userId=userId;
+        // Ensure the user creating the expense log is the owner of the mission
         if (mission.userId !== data.userId) {
             throw new Error('You are not authorized to create a expense report for this mission');
         }
@@ -22,7 +26,7 @@ export class ExpenseLogService {
         const transportAmount = data.transportAmount ?? 0;
         data.totalAmount = accommodationAmount + mealsAmount + transportAmount;
 
-        const Elog = await ExpenseLog.create(data as any);
+        const Elog = await ExpenseLog.create({ ...data, userId });
         return Elog;
     }
 

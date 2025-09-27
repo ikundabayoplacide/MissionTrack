@@ -57,7 +57,7 @@ paths:
           description: User not found
 
     patch:
-      summary: Update a user
+      summary: Update a user (admin/manager)
       tags: [Users]
       security:
         - bearerAuth: []
@@ -97,6 +97,31 @@ paths:
       responses:
         "200":
           description: User deleted successfully
+        "404":
+          description: User not found
+
+  /users/profile:
+    patch:
+      summary: Update employee profile (self-update)
+      description: Allows an **employee** to update their own profile. The logged-in user's ID is used, no need to provide it in the path.
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UserProfileUpdate"
+      responses:
+        "200":
+          description: Employee profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "403":
+          description: Forbidden - user cannot update other profiles
         "404":
           description: User not found
 
@@ -189,5 +214,24 @@ components:
           example: Sales
         role:
           type: string
-          enum: [employee,finance_manager,]
-          example: employee
+          enum: [employee, finance_manager]
+          example: manager
+
+    UserProfileUpdate:
+      type: object
+      description: Schema for employee profile updates - supports file upload
+      properties:
+        profilePhoto:
+          type: string
+          format: binary
+          description: Upload profile photo
+        fullName:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+        phoneNumber:
+          type: string
+          example: "0788888888"

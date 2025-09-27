@@ -19,13 +19,7 @@ paths:
               required:
                 - missionId
                 - date
-                - userId
               properties:
-                userId:
-                  type: string
-                  format: uuid
-                  description: ID of the user creating the expense log
-                  example: "550e8400-e29b-41d4-a716-446655440000"
                 missionId:
                   type: string
                   format: uuid
@@ -357,10 +351,7 @@ components:
           type: string
           format: uuid
           example: "550e8400-e29b-41d4-a716-446655440000"
-        userId:
-          type: string
-          format: uuid
-          example: "550e8400-e29b-41d4-a716-446655440000"
+       
         missionId:
           type: string
           format: uuid

@@ -1,44 +1,58 @@
-import { Request,Response } from "express";
+import { Request, Response } from "express";
 import { CompanyService } from "../services/company";
 import { ResponseService } from "../utils/response";
 import { Company } from "../database/models/company";
+
 import { Op } from "sequelize";
+import { AuthRequest } from "../utils/helper";
+import { companyUpdateProfileInterface } from "../types/updateProfile";
 
-
-
-export class CompanyController{
-   static async createCompany(req:Request,res:Response){
-        try {
-            const companyData={...req.body,proofDocument: req.file ? req.file.path : null,};
-            const userData=req.body;
-            const existCompany=await Company.findOne({where:{[Op.or]:{companyEmail:companyData.companyEmail,companyName:companyData.companyName}}});
-            if(existCompany){
-                return ResponseService({
-                    res,
-                    status:400,
-                    success:false,
-                    message:"Company already Registered",
-                    data:null
-                })
-            }
-            const newCompany=await CompanyService.createCompany(companyData,userData);
-            return ResponseService({
-                res,
-                status:201,
-                success:true,
-                message:"Company created successfully",
-                data:newCompany
-            })
-        } catch (error) {
-            return ResponseService({
-                res,
-                status:500,
-                success:false,
-                message:(error as Error).message,
-                data:null
-            })
-        }
+export class CompanyController {
+  static async createCompany(req: Request, res: Response) {
+    try {
+      const companyData = {
+        ...req.body,
+        proofDocument: req.file ? req.file.path : null,
+      };
+      const userData = req.body;
+      const existCompany = await Company.findOne({
+        where: {
+          [Op.or]: {
+            companyEmail: companyData.companyEmail,
+            companyName: companyData.companyName,
+          },
+        },
+      });
+      if (existCompany) {
+        return ResponseService({
+          res,
+          status: 400,
+          success: false,
+          message: "Company already Registered",
+          data: null,
+        });
+      }
+      const newCompany = await CompanyService.createCompany(
+        companyData,
+        userData
+      );
+      return ResponseService({
+        res,
+        status: 201,
+        success: true,
+        message: "Company created successfully",
+        data: newCompany,
+      });
+    } catch (error) {
+      return ResponseService({
+        res,
+        status: 500,
+        success: false,
+        message: (error as Error).message,
+        data: null,
+      });
     }
+  }
   static async getCompanyById(req:Request,res:Response){
         try {
             const {companyId}=req.params;
@@ -198,29 +212,69 @@ export class CompanyController{
             
         }
     }
-    static async approveAndRejectCompany(req:Request,res:Response){
-        try {
-            const {companyId}=req.params;
-            const updateData=req.body;
-            const updatedCompany=await CompanyService.approveAndRejectCompany(companyId,updateData);
-            return ResponseService({
-                res,
-                status:200,
-                success:true,
-                message:"Company updated successfully",
-                data:updatedCompany
-            })
-        } catch (error) {
-            return ResponseService({
-                res,
-                status:500,
-                success:false,
-                message:(error as Error).message,
-                data:null
-            })
-            
-        }
+  static async updateCompanyProfile(req:AuthRequest, res: Response) {
+    try {
+      const companyId = req.user?.companyId;
+      
+      if (!companyId) {
+        return ResponseService({
+          res,
+          status: 403,
+          success: false,
+          message: "Forbidden",
+          data: null,
+        });
+      }
+          const updateData = req.body as companyUpdateProfileInterface;
+       if (req.file) {
+        updateData.profileLogo = req.file.path; 
     }
+      const updatedCompany = await CompanyService.updateCompany(
+        companyId,
+        updateData
+      );
 
+      return ResponseService({
+        res,
+        status: 200,
+        success: true,
+        message: "Company profile updated successfully",
+        data: updatedCompany,
+      });
+    } catch (error) {
+      return ResponseService({
+        res,
+        status: 500,
+        success: false,
+        message: (error as Error).message,
+        data: null,
+      });
+    }
+  }
 
+  static async approveAndRejectCompany(req: Request, res: Response) {
+    try {
+      const { companyId } = req.params;
+      const updateData = req.body;
+      const updatedCompany = await CompanyService.approveAndRejectCompany(
+        companyId,
+        updateData
+      );
+      return ResponseService({
+        res,
+        status: 200,
+        success: true,
+        message: "Company updated successfully",
+        data: updatedCompany,
+      });
+    } catch (error) {
+      return ResponseService({
+        res,
+        status: 500,
+        success: false,
+        message: (error as Error).message,
+        data: null,
+      });
+    }
+  }
 }

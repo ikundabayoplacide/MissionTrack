@@ -93,45 +93,39 @@ export async function extractReceiptData(filePath: string): Promise<{ amount?: n
       }
     }
  const cleanedText = cleanOCRText(text);
-    // Enhanced amount extraction
-    const amountRegexes = [
-      /(?:Total|Amount|Total Amount|Balance Due|Balance|Amount Due|TOTAL|AMOUNT)[\s\D]*([\d,]+(?:\.\d{1,2})?)(?:\s?(?:rwf|RWF|frw|FRW))?/i,
-      /([\d,]+(?:\.\d{1,2})?)(?:\s?(?:rwf|RWF|frw|FRW))/i,
-      /\b([\d,]+\.\d{2})\b/
-    ];
-
-    let amount = null;
-    for (const regex of amountRegexes) {
-      const match = text.match(regex);
-      if (match && match[1]) {
-        amount = parseFloat(match[1].replace(/,/g, ""));
-        break;
-      }
-    }
-
-    // Enhanced date extraction  
-    const dateRegex = /(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})|(\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2})|(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{2,4})/i;
-    const dateMatch = text.match(dateRegex);
+   const amount = extractAmountFromText(cleanedText);
+       const dateRegex = /(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})|(\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2})|(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{2,4})/i;
+    const dateMatch = cleanedText.match(dateRegex);
     let date = null;
-    
     if (dateMatch) {
-      try {
-        date = new Date(dateMatch[0]);
-        // Check if date is valid
-        if (isNaN(date.getTime())) {
-          date = null;
-        }
-      } catch {
-        date = null;
-      }
+      const parsed = new Date(dateMatch[0]);
+      if (!isNaN(parsed.getTime())) date = parsed;
     }
 
     return { amount, date };
   } catch (error) {
-    console.error('Error in extractReceiptData:', error);
+    console.error("extractReceiptData error:", error);
     return { amount: null, date: null };
   }
 }
+
+function extractAmountFromText(text: string): number | null {
+const keywordRegex = /(?:^|\s)(?:grand\s+)?total(?!\w)[\s\S]*?\$\s*([\d,]+\.\d{2})/gi;
+  let match;
+  while ((match = keywordRegex.exec(text)) !== null) {
+    if (match[2]) return parseFloat(match[2].replace(/,/g, ""));
+  }
+
+  // fallback → all numbers
+  const allNumbers = Array.from(text.matchAll(/([\d,]+\.\d{1,2})/g)).map(m =>
+    parseFloat(m[1].replace(/,/g, ""))
+  );
+  if (allNumbers.length === 0) return null;
+
+  // fallback → largest number
+  return Math.max(...allNumbers);
+}
+  
 function cleanOCRText(text: string): string {
   if (!text) return '';
   const patternsToRemove = [

@@ -2,6 +2,15 @@ openapi: 3.0.0
 info:
   title: Company Management API
   version: 1.0.0
+  description: API documentation for managing companies and their profiles.
+
+servers:
+  - url: /api
+
+tags:
+  - name: Company
+    description: Endpoints related to company management
+
 paths:
   /company/register:
     post:
@@ -84,9 +93,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /company/{companyId}:
+  /company/get:
     get:
-      summary: Get a company by ID
+      summary: Get the logged-in company details
       tags: [Company]
       security:
         - bearerAuth: [] 
@@ -104,6 +113,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CompanyResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: Company not found
           content:
@@ -117,16 +132,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
+  /company/update:
     put:
-      summary: Update a company by ID (with optional proofDocument upload)
+      summary: Update the logged-in company (with optional proofDocument upload)
       tags: [Company]
-      parameters:
-        - name: companyId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -160,8 +171,6 @@ paths:
             encoding:
               proofDocument:
                 contentType: application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, image/jpeg, image/png
-      security:
-        - bearerAuth: []
       responses:
         "200":
           description: Company updated successfully
@@ -169,6 +178,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CompanyResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: Company not found
           content:
@@ -182,18 +197,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
+  /company/delete:
     delete:
-      summary: Delete a company by ID 
+      summary: Delete the logged-in company
       tags: [Company]
       security:
         - bearerAuth: []
-      parameters:
-        - name: companyId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
       responses:
         "200":
           description: Company deleted successfully
@@ -201,6 +210,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: Company not found
           content:
@@ -241,6 +256,12 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Company"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "500":
           description: Internal server error
           content:
@@ -248,19 +269,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /company/block/{companyId}:
+  /company/block:
     patch:
-      summary: Block or unblock a company by ID
+      summary: Block or unblock the logged-in company
       tags: [Company]
       security:
         - bearerAuth: []
-      parameters:
-        - name: companyId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
       requestBody:
         required: true
         content:
@@ -286,6 +300,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CompanyResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: Company not found
           content:
@@ -299,19 +319,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /company/approveReject/{companyId}:
+  /company/approveReject:
     patch:
-      summary: Approve or reject a company by ID
+      summary: Approve or reject the logged-in company
       tags: [Company]
       security:
         - bearerAuth: []
-      parameters:
-        - name: companyId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
       requestBody:
         required: true
         content:
@@ -335,6 +348,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CompanyResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: Company not found
           content:
@@ -348,17 +367,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /company/{companyId}/profile:
+  /company/profile:
     patch:
-      summary: Update a company profile (manager only)
+      summary: Update the logged-in company profile (manager only)
       tags: [Company]
-      parameters:
-        - name: companyId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -392,8 +406,6 @@ paths:
             encoding:
               companyLogo:
                 contentType: image/jpeg, image/png
-      security:
-        - bearerAuth: []
       responses:
         "200":
           description: Company profile updated successfully
@@ -401,6 +413,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CompanyResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: Company not found
           content:
@@ -413,6 +431,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+
 
 components:
   securitySchemes:

@@ -40,6 +40,7 @@ export class AuthServices {
 );
   return {token,user};
 
+
   }
 
   static async logoutUser(token:string){
@@ -92,8 +93,5 @@ export class AuthServices {
     catch(error){
       throw new Error("Invalid or expired token");
     }
-
   }
-
-
  }

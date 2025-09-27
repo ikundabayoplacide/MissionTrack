@@ -12,6 +12,7 @@ export interface userCreationAttributes extends Omit<userAttributes,"id" | "crea
 
  class User extends Model<userAttributes, userCreationAttributes> implements userAttributes {
     static hashPassword: any;
+//    company: any;
     static find(arg0: (user: any) => boolean) {
         throw new Error("Method not implemented.");
     }

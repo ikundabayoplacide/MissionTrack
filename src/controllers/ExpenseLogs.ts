@@ -2,14 +2,32 @@ import { Request, RequestHandler, Response } from "express";
 import { ExpenseLogService } from "../services/expenseLogs";
 import { ExpenseLogCreate, ExpenseLogUpdate } from "../types/expenseLogs";
 import { ResponseService } from "../utils/response";
-import { extractReceiptData } from "../utils/helper";
+import { AuthRequest, extractReceiptData } from "../utils/helper";
 export class ExpenseLogController {
-    static async createExpenseLog(req: Request, res: Response) {
+    static async createExpenseLog(req: AuthRequest, res: Response) {
         try {
             const data: ExpenseLogCreate = {
                 ...req.body,
                 missionId: req.body.missionId,
-                userId: (req as any).user.id
+                userId: req.user?.id ,
+            }
+            if (!data.userId) {
+                return ResponseService({
+                    res,
+                    status: 400,
+                    success: false,
+                    message: "User ID is required",
+                    data: null
+                });
+            }
+            if (!data.missionId) {
+                return ResponseService({
+                    res,
+                    status: 400,
+                    success: false,
+                    message: "Mission ID is required",
+                    data: null
+                });
             }
 
             const files = req.files as { [key: string]: Express.Multer.File[] } | undefined;
@@ -43,7 +61,7 @@ export class ExpenseLogController {
                     }
                 }
             }
-            const Elog = await ExpenseLogService.createExpenseLog(data);
+            const Elog = await ExpenseLogService.createExpenseLog(data.userId, data);
             return ResponseService({
                 res,
                 status: 201,
