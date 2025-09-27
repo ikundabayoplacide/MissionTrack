@@ -77,7 +77,28 @@ export class CompanyController {
         }
      };
 
-   static  async updateCompany(req:Request,res:Response){
+ 
+   static  async getAllCompanies(req:Request,res:Response){
+        try {
+            const allCompanies = await CompanyService.getAllCompanies();
+            return ResponseService({
+                res,
+                status: 200,
+                success: true,
+                message: "All companies fetched successfully",
+                data: allCompanies
+            });
+        } catch (error) {
+            return ResponseService({
+                res,
+                status: 500,
+                success: false,
+                message: (error as Error).message,
+                data: null
+            });
+        }
+     };
+       static  async updateCompany(req:Request,res:Response){
         try {
             const {companyId}=req.params;
             const updateData=req.body;
@@ -99,26 +120,6 @@ export class CompanyController {
                 data:null
             })
             
-        }
-     };
-   static  async getAllCompanies(req:Request,res:Response){
-        try {
-            const allCompanies = await CompanyService.getAllCompanies();
-            return ResponseService({
-                res,
-                status: 200,
-                success: true,
-                message: "All companies fetched successfully",
-                data: allCompanies
-            });
-        } catch (error) {
-            return ResponseService({
-                res,
-                status: 500,
-                success: false,
-                message: (error as Error).message,
-                data: null
-            });
         }
      };
     static async deleteCompany(req:Request,res:Response){
@@ -143,7 +144,47 @@ export class CompanyController {
             })
         }
     };
-    static async blockAndUnblockCompany(req:Request,res:Response){
+ 
+  static async updateCompanyProfile(req:AuthRequest, res: Response) {
+    try {
+      const companyId = req.user?.companyId;
+      console.log("Authenticated user's company ID:", companyId);
+      if (!companyId) {
+        return ResponseService({
+          res,
+          status: 403,
+          success: false,
+          message: "Forbidden",
+          data: null,
+        });
+      }
+          const updateData = req.body as companyUpdateProfileInterface;
+       if (req.file) {
+        updateData.profileLogo = req.file.path; 
+    }
+      const updatedCompany = await CompanyService.updateCompany(
+        companyId,
+        updateData
+      );
+
+      return ResponseService({
+        res,
+        status: 200,
+        success: true,
+        message: "Company profile updated successfully",
+        data: updatedCompany,
+      });
+    } catch (error) {
+      return ResponseService({
+        res,
+        status: 500,
+        success: false,
+        message: (error as Error).message,
+        data: null,
+      });
+    }
+  }
+   static async blockAndUnblockCompany(req:Request,res:Response){
         try {
             const {companyId}=req.params;
             const updatedData=req.body;
@@ -212,46 +253,6 @@ export class CompanyController {
             
         }
     }
-  static async updateCompanyProfile(req:AuthRequest, res: Response) {
-    try {
-      const companyId = req.user?.companyId;
-      console.log("Authenticated user's company ID:", companyId);
-      if (!companyId) {
-        return ResponseService({
-          res,
-          status: 403,
-          success: false,
-          message: "Forbidden",
-          data: null,
-        });
-      }
-          const updateData = req.body as companyUpdateProfileInterface;
-       if (req.file) {
-        updateData.profileLogo = req.file.path; 
-    }
-      const updatedCompany = await CompanyService.updateCompany(
-        companyId,
-        updateData
-      );
-
-      return ResponseService({
-        res,
-        status: 200,
-        success: true,
-        message: "Company profile updated successfully",
-        data: updatedCompany,
-      });
-    } catch (error) {
-      return ResponseService({
-        res,
-        status: 500,
-        success: false,
-        message: (error as Error).message,
-        data: null,
-      });
-    }
-  }
-
   static async approveAndRejectCompany(req: Request, res: Response) {
     try {
       const { companyId } = req.params;

@@ -16,8 +16,8 @@ companyRouter.patch("/company/profile", authenticate,checkRoleMiddleware(["manag
 companyRouter.get("/company/:companyId", authenticate,checkRoleMiddleware(["admin"]),CompanyController.getCompanyById);
 companyRouter.put("/company/:companyId", authenticate,checkRoleMiddleware(["admin"]), uploadCompanyProof.single("proofDocument"), validationMiddleware({type:"body",schema:updateCompanySchema}), CompanyController.updateCompany);
 companyRouter.delete("/company/:companyId", authenticate,checkRoleMiddleware(["admin"]), CompanyController.deleteCompany);
-companyRouter.patch("/company/block/:companyId",checkRoleMiddleware(["admin"]), validationMiddleware({type:"body",schema:blockUnblockCompanySchema}), CompanyController.blockAndUnblockCompany);
-companyRouter.patch("/company/approveReject/:companyId",checkRoleMiddleware(["admin"]),validationMiddleware({type:"body",schema:approveRejectCompanySchema}), CompanyController.approveAndRejectCompany);
+companyRouter.patch("/company/block/:companyId",authenticate,checkRoleMiddleware(["admin"]), validationMiddleware({type:"body",schema:blockUnblockCompanySchema}), CompanyController.blockAndUnblockCompany);
+companyRouter.patch("/company/approveReject/:companyId",authenticate,checkRoleMiddleware(["admin"]),validationMiddleware({type:"body",schema:approveRejectCompanySchema}), CompanyController.approveAndRejectCompany);
 
 
 export default companyRouter;
