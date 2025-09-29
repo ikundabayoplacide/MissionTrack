@@ -56,54 +56,11 @@ const Password: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <div className="flex gap-70 bg-[#E6EAF5] mt-10">
-        <Sidebar />
+     
         <div className="flex flex-col">
-          <div className="w-[1200px] py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
-            <h1 className="font-bold text-2xl text-center">
-              Notifications
-            </h1>
-          </div>
-          <div className="h-[550px] w-[1200px] mt-10 flex bg-gradient-to-r    rounded-md shadow">
+          <div className="h-[550px]  mt-10 flex bg-gradient-to-r    rounded-md shadow">
             <div className="flex flex-col w-full">
-              {/* Top navigation */}
-              <div className="border-b border-gray-300 w-full">
-                <div className="h-15 py-5">
-                  <div className="flex gap-15">
-                    <Link
-                      to={"/details"}
-                      className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
-                    >
-                      <FiUser size={20} />
-                      <span>Personal Information</span>
-                    </Link>
-
-
-                    <Link to={"/password"}
-                      className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
-                    >
-                      <MdLockOutline size={20} />
-                      <span>Password</span>
-                    </Link>
-
-                    <Link to={'/preferences'}
-                      className="flex items-center gap-1 border-b-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
-                    >
-                      <FaBell size={20} />
-                      <span>Notifications</span>
-                    </Link>
-
-                    <a
-                      href=""
-                      className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
-                    >
-                      <FaCalendar size={20} />
-                      <span>Calendar</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
+             
               {/* Header */}
               <div className="p-4 flex justify-between">
                 <h1 className="text-xl font-semibold">Change Password</h1>
@@ -151,7 +108,6 @@ const Password: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };

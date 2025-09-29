@@ -14,9 +14,9 @@ interface NotificationItemProps {
 }
 
 const NotificationItem: React.FC<NotificationItemProps> = ({ title, description, checked, onChange }) => (
-  <div className="p-3 rounded-lg shadow-sm flex items-center justify-between w-[950px] mx-auto">
+  <div className="p-3 rounded-lg shadow-sm flex items-center justify-between w-full mx-auto">
     <div>
-      <h1 className="text-2xl font-semibold">{title}</h1>
+      <h1 className="text-xl font-semibold">{title}</h1>
       <p className="text-sm text-gray-800">{description}</p>
     </div>
 
@@ -48,35 +48,10 @@ const Notification: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <div className="flex bg-[#E6EAF5] gap-6 ">
-        <Sidebar />
-        <div className=" ml-70 h-[600px] w-[1000px] mt-25 flex bg-gradient-to-br to-accent-10/50 rounded-md shadow">
+    
+        <div className="h-[600px] bg-gradient-to-br to-accent-10/50 rounded-md shadow">
           <div className="flex flex-col w-full">
             
-            {/* Top navigation */}
-            <div className="border-b border-gray-300 w-full">
-              <div className="h-15 py-5">
-                <div className="flex gap-15">
-                  <Link to="/details" className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]">
-                    <FiUser size={20} />
-                    <span>Personal Information</span>
-                  </Link>
-                  <Link to="/password" className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]">
-                    <MdLockOutline size={20} />
-                    <span>Password</span>
-                  </Link>
-                  <Link to="/notifications" className="flex items-center gap-1 border-b-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]">
-                    <FaBell size={20} />
-                    <span>Notifications</span>
-                  </Link>
-                  <a href="" className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]">
-                    <FaCalendar size={20} />
-                    <span>Calendar</span>
-                  </a>
-                </div>
-              </div>
-            </div>
 
             {/* Header */}
             <div>
@@ -122,7 +97,6 @@ const Notification: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };

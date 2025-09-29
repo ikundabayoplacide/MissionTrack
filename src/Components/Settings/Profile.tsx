@@ -3,7 +3,7 @@ import Input from "../Input";
 import { FaBell, FaCalendar, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import { FiUser } from "react-icons/fi";
 import { MdLockOutline } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Header from "../HeaderDash";
 import Sidebar from "../Dashboard/Sidebar";
 
@@ -55,16 +55,14 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <div className="flex gap-12">
-        <Sidebar />
-        <div className="flex flex-col min-h-screen  w-full bg-[#E6EAF5] mt-20">
-          <div className="w-[1200px] py-2 mt-5 ml-64 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
+     
+        <div className="flex flex-col min-h-screen  w-full bg-[#E6EAF5]">
+          {/* <div className="w-[900px] py-2 mt-5  bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
             <h1 className="font-bold text-2xl text-center">
               Manage your information and preferences
             </h1>
-          </div>
-          <div className="h-[400px] w-[1200px] ml-65 mt-10 flex  bg-white rounded-md shadow">
+          </div> */}
+          <div className="h-full mt-2 flex  bg-white rounded-md shadow">
 
 
             <div className="flex flex-col w-full">
@@ -73,7 +71,7 @@ const Profile: React.FC = () => {
                 <div className="h-15 py-5">
                   <div className="flex gap-15">
                     <Link
-                      to={"/details"}
+                      to={"profileA"}
                       className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
                     >
                       <FiUser size={20} />
@@ -81,18 +79,18 @@ const Profile: React.FC = () => {
                     </Link>
 
 
-                    <Link to={"/password"}
+                    <Link to={"passwordA"}
                       className="flex items-center gap-1 border-b-2 p-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
                     >
                       <MdLockOutline size={20} />
                       <span>Password</span>
                     </Link>
 
-                    <Link to={'/preferences'}
+                    <Link to={'preferencea'}
                       className="flex items-center gap-1 border-b-2 border-transparent hover:border-blue-600 transition-all duration-300 -mb-[2px]"
                     >
                       <FaBell size={20} />
-                      <span>Notifications</span>
+                      <span>Preferences</span>
                     </Link>
 
                     <a
@@ -105,72 +103,11 @@ const Profile: React.FC = () => {
                   </div>
                 </div>
               </div>
-
-
-              {/* Content header */}
-              <div className="p-4 flex justify-between">
-                <h1 className="text-xl font-semibold">Personal Information</h1>
-                {/* profile image */}
-                <div className="flex items-center">
-               <img src="src/assets/Ellipse 41.png" alt="" />
-                </div>
-                <button
-                  onClick={handleSubmit}
-                  className=" px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
-                >
-                  Save Changes
-                </button>
-              </div>
-
-              {/* First row */}
-              <div className="p-5 grid grid-cols-2 gap-6">
-                <Input
-                  label="Full Names"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  placeholder="Enter your name"
-                  error={errors.fullName}
-                  icon={<FiUser />}
-                />
-
-                <Input
-                  label="Email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter your email"
-                  error={errors.email}
-                  icon={<FaEnvelope />}
-                />
-              </div>
-
-              {/* Second row */}
-              <div className="p-5 grid grid-cols-2 gap-6">
-                <Input
-                  label="Phone Number"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  placeholder="0788888888"
-                  error={errors.phoneNumber}
-                  icon={<FaPhoneAlt />}
-                />
-
-                {/* <Input
-                  label="Role"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  placeholder="Employee"
-                  error={errors.role}
-                /> */}
-              </div>
+<Outlet/>
             </div>
           </div>
         </div>
-      </div>
+      
     </>
   );
 };

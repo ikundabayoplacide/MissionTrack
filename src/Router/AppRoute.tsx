@@ -32,6 +32,7 @@ import ManagerHome from "../pages/ManagerHome";
 import EmployeeHome from "../pages/EmployeeHome";
 import AllMission from "../pages/AllMission";
 import CompanyInformationPage from "../Components/Admin/companyInformationPage";
+import ProfileHome from "../Components/Settings/ProfileHome";
 
 
 
@@ -62,8 +63,6 @@ const AppRoute = () => {
           <Route path="report" element={<Report />} />
         </Route>
 
-        <Route path="/profileA" element={<Profile />} />
-        <Route path="/details" element={<Profile />} />
         <Route path="/password" element={<Password />} />
         <Route path="/preferences" element={<Notification />} />
 
@@ -95,12 +94,18 @@ const AppRoute = () => {
           <Route index element={<AdminHome />} />
           <Route path="home" element={<AdminHome />} />
           <Route path="companies" element={<AllCompanies />}/>
+          <Route path="profileA" element={<Profile />} >
+           <Route index element={<ProfileHome />} />
+          <Route path="profileA" element={<ProfileHome/>} />
+           <Route path="preferencea" element={<Notification />} />
+           <Route path="passwordA" element={<Password />} />
+ 
 
+          </Route>
           <Route path="subscriptions" element={<Subscriptions />} />
           <Route path="/admin/company/:companyId" element={<CompanyInformationPage />} />
 
         </Route>
-
 
         <Route path="/pending" element={<Pending />} />
         <Route path="/rejected" element={<Rejected />} />
