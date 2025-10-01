@@ -36,7 +36,8 @@ export class AuthServices {
     companyStatus: companyStatus,
     phoneNumber:user.phoneNumber,
     bankAccount:user.bankAccount,
-    department:user.department
+    department:user.department,
+    profilePhoto:user.profilePhoto
   },
   JWT_SECRET,
   { expiresIn: "1d" }
