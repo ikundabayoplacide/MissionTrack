@@ -5,6 +5,7 @@ import { UpdateProfileService } from "../services/updateProfile";
 import { EmployeeUpdateProfileInterface } from "../types/updateProfile";
 import { UserService } from "../services/userService";
 import { User } from "../database/models/users";
+import cloudinary from "../utils/cloudinary";
 
 
 const ALLOWED_ROLES = ["employee", "finance_manager"] as const;
@@ -233,7 +234,8 @@ export const updateEmployeeprofile = async (req: AuthRequest, res: Response) => 
     }
     const updateData = req.body as EmployeeUpdateProfileInterface;
     if (req.file) {
-      updateData.profilePhoto = req.file.path;
+      const result=await cloudinary.uploader.upload(req.file.path)
+      updateData.profilePhoto=result.secure_url;
     }
     if (!updateData) {
       return ResponseService({
@@ -278,5 +280,6 @@ export const updateEmployeeprofile = async (req: AuthRequest, res: Response) => 
     });
   }
 };
+console.log("Cloudinary ENV:", process.env.CLOUDINARY_CLOUD_NAME, process.env.CLOUDINARY_API_KEY, process.env.CLOUDINARY_API_SECRET?.slice(0,4));
 
 
