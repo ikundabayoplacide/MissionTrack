@@ -6,6 +6,7 @@ import { RootState,AppDispatch } from "../../redux/store";
 import { FiUser } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { clearActionState, updatedProfile } from "../../redux/profileSlice";
+import { useAuth } from "../../context/AuthContext";
 
 interface DecodedToken {
   id: string;
@@ -19,6 +20,7 @@ interface DecodedToken {
 
 const Profile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+    const { user,setUser } = useAuth();
   const {loading,error,profilePhoto}=useSelector((state:RootState)=>state.profile);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -31,10 +33,24 @@ const Profile: React.FC = () => {
 
   const [originalData, setOriginalData] = useState(formData);
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   // Load user info from token
-  useEffect(() => {
+useEffect(() => {
+  // First, try to get user from AuthContext
+  if (user && user.profilePhoto) {
+    const userData = {
+      fullName: user.fullName || "",
+      email: user.email || "",
+      phoneNumber: user.phoneNumber || "",
+      role: user.role || "",
+      profilePhoto: user.profilePhoto || "",
+      bankAccount: "",
+    };
+    setFormData(userData);
+    setOriginalData(userData);
+  } else {
+    // Fallback to token if user context doesn't have the data
     const token = localStorage.getItem("token");
     if (token) {
       try {
@@ -53,7 +69,8 @@ const Profile: React.FC = () => {
         console.error("Invalid token:", err);
       }
     }
-  }, [profilePhoto]);
+  }
+}, [user, profilePhoto]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -63,7 +80,7 @@ const Profile: React.FC = () => {
  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   if (e.target.files && e.target.files[0]) {
     const file = e.target.files[0];
-    setSelectedPhoto(file);
+    setSelectedFile(file);
     const photoUrl = URL.createObjectURL(file);
     setFormData((prev) => ({ ...prev, profilePhoto: photoUrl }));
   }
@@ -76,12 +93,14 @@ const Profile: React.FC = () => {
       formDataToSend.append("email",formData.email);
       formDataToSend.append("phoneNumber",formData.phoneNumber);
       formDataToSend.append("bankAccount",formData.bankAccount);
-      if(selectedPhoto){
-        formDataToSend.append("profilePhoto",selectedPhoto);
+      if(selectedFile){
+        formDataToSend.append("profilePhoto",selectedFile);
       }
-      await dispatch(updatedProfile(formDataToSend)).unwrap();
+     const updatedUser= await dispatch(updatedProfile(formDataToSend)).unwrap();
       setOriginalData(formData);
       setIsEditing(false);
+        setUser((prev) => ({ ...prev, ...updatedUser }));
+      localStorage.setItem("user", JSON.stringify({ ...user, ...updatedUser }));
     }
     catch(err){
       console.error("Failed to update profile:", err);

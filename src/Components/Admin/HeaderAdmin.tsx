@@ -1,11 +1,11 @@
 import React from "react";
-import { FiBell, FiUser } from "react-icons/fi";
+import { FiBell } from "react-icons/fi";
 import { useTheme } from "../../hook/useTheme";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth, } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 
 const HeaderAdmin: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const { user } = useAuth();
 
   const twTheme = (light: string, dark: string) =>

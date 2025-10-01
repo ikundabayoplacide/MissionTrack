@@ -13,13 +13,14 @@ type User = {
   role: "manager" | "employee" | string;
   companyId?: string;
   department?: string;
-  phone?: string;
+  phoneNumber?: string;
   profilePhoto?: string;
   token: string;
 };
 
 type AuthContextType = {
   user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   login: (
     email: string,
     password: string
@@ -64,8 +65,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       role: data.data.user.role,
       companyId: data.data.user.companyId,
       department: data.data.user.department,
-      phone: data.data.user.phone,
+      phoneNumber: data.data.user.phoneNumber,
       token: data.data.token,
+      profilePhoto: data.data.user.profilePhoto || "",
     };
 
     setUser(newUser);
@@ -97,7 +99,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

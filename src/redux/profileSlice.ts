@@ -11,6 +11,7 @@ interface ProfileState{
 
     loading:boolean;
     error:string|null;
+     success: boolean;
 }
 
 const initialState:ProfileState={
@@ -21,6 +22,7 @@ const initialState:ProfileState={
     phoneNumber:null,
     loading:false,
     error:null,
+    success: false,
 };
 
 
@@ -44,6 +46,25 @@ export const updatedProfile=createAsyncThunk(
     }
 );
 
+export const changePassword=createAsyncThunk(
+    "profile/changePassword",
+    async (passwordData:{currentPassword:string;newPassword:string;confirmNewPassword:string})=>{
+        try{
+            const response=await axios.post(
+                "https://missiontrack-backend.onrender.com/api/users/changePassword",
+                passwordData,
+                {
+                    headers:{
+                        Authorization:`Bearer ${localStorage.getItem("token")}`
+                    }
+                }
+            );
+            return response.data;
+        }catch(error:any){
+            return Promise.reject(error.response?.data?.message || error.message);
+        }
+    }
+);
 
 const profileSlice=createSlice({
     name:"profile",
@@ -72,6 +93,21 @@ const profileSlice=createSlice({
         .addCase(updatedProfile.rejected,(state,action)=>{
             state.loading=false;
             state.error=action.error.message || "Failed to update profile";
+        });
+        builder
+        .addCase(changePassword.pending,(state)=>{
+            state.loading=true;
+            state.error=null;
+             state.success = false;
+        })
+        .addCase(changePassword.fulfilled,(state)=>{
+            state.loading=false;
+              state.success = true;
+        })
+        .addCase(changePassword.rejected,(state,action)=>{
+            state.loading=false;
+              state.success = false;
+            state.error=action.error.message || "Failed to change password";
         });
     }
 })
