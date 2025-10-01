@@ -21,6 +21,7 @@ export interface AuthRequest extends Request {
     fullName: string,
     email: string,
     companyId: string,
+    phone:string,
     companyStatus: string | null
   }
 }

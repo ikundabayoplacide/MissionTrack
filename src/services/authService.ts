@@ -34,6 +34,9 @@ export class AuthServices {
     email: user.email,
     companyId: user.companyId,
     companyStatus: companyStatus,
+    phoneNumber:user.phoneNumber,
+    bankAccount:user.bankAccount,
+    department:user.department
   },
   JWT_SECRET,
   { expiresIn: "1d" }
