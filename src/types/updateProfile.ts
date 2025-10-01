@@ -3,6 +3,7 @@ export interface EmployeeUpdateProfileInterface {
     fullName?: string;
     email?: string;
     phoneNumber?: string;
+    bankAccount?:string;
 }
 
 export interface companyUpdateProfileInterface {
