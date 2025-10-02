@@ -21,7 +21,7 @@ const HeaderAdmin: React.FC = () => {
 
       {/* Logo + Title */}
       <div className="flex items-center gap-2">
-        <img src={user?.profilePhoto || "/src/assets/profile.jpg"} alt="logo" className="h-8" />
+        <img src="/src/assets/logo.svg" alt="logo" className="h-8" />
         <h1 className="font-bold text-xl text-primaryColor-700">
           Mission<span className="text-accent-700">Track</span>
         </h1>

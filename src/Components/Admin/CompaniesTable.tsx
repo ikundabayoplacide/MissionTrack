@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../redux/store";
 
 // Reusable component for the status/plan/payment badges
-const Badge = ({ text, type }) => {
+const Badge: React.FC<{ text: string; type: string }> = ({ text, type }) => {
   const getColorClasses = (badgeType: string) => {
     switch (badgeType) {
       case "approved":

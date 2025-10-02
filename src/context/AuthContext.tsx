@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import React, {
   createContext,
   useState,
@@ -58,16 +59,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       throw new Error(data.message || "Invalid email or password");
     }
 
+    const decoded: User = jwtDecode(data.data.token);
+
     const newUser: User = {
-      id: data.data.user.id,
-      fullName: data.data.user.fullName,
-      email: data.data.user.email,
-      role: data.data.user.role,
-      companyId: data.data.user.companyId,
-      department: data.data.user.department,
-      phoneNumber: data.data.user.phoneNumber,
+      id: decoded.id,
+      fullName: decoded.fullName,
+      email: decoded.email,
+      role: decoded.role,
+      companyId: decoded.companyId,
+      department: decoded.department,
+      phoneNumber: decoded.phoneNumber,
       token: data.data.token,
-      profilePhoto: data.data.user.profilePhoto || "",
+      profilePhoto: decoded.profilePhoto || "",
     };
 
     setUser(newUser);
