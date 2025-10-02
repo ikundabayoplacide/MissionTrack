@@ -47,13 +47,9 @@ const AppRoute = () => {
 
   return (
     <>
-      {/* {!hideNavbar && <NavBar />} */}
 
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginForm />} />
-
-        {/* Employee */}
+        {/* Employee Routes */}
         <Route path="/employee" element={<Dashboard />} >
           <Route index element={<EmployeeHome />} />
           <Route path="notifications" element={<NotificationPage />} />
@@ -64,59 +60,48 @@ const AppRoute = () => {
           <Route path="report" element={<Report />} />
         </Route>
 
-        <Route path="/password" element={<Password />} />
-        <Route path="/preferences" element={<Notification />} />
-
-
-        <Route path="/forgot-password" element={<RecoverPassword />} />
-        <Route path="/reset-password/:token" element={<UpdatePassword />} />
-
-
-
-
-        {/* <Route path="/missions/history" element={<MissionExpenses />} /> */}
+        {/* Manager Routes */}
         <Route path="/manager" element={<ManagerDashboard />} >
           <Route index element={<ManagerHome />} />
-          <Route path="all" element={<AllMission/>} />
+          <Route path="all" element={<AllMission />} />
           <Route path="team" element={<TeamManagement />} />
           <Route path="all" element={<AllMission />} />
           <Route path="requested" element={<RequestManager />} />
           <Route path="reported" element={<ReportManager />} />
         </Route>
-        <Route path="/apply" element={<ApplicationForm />} />
-        <Route path="/team" element={<TeamManagement />} />
-        {/* <Route path="/requested" element={<RequestManager />} /> */}
 
-        <Route path="/missions/:id" element={<ReportDetails />} />
-        <Route path="/pending" element={<Pending />} />
-
-
-
+        {/* Admin Routes */}
         <Route path="/admin" element={<AdminDashboard />}>
           <Route index element={<AdminHome />} />
           <Route path="home" element={<AdminHome />} />
-          <Route path="companies" element={<AllCompanies />}/>
+          <Route path="companies" element={<AllCompanies />} />
           <Route path="profileA" element={<Profile />} >
-           <Route index element={<ProfileHome />} />
-          <Route path="profileA" element={<ProfileHome/>} />
-           <Route path="preferencea" element={<Notification />} />
-           <Route path="passwordA" element={<Password />} />
- 
-
+            <Route index element={<ProfileHome />} />
+            <Route path="profileA" element={<ProfileHome />} />
+            <Route path="preferencea" element={<Notification />} />
+            <Route path="passwordA" element={<Password />} />
           </Route>
           <Route path="subscriptions" element={<Subscriptions />} />
           <Route path="/admin/company/:companyId" element={<CompanyInformationPage />} />
-
         </Route>
 
+        {/* Public Routes */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/password" element={<Password />} />
+        <Route path="/preferences" element={<Notification />} />
+        <Route path="/forgot-password" element={<RecoverPassword />} />
+        <Route path="/reset-password/:token" element={<UpdatePassword />} />
+        <Route path="/apply" element={<ApplicationForm />} />
+        <Route path="/team" element={<TeamManagement />} />
+        <Route path="/missions/:id" element={<ReportDetails />} />
+        <Route path="/pending" element={<Pending />} />
         <Route path="/pending" element={<Pending />} />
         <Route path="/rejected" element={<Rejected />} />
-        <Route path="/companies" element={<AllCompanies/>} />
+        <Route path="/companies" element={<AllCompanies />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
-        <Route path="/all" element={<AllMission/>}/>
-
+        <Route path="/all" element={<AllMission />} />
         <Route path="/finance" element={<FinanceDashboard />} />
-
 
       </Routes>
     </>
