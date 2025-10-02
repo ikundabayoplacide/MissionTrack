@@ -12,10 +12,10 @@ import TeamMembers from "../manager/TeamMembers";
 const ManagerHome: React.FC = () => {
   return (
     <>
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-screen  w-full bg-[#E6EAF5] pr-5">
       {/* Header Section */}
-      <div className=" mx-auto py-2 mt-5 px-6 bg-gradient-to-l from-accent-10 to-primaryColor-50 rounded-md shadow-sm">
-        <h1 className="font-bold text-xl">
+      <div className="  py-2 mt-5 px-6 bg-gradient-to-l from-accent-10 to-primaryColor-50 rounded-md shadow-sm">
+        <h1 className="font-bold text-xl text-center">
           Hello Manager, Here’s Mission Requests Overview
         </h1>
       </div>

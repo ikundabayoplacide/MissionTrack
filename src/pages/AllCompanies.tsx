@@ -52,8 +52,6 @@ const filteredCompany = (companies || []).filter((c) => {
 
   return (
     <>
-      
-
         <main className={`min-h-screen m ${twTheme("", "bg-gray-900")}`}>
           <div className="">
           <AdminStats

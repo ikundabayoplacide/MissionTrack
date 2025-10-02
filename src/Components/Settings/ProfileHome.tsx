@@ -119,7 +119,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="flex flex-col w-full max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="flex flex-col w-full max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden ">
       {/* Header */}
       <div className="p-4 flex justify-between items-center">
         <h1 className="text-xl font-semibold">Personal Information</h1>

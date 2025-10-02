@@ -1,15 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-// import NavBar from "../Components/NavBar";
-import LoginForm from "../pages/LoginForm"; // ✅ corrected import
+import LoginForm from "../pages/LoginForm"; 
 import Dashboard from "../pages/EmployeeDashboard";
 import LandingPage from "../pages/LandingPage";
 import Profile from "../Components/Settings/Profile";
 import Password from "../Components/Settings/Password";
 import Notification from "../Components/Settings/Notification";
 import Details from "../Components/Request/Details";
-
 import RecoverPassword from "../Components/forgetPassword/RecoverPassword";
-
 import NotificationPage from "../Components/Dashboard/NotificationPage";
 import MissionList from "../Components/Dashboard/MissionList";
 import Report from "../Components/Dashboard/Report";
@@ -26,25 +23,15 @@ import AllCompanies from "../pages/AllCompanies";
 import AdminDashboard from "../pages/AdminDashboard";
 import Rejected from "../Components/Rejected";
 import Subscriptions from "../Components/Subscriptions";
-import AllMission from "../pages/AllMission";
 import FinanceDashboard from "../pages/FinanceDashboard";
 import AdminHome from "../pages/AdminHome";
 import ManagerHome from "../pages/ManagerHome";
 import EmployeeHome from "../pages/EmployeeHome";
-// import AllMission from "../pages/AllMission";
-import CompanyInformationPage from "../Components/Admin/companyInformationPage";
+import AllMission from "../pages/AllMission";
 import ProfileHome from "../Components/Settings/ProfileHome";
-
-
-
+import CompanyInformationPage from "../Components/Admin/companyInformationPage";
 
 const AppRoute = () => {
-  // const location = useLocation();
-
-  // // Define routes where NavBar should not appear
-  // const hideNavbarRoutes = ["/login"];
-  // const hideNavbar = hideNavbarRoutes.includes(location.pathname);
-
   return (
     <>
 
@@ -53,21 +40,32 @@ const AppRoute = () => {
         <Route path="/employee" element={<Dashboard />} >
           <Route index element={<EmployeeHome />} />
           <Route path="notifications" element={<NotificationPage />} />
-          <Route path="notifications" element={<NotificationPage />} />
           <Route path="request" element={<Details />} />
           <Route path="requestList" element={<MissionList />} />
           <Route path="expenses" element={<MissionExpenses />} />
           <Route path="report" element={<Report />} />
+           <Route path="profileA" element={<Profile />} >
+            <Route index element={<ProfileHome />} />
+            <Route path="profileA" element={<ProfileHome />} />
+            <Route path="preferencea" element={<Notification />} />
+            <Route path="passwordA" element={<Password />} />
+          </Route>
         </Route>
 
         {/* Manager Routes */}
         <Route path="/manager" element={<ManagerDashboard />} >
           <Route index element={<ManagerHome />} />
+            <Route path="profileA" element={<Profile />} >
+            <Route index element={<ProfileHome />} />
+            <Route path="profileA" element={<ProfileHome />} />
+            <Route path="preferencea" element={<Notification />} />
+            <Route path="passwordA" element={<Password />} />
+          </Route>
           <Route path="all" element={<AllMission />} />
           <Route path="team" element={<TeamManagement />} />
-          <Route path="all" element={<AllMission />} />
           <Route path="requested" element={<RequestManager />} />
           <Route path="reported" element={<ReportManager />} />
+          
         </Route>
 
         {/* Admin Routes */}

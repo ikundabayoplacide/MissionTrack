@@ -42,6 +42,15 @@ const ApplicationForm: React.FC = () => {
     (state: RootState) => state.company
   );
 
+  // ✅ Redirect when success
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500); // 1.5s delay so user sees "success" message
+    }
+  }, [success, navigate]);
+
   // ✅ Get previousData from navigation state (if any)
   const previousData = location.state?.formData || {};
 

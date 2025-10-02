@@ -1,4 +1,3 @@
-// src/redux/companySlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -28,7 +27,7 @@ type RejectString = string;
 
 
 // Async thunk for registering company
-export const registerCompany = createAsyncThunk<any, any, { rejectValue: RejectString }>(
+export const registerCompany = createAsyncThunk(
   "company/register",
   async (formData: any, { rejectWithValue }) => {
     try {
@@ -77,33 +76,15 @@ export const getAllCompanies = createAsyncThunk(
         }
       );
       return res.data;
-    } catch (err: any) {
-      console.error("registerCompany error object:", err);
-
-      // If backend responded with JSON error body, prefer that message
-      if (err.response) {
-        const resp = err.response;
-        // Try common places for messages
-        const maybeMessage =
-          resp.data?.message ||
-          resp.data?.error ||
-          (typeof resp.data === "string" ? resp.data : null);
-
-        const statusPart = resp.status ? ` (status ${resp.status})` : "";
-        const message = maybeMessage
-          ? `${maybeMessage}${statusPart}`
-          : `Request failed${statusPart}`;
-
-        console.error("registerCompany server response:", resp.data);
-        return rejectWithValue(message);
-      }
-
-      // Network / other errors
-      const fallback = err.message || "Network error";
-      return rejectWithValue(fallback);
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Something went wrong"
+      );
     }
   }
 );
+
+
 export const deleteCompany = createAsyncThunk(
   "company/delete",
   async (companyId: string, { rejectWithValue }) => {
@@ -136,6 +117,7 @@ const companySlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // create new company
     builder
       .addCase(registerCompany.pending, (state) => {
         state.loading = true;
@@ -145,13 +127,31 @@ const companySlice = createSlice({
       .addCase(registerCompany.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        // backend usually returns { message, data, success }
-        state.message = action.payload?.message ?? "Company created";
+        state.message = action.payload.message;
+        state.companies?.push(action.payload.company);
       })
       .addCase(registerCompany.rejected, (state, action) => {
         state.loading = false;
-        // action.payload is the string we passed into rejectWithValue
-        state.error = (action.payload as string) || "Something went wrong";
+        state.error = action.payload as string;
+      });
+
+// GETTING all companies
+    builder
+      .addCase(getAllCompanies.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(getAllCompanies.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.message = action.payload.message;
+        state.companies = action.payload.data || []; //save companies
+        state.error = null;
+      })
+      .addCase(getAllCompanies.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
     // get single company
     builder
@@ -171,25 +171,7 @@ const companySlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
-    // GETTING all companies
-    builder
-      .addCase(getAllCompanies.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.success = false;
-      })
-      .addCase(getAllCompanies.fulfilled, (state, action) => {
-        state.loading = false;
-        state.success = true;
-        state.message = action.payload.message;
-        state.companies = action.payload.data || []; //save companies
-        state.error = null;
-      })
-      .addCase(getAllCompanies.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
-
+ 
     
   },
 });

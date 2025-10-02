@@ -55,9 +55,9 @@ const TeamManagement: React.FC = () => {
             status: emp.is_active ? "Active" : "Inactive",
             initials: emp.fullName
               ? emp.fullName
-                  .split(" ")
-                  .map((n: string) => n[0])
-                  .join("")
+                .split(" ")
+                .map((n: string) => n[0])
+                .join("")
               : "NA",
           }));
           setEmployees(mappedEmployees);
@@ -127,48 +127,48 @@ const TeamManagement: React.FC = () => {
       <ManagerSideBar />
       <div className="flex-1 flex flex-col min-h-screen bg-[#E6EAF5]">
         <Header />
-        <main className="p-6 ml-80 mr-10 mt-20 ">
+        <main className="py-6 pr-5 flex-1 overflow-y-auto">
           <h1 className="bg-gradient-to-r from-primaryColor-10 to-accent-10 text-lg text-black font-bold px-4 py-2 rounded-xl shadow">
             Employee Management
           </h1>
 
           <div className="bg-white p-1 rounded-xl mt-6 mb-6">
             <div className="flex items-center justify-between mr-3 ml-3 mt-6 mb-6 gap-4">
-  {/* Search input */}
-  <div className="flex-1 border  bg-blue-50 rounded-sm ">
-   
+              {/* Search input */}
+              <div className="flex-1 border  bg-blue-50 rounded-sm ">
 
-<div className="relative max-w-md w-full">
-  <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-  <input
-    type="text"
-    placeholder="Search"
-    value={search}
-    onChange={(e) => {
-      setSearch(e.target.value);
-      setCurrentPage(1);
-    }}
-    className="w-full rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-  />
-</div>
 
-  </div>
-    <select
-  value={statusFilter}
-  onChange={(e) => {
-    setStatusFilter(e.target.value);
-    setCurrentPage(1); // reset to first page when filter changes
-  }}
-  className="border rounded-lg bg-blue-50 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
->
-  <option>All Members</option>
-  <option>Active</option>
-  <option>On Mission</option>
-  <option>Inactive</option>
-</select>
+                <div className="relative max-w-md w-full">
+                  <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                    className="w-full rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
 
- 
-</div>
+              </div>
+              <select
+                value={statusFilter}
+                onChange={(e) => {
+                  setStatusFilter(e.target.value);
+                  setCurrentPage(1); // reset to first page when filter changes
+                }}
+                className="border rounded-lg bg-blue-50 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option>All Members</option>
+                <option>Active</option>
+                <option>On Mission</option>
+                <option>Inactive</option>
+              </select>
+
+
+            </div>
           </div>
 
 
@@ -202,11 +202,10 @@ const TeamManagement: React.FC = () => {
                   <span>{emp.department}</span>
                 </p>
                 <span
-                  className={`mt-8 px-3 py-1 rounded-sm text-xs font-medium ${
-                    emp.status === "Active"
+                  className={`mt-8 px-3 py-1 rounded-sm text-xs font-medium ${emp.status === "Active"
                       ? "bg-green-700 text-white"
                       : "bg-gray-500 text-white"
-                  }`}
+                    }`}
                 >
                   {emp.status}
                 </span>

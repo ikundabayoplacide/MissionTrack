@@ -54,11 +54,8 @@ const HeaderManager: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
         {/* Profile */}
         <div className="flex items-center  gap-2 cursor-pointer">
-          <div className="bg-blue-700 rounded-full p-3">
-            <FiUser
-              size={22}
-              className={twTheme("text-white", "text-gray-200")}
-            />
+          <div className=" rounded-full p-3">
+            <img src={user?.profilePhoto || "/default-avatar.png"} alt="User Avatar" className="h-10 w-10 rounded-full" />
           </div>
           <span className="text-sm max-sm:hidden font-medium">
             {user?.fullName || "Employee"}

@@ -56,7 +56,7 @@ const Profile: React.FC = () => {
   return (
     <>
      
-        <div className="flex flex-col min-h-screen  w-full bg-[#E6EAF5]">
+        <div className="flex flex-col min-h-screen  w-full bg-[#E6EAF5] pr-5">
           {/* <div className="w-[900px] py-2 mt-5  bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
             <h1 className="font-bold text-2xl text-center">
               Manage your information and preferences
@@ -103,7 +103,7 @@ const Profile: React.FC = () => {
                   </div>
                 </div>
               </div>
-<Outlet/>
+             <Outlet/>
             </div>
           </div>
         </div>

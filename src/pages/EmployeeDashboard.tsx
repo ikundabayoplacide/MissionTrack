@@ -11,9 +11,11 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Header />
-      <div className={`flex gap-70 mt-20  ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`} >
-        <Sidebar />
+      <div className={`flex  mt-20  ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`} >
+        <div className="ml-70">
+          <Sidebar />
         <Outlet/>
+        </div>
         
       </div>
     </>

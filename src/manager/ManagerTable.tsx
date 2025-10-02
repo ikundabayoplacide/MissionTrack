@@ -5,12 +5,12 @@ import axios from "axios";
 // Badge component
 const Badge = ({ text }: { text: string }) => {
   const getColorClasses = (status: string) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "approved":
         return "bg-green-100 text-green-600";
       case "pending":
         return "bg-yellow-100 text-yellow-600";
-      case "inProgress":
+      case "inprogress":
         return "bg-blue-100 text-blue-600";
       case "rejected":
         return "bg-red-100 text-red-600";
@@ -48,7 +48,6 @@ type MissionTableProps = {
 };
 
 const MissionTable: React.FC<MissionTableProps> = ({ data }) => {
-  // Local state for status updates
   const [missions, setMissions] = useState<Mission[]>([]);
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
 
@@ -56,22 +55,29 @@ const MissionTable: React.FC<MissionTableProps> = ({ data }) => {
     setMissions(data);
   }, [data]);
 
-  const updateStatus = async (missionId: string, newStatus: string) => {
+  const updateStatus = async (
+    missionId: string,
+    action: "Approve" | "Reject"
+  ) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.patch(
-        `https://missiontrack-backend.onrender.com/api/actions/create${missionId}/status`,
-        { status: newStatus },
+      await axios.post(
+        "https://missiontrack-backend.onrender.com/api/actions/create",
+        {
+          missionId,
+          action,
+          comment: `${action}d by manager`, // optional
+        },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Update local missions state
+      // update local state immediately
       setMissions((prev) =>
         prev.map((m) =>
-          m.id === missionId ? { ...m, status: newStatus } : m
+          m.id === missionId ? { ...m, status: action.toLowerCase() } : m
         )
       );
-      setSelectedMission(null); // close modal
+      setSelectedMission(null);
     } catch (err) {
       console.error("Error updating mission status:", err);
       alert("Failed to update mission status");
@@ -79,7 +85,7 @@ const MissionTable: React.FC<MissionTableProps> = ({ data }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 w-full">
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden  w-full">
       {/* Table Header */}
       <div className="grid grid-cols-7 gap-4 text-sm font-semibold text-gray-600 bg-gray-50 p-4">
         <div>Mission Title</div>
@@ -127,33 +133,51 @@ const MissionTable: React.FC<MissionTableProps> = ({ data }) => {
             <h2 className="text-lg font-semibold mb-4">
               Mission Request Details
             </h2>
-            <p><strong>Title:</strong> {selectedMission.missionName}</p>
-            <p><strong>Email:</strong> {selectedMission.email}</p>
-            <p><strong>Manager:</strong> {selectedMission.manager}</p>
-            <p><strong>Job Position:</strong> {selectedMission.plan}</p>
-            <p><strong>Status:</strong> {selectedMission.status}</p>
-            <p><strong>Last Activity:</strong> {selectedMission.lastActivity}</p>
+            <p>
+              <strong>Title:</strong> {selectedMission.missionName}
+            </p>
+            <p>
+              <strong>Email:</strong> {selectedMission.email}
+            </p>
+            <p>
+              <strong>Manager:</strong> {selectedMission.manager}
+            </p>
+            <p>
+              <strong>Job Position:</strong> {selectedMission.plan}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedMission.status}
+            </p>
+            <p>
+              <strong>Last Activity:</strong> {selectedMission.lastActivity}
+            </p>
             {selectedMission.description && (
-              <p><strong>Description:</strong> {selectedMission.description}</p>
+              <p>
+                <strong>Description:</strong> {selectedMission.description}
+              </p>
             )}
             {selectedMission.startDate && (
-              <p><strong>Start Date:</strong> {selectedMission.startDate}</p>
+              <p>
+                <strong>Start Date:</strong> {selectedMission.startDate}
+              </p>
             )}
             {selectedMission.endDate && (
-              <p><strong>End Date:</strong> {selectedMission.endDate}</p>
+              <p>
+                <strong>End Date:</strong> {selectedMission.endDate}
+              </p>
             )}
 
             <div className="mt-6 flex gap-2 justify-end">
               {selectedMission.status === "pending" ? (
                 <>
                   <button
-                    onClick={() => updateStatus(selectedMission.id, "approved")}
+                    onClick={() => updateStatus(selectedMission.id, "Approve")}
                     className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-sm"
                   >
                     Approve
                   </button>
                   <button
-                    onClick={() => updateStatus(selectedMission.id, "rejected")}
+                    onClick={() => updateStatus(selectedMission.id, "Reject")}
                     className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
                   >
                     Reject

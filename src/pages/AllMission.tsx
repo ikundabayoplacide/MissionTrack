@@ -1,7 +1,5 @@
 // pages/AllMission.tsx
 import React, { useEffect, useState } from "react";
-import Header from "../Components/HeaderDash";
-import ManagerSideBar from "../manager/ManagerSideBar";
 import { FiSearch } from "react-icons/fi";
 import axios from "axios";
 import MissionTable from "../manager/ManagerTable";
@@ -42,6 +40,8 @@ const AllMission: React.FC = () => {
     fetchMissions();
   }, []);
 
+  
+
   // Map API missions into consistent structure
   const mappedMissions = missions.map((m) => ({
     id: m.id,
@@ -80,15 +80,7 @@ const AllMission: React.FC = () => {
      
 
         <main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
-          {/* Add Mission Button */}
-          {/* <button className="bg-primaryColor-700 w-60 mb-5 text-lg text-center rounded-2xl text-white">
-            <div className="flex items-center justify-center">
-              <span className="text-4xl mr-2">+</span>
-              <span>Add Mission</span>
-            </div>
-          </button> */}
-
-          <div className="w-[900px] bg-white rounded-2xl overflow-x-auto">
+          <div className="w-[1050px] bg-white rounded-2xl mt-2 overflow-x-auto">
             {/* Search + Filter */}
             <div className="flex flex-col sm:flex-row gap-2 items-center justify-center p-4">
               {/* Search Input */}

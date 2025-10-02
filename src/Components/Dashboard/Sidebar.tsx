@@ -11,10 +11,10 @@ const Sidebar: React.FC = () => {
   const { theme } = useTheme();
   const location = useLocation();
   const { logout } = useAuth();
-  const navigate = useNavigate(); // ✅ hook
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();          // clear user + token
+    logout(); // clear user + token
     navigate("/login"); // redirect
   };
 
@@ -24,22 +24,21 @@ const Sidebar: React.FC = () => {
   // Sidebar navigation
   const navItems = [
     { icon: VscHome, label: "Dashboard", path: "/employee" },
-    { icon: CiBellOn, label: "Notifications", path: "notifications" },
-    { icon: FiUser, label: "Profile", path: "/profile" },
+    { icon: CiBellOn, label: "Notifications", path: "employee/notifications" },
+    { icon: FiUser, label: "Profile", path: "/profileA" },
   ];
 
-  // Quick actions (fixed icons)
+  // Quick actions
   const quickActions = [
-    { icon: FiPlusCircle, label: "New Mission Request", path: "request" },
-    { icon: FiList, label: "Request List/Tracking", path: "requestList" },
-    { icon: BiWallet, label: "Expense Logging", path: "expenses" },
-    { icon: FiFileText, label: "Mission Reporting", path: "report" },
+    { icon: FiPlusCircle, label: "New Mission Request", path: "employee/request" },
+    { icon: FiList, label: "Request List/Tracking", path: "employee/requestList" },
+    { icon: BiWallet, label: "Expense Logging", path: "employee/expenses" },
+    { icon: FiFileText, label: "Mission Reporting", path: "employee/report" },
   ];
 
   return (
-    <div className="">
-      <aside
-      className={`fixed top-20 h-full left-0 w-64 flex flex-col justify-between shadow-md z-40 overflow-y-auto ${twTheme(
+    <aside
+      className={`fixed top-20 h-full left-0  w-64 flex flex-col justify-between shadow-md z-40 overflow-y-auto ${twTheme(
         "bg-blue-50",
         "bg-gray-900 text-white"
       )}`}
@@ -48,14 +47,14 @@ const Sidebar: React.FC = () => {
         {/* Navigation */}
         <nav className="space-y-2">
           {navItems.map(({ icon: Icon, label, path }) => {
-            const isActive = location.pathname === path;
+            const isActive = location.pathname.startsWith(path);
             return (
               <Link
                 key={label}
                 to={path}
-                className={`flex items-center text-lg font-bold gap-3 px-3 py-2 rounded-md  transition-colors ${
+                className={`flex items-center text-lg gap-3 px-3 py-2 rounded-md transition-colors ${
                   isActive
-                    ? "bg-gray-200 text-black font-bold text-lg"
+                    ? "bg-gray-200 text-black font-bold"
                     : twTheme(
                         "text-gray-700 hover:bg-gray-100",
                         "text-gray-300 hover:bg-gray-700"
@@ -71,35 +70,42 @@ const Sidebar: React.FC = () => {
 
         {/* Quick Actions */}
         <div className="mt-10">
-          <p className="mb-3 ml-10 text-lg font-bold">Quick Actions</p>
+          <p className="mb-3 ml-4 text-lg font-bold">Quick Actions</p>
           <div className="space-y-2">
-            {quickActions.map(({ icon: Icon, label, path }) => (
-              <Link
-                key={label}
-                to={path}
-                className="flex items-center gap-2 px-2 py-1 text-sm text-gray-600 hover:text-blue-600"
-              >
-                <Icon size={18} className="text-black" />
-                {label}
-              </Link>
-            ))}
+            {quickActions.map(({ icon: Icon, label, path }) => {
+              const isActive = location.pathname.startsWith(path);
+              return (
+                <Link
+                  key={label}
+                  to={path}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-md transition-colors ${
+                    isActive
+                      ? "bg-gray-200 text-black font-semibold"
+                      : twTheme(
+                          "text-gray-600 hover:text-blue-600",
+                          "text-gray-300 hover:bg-gray-700"
+                        )
+                  }`}
+                >
+                  <Icon size={18} className="text-black" />
+                  {label}
+                </Link>
+              );
+            })}
           </div>
-         <div className="p-5">
-        {/* other nav + quick actions */}
+        </div>
+      </div>
 
-        {/* ✅ Proper Logout Button */}
+      {/* ✅ Logout always at bottom */}
+      <div className="p-5">
         <button
           onClick={handleLogout}
-          className="mt-6  w-32 bg-green-600 text-white font-semibold py-2 rounded-2xl transition"
+          className="w-full bg-green-600 text-white font-semibold py-2 rounded-2xl transition hover:bg-green-700"
         >
           Logout
         </button>
       </div>
-
-        </div>
-      </div>
     </aside>
-    </div>
   );
 };
 

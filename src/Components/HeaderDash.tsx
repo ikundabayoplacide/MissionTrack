@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 interface HeaderProps {
-  onMenuClick?: () => void; // ✅ optional prop for sidebar toggle
+  onMenuClick?: () => void; 
 }
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
@@ -56,12 +56,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
         {/* Profile */}
         <div className="flex items-center mr-15 gap-2 cursor-pointer">
-          <div className="bg-blue-700 rounded-full p-3">
-            <FiUser
-              size={22}
-              className={twTheme("text-white", "text-gray-200")}
-            />
-          </div>
+           <img src={user?.profilePhoto || "/src/assets/profile.jpg"}alt="Profile" className="w-12 h-12 rounded-full object-cover" />
           <span className="text-sm font-medium">{user?.fullName || "Employee"}</span>
         </div>
       </div>

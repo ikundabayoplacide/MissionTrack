@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { PiBagSimple } from "react-icons/pi";
 import { IoLocationOutline } from "react-icons/io5";
@@ -6,6 +6,7 @@ import { BsCalendar2Event } from "react-icons/bs";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
+import axios from "axios";
 
 // --------------------
 // Reusable Card
@@ -44,7 +45,7 @@ const MissionCard: React.FC<MissionCardProps> = ({
   };
 
   return (
-    <li className="max-w-md mx-auto grid  md:w-[320px] lg:w-[450px]  bg-white rounded-xl shadow-md overflow-hidden m-4 p-6">
+    <li className="max-w-md mx-auto grid md:w-[320px] lg:w-[450px]  rounded-xl shadow-md overflow-hidden m-4 p-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center">
@@ -119,39 +120,38 @@ const MissionCard: React.FC<MissionCardProps> = ({
 // --------------------
 const RequestManager: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [missions, setMissions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const missions = [
-    {
-      initials: "SJ",
-      name: "Sarah Johnson",
-      role: "Marketing Manager",
-      title: "Mission Title",
-      location: "Location",
-      dateRange: "Jan 12, 2025 - Jan 12, 2025",
-      status: "pending" as const,
-    },
-    {
-      initials: "SJ",
-      name: "Sarah Johnson",
-      role: "Marketing Manager",
-      title: "Mission Title",
-      location: "Location",
-      dateRange: "Jan 12, 2025 - Jan 12, 2025",
-      status: "rejected" as const,
-    },
-    {
-      initials: "SJ",
-      name: "Sarah Johnson",
-      role: "Marketing Manager",
-      title: "Mission Title",
-      location: "Location",
-      dateRange: "Jan 12, 2025 - Jan 12, 2025",
-      status: "approved" as const,
-    },
-  ];
+  useEffect(() => {
+    const fetchMissions = async () => {
+      try {
+        const token = localStorage.getItem("token"); // ✅ get token
+        const res = await axios.get(
+          "https://missiontrack-backend.onrender.com/api/reports/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setMissions(res.data.data || []);
+      } catch (err) {
+        console.error("Error fetching missions:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMissions();
+  }, []);
+
+  const filteredMissions = missions.filter((m) =>
+    m.title?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="flex flex-col">
+    <div className="flex-1 flex flex-col min-h-screen bg-[#E6EAF5] pr-5">
       <div className="py-2 mt-5 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
         <h1 className="font-bold text-2xl text-center">Requests</h1>
       </div>
@@ -166,7 +166,7 @@ const RequestManager: React.FC = () => {
           placeholder=""
         />
         {searchTerm === "" && (
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-gray-400 flex items-center pointer-events-none">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-black flex items-center pointer-events-none">
             <FiSearch className="mr-2" />
             <span>Search missions...</span>
           </div>
@@ -174,11 +174,33 @@ const RequestManager: React.FC = () => {
       </div>
 
       {/* Mission Cards */}
-      <ul className="grid grid-cols-2 gap-[30px]  mt-5 items-center w-full">
-        {missions.map((mission, idx) => (
-          <MissionCard key={idx} {...mission} />
-        ))}
-      </ul>
+      {loading ? (
+        <p className="text-center text-black">Loading...</p>
+      ) : (
+        <ul className="grid grid-cols-2 gap-[30px] mt-5 items-center w-full">
+          {filteredMissions.length > 0 ? (
+            filteredMissions.map((m, idx) => (
+              <MissionCard
+                key={idx}
+                initials={m.name ? m.name.charAt(0).toUpperCase() : "U"}
+                name={m.name || "Unknown"}
+                role={m.role || "Employee"}
+                title={m.title || "No Title"}
+                location={m.location || "Unknown"}
+                dateRange={`${m.startDate || ""} - ${m.endDate || ""}`}
+                status={(m.status as MissionStatus) || "pending"}
+                onApprove={() => console.log("Approve", m.id)}
+                onReject={() => console.log("Reject", m.id)}
+                onDetails={() => console.log("Details", m.id)}
+              />
+            ))
+          ) : (
+            <p className="text-center text-gray-500 col-span-2">
+              No missions found
+            </p>
+          )}
+        </ul>
+      )}
     </div>
   );
 };
