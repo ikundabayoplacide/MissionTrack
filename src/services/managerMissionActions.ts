@@ -13,7 +13,26 @@ class MissionActionService {
             ...data, actorId
         });
         let missionStatus = mission.status;
-        await Mission.update({ status: missionStatus }, { where: { id: data.missionId } });
+
+        switch (data.action) {
+            case "Approve":
+                missionStatus = "manager_approved";
+                break;
+            case "Reject":
+                missionStatus = "rejected";
+                break;
+            case "Cancel":
+                missionStatus = "canceled";
+                break;
+            case "Complete":
+                missionStatus = "completed";
+                break;
+        }
+
+        await Mission.update(
+            { status: missionStatus },
+            { where: { id: data.missionId } }
+        );
 
         return action;
     }
