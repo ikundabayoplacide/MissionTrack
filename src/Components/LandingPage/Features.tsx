@@ -7,7 +7,7 @@ import { FiDollarSign } from "react-icons/fi";
 const Features: React.FC = () => {
     return (
         <div className="flex justify-center">
-            <div className=" w-full p-[120px] h-[500px]">
+            <div className=" w-full p-[100px] h-[500px]">
                 {/* Header */}
                 <div className="flex justify-center">
                     <div className="text-center">

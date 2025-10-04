@@ -40,15 +40,15 @@ const AppRoute = () => {
         <Route path="/employee" element={<Dashboard />} >
           <Route index element={<EmployeeHome />} />
           <Route path="notifications" element={<NotificationPage />} />
+            <Route path="profileA" element={<Profile />}>
+            <Route index element={<ProfileHome />} />
+            <Route path="preferencea" element={<Notification />} />
+            <Route path="passwordA" element={<Password />} />
+          </Route>
           <Route path="request" element={<Details />} />
           <Route path="requestList" element={<MissionList />} />
           <Route path="expenses" element={<MissionExpenses />} />
           <Route path="report" element={<Report />} />
-          <Route path="profileA" element={<Profile />}>
-            <Route index element={<ProfileHome />} />
-            <Route path="preferences" element={<Notification />} />
-            <Route path="password" element={<Password />} />
-          </Route>
         </Route>
 
 

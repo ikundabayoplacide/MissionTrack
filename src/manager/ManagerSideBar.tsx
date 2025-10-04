@@ -55,8 +55,8 @@ const navItems = [
               <Link
                 key={label}
                 to={path}
-                className={`flex items-center text-lg font-bold gap-3 px-3 py-2 rounded-md  transition-colors ${
-                  isActive
+                className={`flex items-center text-lg font-bold gap-3 px-3 py-2 rounded-md  transition-colors 
+                  ${isActive
                     ? "bg-gray-200 text-black font-bold text-lg"
                     : twTheme(
                         "text-gray-700 hover:bg-gray-100",

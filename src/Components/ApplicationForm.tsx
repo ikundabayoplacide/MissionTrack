@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import type { AppDispatch, RootState } from "../redux/store";
-import { registerCompany } from "../redux/companyRedux/companySlice";
+import { registerCompany, resetCompanyState } from "../redux/companyRedux/companySlice";
 import Input from "./Input";
 import Select from "./Select";
 import DragDrop from "./DragDrop";
 import Checkbox from "./Checkbox";
+import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
+import { Modal } from "antd";
 
 
 const provinces = ["Kigali", "Northern", "Southern", "Eastern", "Western"];
@@ -31,7 +33,8 @@ const ApplicationForm: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
-  const { user } = useAuth(); 
+  const { user } = useAuth();
+  const [successMessage, setSuccessMessage] = useState(false);
 
   // ✅ log entire Redux state for debugging
   const companyState = useSelector((state: RootState) => state);
@@ -46,8 +49,8 @@ const ApplicationForm: React.FC = () => {
   useEffect(() => {
     if (success) {
       setTimeout(() => {
-        navigate("/login");
-      }, 1500); // 1.5s delay so user sees "success" message
+        setSuccessMessage(true);
+      }, 1000); // 1.5s delay so user sees "success" message
     }
   }, [success, navigate]);
 
@@ -101,13 +104,6 @@ const ApplicationForm: React.FC = () => {
         });
     }
   }, [user]);
-
-useEffect(()=>{
-  if(success){
-     navigate("/login");
-  }
-},[success,navigate]);
-
 
   // ------------------- Handlers -------------------
   const handleChange = (
@@ -172,52 +168,60 @@ useEffect(()=>{
   };
 
   // ------------------- Submit -------------------
-const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
-  const newErrors = validateStep();
-  setErrors(newErrors);
-  if (Object.keys(newErrors).length > 0) return;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors = validateStep();
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
 
-  // Use FormData instead of plain object
-  const data = new FormData();
-  data.append("companyName", formData.organizationName);
-  data.append("companyEmail", formData.companyEmail);
-  data.append("companyContact", formData.companyPhoneNumber);
-  data.append("district", formData.district);
-  data.append("province", formData.province);
-  data.append("sector", formData.sector);
-  data.append("fullName", formData.person);
-  data.append("phoneNumber", formData.phone);
-  data.append("email", formData.email);
-  data.append("password", formData.password);
+    // Use FormData instead of plain object
+    const data = new FormData();
+    data.append("companyName", formData.organizationName);
+    data.append("companyEmail", formData.companyEmail);
+    data.append("companyContact", formData.companyPhoneNumber);
+    data.append("district", formData.district);
+    data.append("province", formData.province);
+    data.append("sector", formData.sector);
+    data.append("fullName", formData.person);
+    data.append("phoneNumber", formData.phone);
+    data.append("email", formData.email);
+    data.append("password", formData.password);
 
-  // Append file(s)
-  uploadedFiles.forEach((file: any) => {
-    if (!file.fromServer) {
-      data.append("proofDocument", file); 
-    }
-  });
+    // Append file(s)
+    uploadedFiles.forEach((file: any) => {
+      if (!file.fromServer) {
+        data.append("proofDocument", file);
+      }
+    });
 
-  dispatch(registerCompany(data));
-};
+    dispatch(registerCompany(data));
+  };
 
   // ------------------- Render -------------------
   return (
     <div className="min-h-screen bg-gradient-to-r from-primaryColor-10 via-primaryColor-10 to-accent-10 flex justify-center gap-20 w-full">
       {/* Left Side */}
-      <div className="flex flex-col justify-center items-center p-10">
-        <h1 className="text-accent-800 text-3xl text-center font-bold mb-10">
+      <div className="flex flex-col justify-center items-center px-10 mb-50">
+        {/* Logo */}
+        <div className="flex items-center gap-2  ">
+          <img src="logo.svg" alt="logo" className="h-12 w-12" />
+          <h1 className="font-bold text-xl">
+            <span className="text-primaryColor-700">Mission</span>
+            <span className="text-accent-700">Track.</span>
+          </h1>
+        </div>
+        <h1 className="text-accent-800 text-3xl text-center font-bold ">
           Enter Your Contacts and <br /> Organization Info for Registration
         </h1>
         <img
           src="bro.png"
           alt="illustration"
-          className="w-60 sm:w-80 md:w-96 mt-20"
+          className="w-60 sm:w-80 md:w-96 mt-10"
         />
       </div>
 
       {/* Right Side */}
-      <div className="flex flex-col items-center justify-start pt-10">
+      <div className="flex flex-col items-center justify-start pt-5">
         <div className="bg-white shadow-2xl rounded-2xl p-10 w-[600px] min-h-screen flex flex-col">
           {/* Success / Error */}
           {success && (
@@ -230,6 +234,9 @@ const handleSubmit = (e: React.FormEvent) => {
               {error}
             </div>
           )}
+          <div className="mb-4 text-xl text-center text-accent-700 font-bold">
+            <h2>New Organization Application Form</h2>
+          </div>
 
           {/* Stepper */}
           <div className="max-w-md mx-auto mb-4">
@@ -255,6 +262,7 @@ const handleSubmit = (e: React.FormEvent) => {
                     onChange={handleChange}
                     placeholder="Enter organization name"
                     error={errors.organizationName}
+                    className="bg-gray-100"
                   />
 
                   {/* Location */}
@@ -263,10 +271,11 @@ const handleSubmit = (e: React.FormEvent) => {
                       label="Province"
                       name="province"
                       value={formData.province}
-                      options={ provinces }
+                      options={provinces}
                       placeholder="Province"
                       onChange={handleChange}
                       error={errors.province}
+                      className="bg-gray-100"
                     />
                     <Select
                       label="District"
@@ -276,10 +285,12 @@ const handleSubmit = (e: React.FormEvent) => {
                       options={formData.province ? districts[formData.province] : []}
                       onChange={handleChange}
                       error={errors.district}
+                      className="bg-gray-100"
                     />
                     <Select
                       label="Sector"
                       name="sector"
+                      className="bg-gray-100"
                       value={formData.sector}
                       placeholder="Sector"
                       options={
@@ -297,6 +308,7 @@ const handleSubmit = (e: React.FormEvent) => {
                     <Input
                       label="Company Email"
                       name="companyEmail"
+                      className="bg-gray-100"
                       type="email"
                       value={formData.companyEmail}
                       onChange={handleChange}
@@ -306,6 +318,7 @@ const handleSubmit = (e: React.FormEvent) => {
                     <Input
                       label="Phone Number"
                       name="companyPhoneNumber"
+                      className="bg-gray-100"
                       value={formData.companyPhoneNumber}
                       onChange={handleChange}
                       placeholder="+250788888888"
@@ -326,12 +339,12 @@ const handleSubmit = (e: React.FormEvent) => {
 
                   {/* Preview uploaded files */}
                   {uploadedFiles.length > 0 && (
-                    <div className="mt-3 space-y-2">
+                    <div className="mt-3 space-y-2 bg-gray-100">
                       <ul className="space-y-1 text-sm text-gray-600">
                         {uploadedFiles.map((file: any, idx) => (
                           <li
                             key={idx}
-                            className="flex items-center justify-between bg-gray-50 p-2 rounded"
+                            className="flex items-center justify-between bg-gray-200 p-2 rounded-lg"
                           >
                             {file.fromServer ? (
                               <a
@@ -376,11 +389,13 @@ const handleSubmit = (e: React.FormEvent) => {
                   onChange={handleChange}
                   placeholder="Enter contact person name"
                   error={errors.person}
+                  className="bg-gray-100"
                 />
 
                 <Input
                   label="Phone"
                   name="phone"
+                  className="bg-gray-100"
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="Enter phone number"
@@ -391,6 +406,7 @@ const handleSubmit = (e: React.FormEvent) => {
                 <Input
                   label="Email"
                   name="email"
+                  className="bg-gray-100"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter email"
@@ -401,6 +417,7 @@ const handleSubmit = (e: React.FormEvent) => {
                 <Input
                   label="Password"
                   name="password"
+                  className="bg-gray-100"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter password"
@@ -408,80 +425,109 @@ const handleSubmit = (e: React.FormEvent) => {
                   error={errors.password}
                 />
 
-                <Checkbox
-                  label="I agree to the Terms & Conditions"
-                  checked={formData.agree}
-                  onChange={(e) =>
-                    setFormData({ ...formData, agree: e.target.checked })
-                  }
-                />
-                {errors.agree && (
-                  <p className="text-red-500 text-sm">{errors.agree}</p>
-                )}
+                <div className="flex items-center justify-between mt-2">
+                  <div className="flex items-center">
+                    <Checkbox
+                      label="I agree to the Terms & Conditions"
+                      checked={formData.agree}
+                      onChange={(e) =>
+                        setFormData({ ...formData, agree: e.target.checked })
+                      }
+                    />
+                    {errors.agree && (
+                      <p className="text-red-500 text-sm ml-2">{errors.agree}</p>
+                    )}
+                  </div>
+                </div>
+
               </>
             )}
 
             {/* Step 2 */}
             {step === 2 && (
-              <div className="bg-gray-50 rounded-lg p-4 overflow-auto max-h-[600px]">
-                <h3 className="font-bold mb-2">Review your details:</h3>
-                <ul className="text-sm space-y-1">
-                  <li>
-                    <strong>Organization:</strong> {formData.organizationName}
-                  </li>
-                  <li>
-                    <strong>Location:</strong> {formData.province},{" "}
-                    {formData.district}, {formData.sector}
-                  </li>
-                  <li>
-                    <strong>Representative:</strong> {formData.person}
-                  </li>
-                  <li>
-                    <strong>Phone:</strong> {formData.phone}
-                  </li>
-                  <li>
-                    <strong>Email:</strong> {formData.email}
-                  </li>
-                  <li>
-                    <strong>Files:</strong>
-                    <ul className="ml-4 list-disc">
-                      {uploadedFiles.map((file, idx) => (
-                        <li key={idx}>{file.name}</li>
-                      ))}
-                    </ul>
-                  </li>
-                </ul>
+              <div className="bg-gray-100 rounded-2xl shadow-md p-6 border border-gray-200 max-h-[600px] overflow-y-auto">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+                  Review Your Details
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                  <div className="bg-white p-3 rounded-lg shadow-sm">
+                    <p className="font-medium text-gray-700 mb-1">Organization</p>
+                    <p className="text-gray-600">{formData.organizationName || "-"}</p>
+                  </div>
+
+                  <div className="bg-white p-3 rounded-lg shadow-sm">
+                    <p className="font-medium text-gray-700 mb-1">Location</p>
+                    <p className="text-gray-600">
+                      {formData.province}, {formData.district}, {formData.sector}
+                    </p>
+                  </div>
+
+                  <div className="bg-white p-3 rounded-lg shadow-sm">
+                    <p className="font-medium text-gray-700 mb-1">Representative</p>
+                    <p className="text-gray-600">{formData.person || "-"}</p>
+                  </div>
+
+                  <div className="bg-white p-3 rounded-lg shadow-sm">
+                    <p className="font-medium text-gray-700 mb-1">Phone</p>
+                    <p className="text-gray-600">{formData.phone || "-"}</p>
+                  </div>
+
+                  <div className="bg-white p-3 rounded-lg shadow-sm">
+                    <p className="font-medium text-gray-700 mb-1">Email</p>
+                    <p className="text-gray-600">{formData.email || "-"}</p>
+                  </div>
+
+                  <div className="bg-white p-3 rounded-lg shadow-sm col-span-1 sm:col-span-2">
+                    <p className="font-medium text-gray-700 mb-1">Uploaded Files</p>
+                    {uploadedFiles && uploadedFiles.length > 0 ? (
+                      <ul className="list-disc list-inside text-gray-600">
+                        {uploadedFiles.map((file, idx) => (
+                          <li key={idx}>{file.name}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-gray-400 italic">No files uploaded</p>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
 
-            {/* Buttons */}
-            <div className="flex justify-center gap-4 mt-4">
+              <div className="text-sm mt-2 text-end">
+                    <p>
+                      Already have an account?{" "}
+                      <Link to="/login" className="text-blue-600 hover:underline">
+                        Log in
+                      </Link>
+                    </p>
+                  </div>
+            <div className="flex justify-center gap-4 mt-4 w-full">
               {step > 0 && (
                 <button
                   type="button"
                   onClick={handleBack}
-                  className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+                  className="px-2 py-1 flex items-center gap-2 justify-center w-full bg-gray-100 border border-gray-300 rounded-lg hover:border-blue-400 hover:border"
                 >
-                  Back
+                  <GrLinkPrevious className="inline-block" size={20} />Back
                 </button>
               )}
 
               {step < 2 ? (
                 <>
-                <div className="my-4"><p>Already have an account? <Link to="/login" className="text-blue-600 hover:underline">Log in</Link></p></div> <br />
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="px-4 py-1 bg-primaryColor-700 text-white rounded-lg hover:bg-primaryColor-800"
-                >
-                  Next
-                </button>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="px-2 w-full flex items-center justify-center gap-2 p-1 font-bold bg-accent-700 text-white rounded-lg hover:bg-accent-900 hover:shadow-lg"
+                  >
+                    Next  <GrLinkNext className="inline-block" size={20} />
+                  </button>
                 </>
               ) : (
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-primaryColor-700 text-white rounded-lg hover:bg-primaryColor-800"
+                  className="px-4 py-2 bg-primaryColor-700 w-full text-white rounded-lg hover:bg-primaryColor-800 hover:shadow-lg font-semibold"
                 >
                   {loading ? "Submitting..." : "Submit"}
                 </button>
@@ -489,9 +535,34 @@ const handleSubmit = (e: React.FormEvent) => {
             </div>
           </form>
         </div>
+        <Modal
+          open={successMessage} footer={null}
+          onCancel={() => {setSuccessMessage(false);
+            dispatch(resetCompanyState());
+          }
+          }
+          title="Registration Successful"
+          centered
+        >
+          <p className="text-green-700">Your organization has been registered successfully!</p>
+          <div className="mt-4 flex justify-center">
+            <button
+              onClick={() => {
+                setSuccessMessage(false);
+                navigate("/login");
+              }}
+              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800"
+            >
+             Go to Login
+            </button>
+          </div>
+        </Modal>
       </div>
     </div>
+
   );
 };
-    
+
 export default ApplicationForm;
+
+

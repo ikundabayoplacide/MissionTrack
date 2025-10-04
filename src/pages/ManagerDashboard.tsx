@@ -25,34 +25,8 @@ const ManagerDashboard: React.FC = () => {
         <div className="hidden sm:flex">
           <ManagerSideBar />
         </div>
-
-        {/* Main content */}
         <Outlet />
       </div>
-
-      {/* Sidebar Modal for small screens */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-50 flex">
-          {/* Overlay */}
-          <div
-            className="fixed inset-0 bg-black/50"
-            onClick={() => setMenuOpen(false)}
-          ></div>
-
-          {/* Sidebar Modal */}
-          <div
-            className={`relative w-64  h-full shadow-xl transform transition-transform duration-300`}
-          >
-            <ManagerSideBar />
-            <button
-              className="absolute top-4 right-4 text-gray-600 dark:text-gray-300"
-              onClick={() => setMenuOpen(false)}
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 };
