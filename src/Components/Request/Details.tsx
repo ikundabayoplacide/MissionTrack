@@ -11,6 +11,7 @@ import {
   FaFile,
 } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
+import { GrFormNextLink, GrNext } from "react-icons/gr";
 
 // 🔹 file type icon helper
 const getFileIcon = (fileName: string) => {
@@ -181,29 +182,29 @@ const Details: React.FC = () => {
               {/* Step 1 */}
               {currentStep === 0 && (
                 <div className="flex flex-col w-full space-y-4">
-                  <Input label="Mission Title" type="text" name="missionTitle" value={formData.missionTitle} onChange={handleChange} />
+                  <Input label="Mission Title" type="text" className="bg-gray-100" name="missionTitle" value={formData.missionTitle} onChange={handleChange} />
                   {errors.missionTitle && <span className="text-red-500 text-sm">{errors.missionTitle}</span>}
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <Input label="Names" type="text" name="names" value={formData.names} onChange={handleChange} />
+                      <Input label="Names" className="bg-gray-100" type="text" name="names" value={formData.names} onChange={handleChange} />
                       {errors.names && <span className="text-red-500 text-sm">{errors.names}</span>}
                     </div>
                     <div>
-                      <Input label="Title/Position" type="text" name="position" value={formData.position} onChange={handleChange} />
+                      <Input label="Title/Position"className="bg-gray-100" type="text" name="position" value={formData.position} onChange={handleChange} />
                       {errors.position && <span className="text-red-500 text-sm">{errors.position}</span>}
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-6">
                     <div>
-                      <Input label="Destination" type="text" name="destination" value={formData.destination} onChange={handleChange} />
+                      <Input label="Destination" type="text" className="bg-gray-100" name="destination" value={formData.destination} onChange={handleChange} />
                       {errors.destination && <span className="text-red-500 text-sm">{errors.destination}</span>}
                     </div>
                     <div>
-                      <Input label="Start Date" type="date" name="startDate" value={formData.startDate} onChange={handleChange} />
+                      <Input label="Start Date" type="date" className="bg-gray-100" name="startDate" value={formData.startDate} onChange={handleChange} />
                       {errors.startDate && <span className="text-red-500 text-sm">{errors.startDate}</span>}
                     </div>
                     <div>
-                      <Input label="End Date" type="date" name="endDate" value={formData.endDate} onChange={handleChange} />
+                      <Input label="End Date" type="date" className="bg-gray-100" name="endDate" value={formData.endDate} onChange={handleChange} />
                       {errors.endDate && <span className="text-red-500 text-sm">{errors.endDate}</span>}
                     </div>
                   </div>
@@ -214,7 +215,7 @@ const Details: React.FC = () => {
               {currentStep === 1 && (
                 <div className="grid grid-cols-2 gap-6 text-gray-700">
                   <div className="flex flex-col mt-6 space-y-4">
-                    <Input label="Document Description" type="text" name="description" value={formData.description} onChange={handleChange} />
+                    <Input label="Document Description" className="bg-gray-100" type="text" name="description" value={formData.description} onChange={handleChange} />
                     {errors.description && <span className="text-red-500 text-sm">{errors.description}</span>}
                     <div className="resize-y overflow-auto min-h-[150px] max-h-[400px] border-2 border-dashed border-gray-400 rounded-md">
                       <DragDrop onFileSelect={(files) => setUploadedFiles([...uploadedFiles, ...files])} />
@@ -254,8 +255,8 @@ const Details: React.FC = () => {
                   </button>
                 )}
                 {currentStep < steps.length - 1 ? (
-                  <button onClick={handleNext} className="px-4 py-2 rounded text-accent-500 border-2 border-accent-500 w-[200px]">
-                    Next
+                  <button onClick={handleNext} className="px-4 flex py-2 items-center justify-center rounded text-white bg-accent-700 w-[200px]">
+                    Next <GrFormNextLink size="25"/>
                   </button>
                 ) : (
                   <button

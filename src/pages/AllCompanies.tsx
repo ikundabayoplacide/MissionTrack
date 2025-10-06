@@ -121,10 +121,10 @@ const filteredCompany = (companies || []).filter((c) => {
             {/* Companies Table */}
             <div className="w-[900px] ml-5 flex justify-center">
               {loading ?(
-                <div className="flex items-center">
-                  <Spin className="mr-2 font-semibold" size="large"/>
-                  <div className="ml-2 ">Loading companies .....</div>
-                </div>
+                <div className="flex justify-center py-4">
+            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-blue-500"></div>
+            <p className="ml-2 text-gray-500">Loading companies...</p>
+          </div>
               ):(
                 error?(
                   <div className="text-red-500">{error}</div>

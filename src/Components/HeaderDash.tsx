@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
     theme === "light" ? light : dark;
 
   return (
-    <header
+     <header
       className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 h-20 border-b ${twTheme(
         "bg-white border-gray-200",
         "bg-gray-800 border-gray-700"

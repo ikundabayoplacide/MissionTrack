@@ -1,16 +1,26 @@
 import React from "react";
-import { FiUser} from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import { VscHome } from "react-icons/vsc";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../../hook/useTheme";
 import { GrGroup } from "react-icons/gr";
 import { FaFileAlt } from "react-icons/fa";
 import { FaChartBar } from "react-icons/fa6";
+import { useAuth } from "../../context/AuthContext";
+import { MdLogout } from "react-icons/md";
 
 const AdminSidebar: React.FC = () => {
     const { theme } = useTheme();
     const location = useLocation();
+    const { logout } = useAuth();
+    const navigate = useNavigate();
 
+
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login");
+    };
     const twTheme = (light: string, dark: string) =>
         theme === "light" ? light : dark;
 
@@ -37,7 +47,7 @@ const AdminSidebar: React.FC = () => {
                     "bg-gray-900 text-white"
                 )}`}
             >
-                <div className="p-5">
+                <div className=" flex-1 overflow-y-auto p-5">
                     {/* Navigation */}
                     <nav className="space-y-2">
                         {navItems.map(({ icon: Icon, label, path }) => {
@@ -47,11 +57,11 @@ const AdminSidebar: React.FC = () => {
                                     key={label}
                                     to={path}
                                     className={`flex items-center text-lg font-bold gap-3 px-3 py-2 rounded-md  transition-colors ${isActive
-                                            ? "bg-gray-200 text-black font-bold text-lg"
-                                            : twTheme(
-                                                "text-gray-700 hover:bg-gray-100",
-                                                "text-gray-300 hover:bg-gray-700"
-                                            )
+                                        ? "bg-gray-200 text-black font-bold text-lg"
+                                        : twTheme(
+                                            "text-gray-700 hover:bg-gray-100",
+                                            "text-gray-300 hover:bg-gray-700"
+                                        )
                                         }`}
                                 >
                                     <Icon size={20} className={isActive ? "text-black" : "text-black"} />
@@ -77,11 +87,12 @@ const AdminSidebar: React.FC = () => {
                             ))}
                         </div>
                         {/* Logout Button */}
-                        <div className="p-5 mt-30 bg-accent-500 w-30 text-center ml-10  text-white font-semibold py-2 rounded-2xl">
-                            <Link to={"/login"}>
-                                Logout
-                            </Link>
-                        </div>
+                        <button
+                               onClick={handleLogout}
+                               className=" bg-accent-600 text-white font-semibold py-2 rounded-2xl w-full flex items-center justify-center gap-2 hover:bg-accent-700 transition"
+                             >
+                              <MdLogout size={24} /> Logout
+                             </button>
                     </div>
                 </div>
             </aside>

@@ -14,16 +14,16 @@ const twTheme = (light: string, dark: string) => {
 
 const EmployeeHome: React.FC = () => {
     return (
-        <div className="flex flex-col">
+           <main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
             {/* Overview */}
-            <div className="mt-5">
-                <div className="mb-5 bg-gradient-to-r from-primaryColor-10 to-accent-10 p-3 rounded-lg shadow">
-                    <h1 className={`font-bold ${twTheme("text-black", "text-white")}`}>
+            <div className="flex gap-10">
+                <div className="mb-5 bg-gradient-to-r from-primaryColor-10 to-accent-10 p-3 w-full justify-center items-center flex rounded-lg shadow">
+                    <h1 className={`font-bold text-xl ${twTheme("text-black", "text-white")}`}>
                         Here's your mission request overview
                     </h1>
                 </div>
             </div>
-            <div className="py-6 px-4">
+            <div className="flex gap-10 flex-col">
                 <MissionOverview />
                 {/* Grid Sections */}
                 <div className="flex gap-10">
@@ -45,18 +45,18 @@ const EmployeeHome: React.FC = () => {
 
                 {/* Charts Section */}
                 <div className="flex mt-10 gap-4">
-                    <div className="flex-1 p-4">
+                    <div className="w-[350px]">
                         <AnnualMissionStatuses />
                     </div>
-                    <div className="flex-1 p-4">
+                    <div className="w-[350px">
                         <ThisMonthChart />
                     </div>
-                    <div className="flex-1 p-4">
+                    <div className="w-[350px]">
                         <ExpensesChart />
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 };
 

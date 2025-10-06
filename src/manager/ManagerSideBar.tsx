@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../hook/useTheme";
 import { useAuth } from "../context/AuthContext";
 import { RiTeamLine } from "react-icons/ri";
+import { MdLogout } from "react-icons/md";
 
 const ManagerSidebar: React.FC = () => {
   const { theme } = useTheme();
@@ -92,9 +93,9 @@ const navItems = [
         {/* ✅ Proper Logout Button */}
         <button
           onClick={handleLogout}
-          className="mt-25 w-32 bg-accent-600 text-white font-semibold py-2 rounded-2xl  transition"
+          className="mt-10 bg-accent-600 text-white font-semibold py-2 rounded-2xl w-full flex items-center justify-center gap-2 hover:bg-accent-700 transition"
         >
-          Logout
+         <MdLogout size={24} /> Logout
         </button>
       </div>
 

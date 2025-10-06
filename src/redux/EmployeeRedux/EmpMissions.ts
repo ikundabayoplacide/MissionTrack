@@ -59,7 +59,8 @@ const missionsSlice = createSlice({
             .addCase(fetchEmployeeMissions.fulfilled, (state, action) => {
                 state.loading = false;
                 state.success = true;
-               state.missions = action.payload.missions || action.payload || [];
+                state.missions = action.payload.data || [];
+
             })
             .addCase(fetchEmployeeMissions.rejected, (state, action) => {
                 state.loading = false;

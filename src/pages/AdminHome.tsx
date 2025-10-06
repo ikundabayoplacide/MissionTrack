@@ -30,7 +30,7 @@ const AdminHome: React.FC = () => {
 
 
     return(
-<main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
+     <main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
     <TopCard
         totalCompanies={totalCompanies}
         activeCompanies={activeCompanies}

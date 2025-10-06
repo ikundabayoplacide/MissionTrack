@@ -86,7 +86,10 @@ const handleConfirm = () => {
 
 
     if (companyLoading) return <div className="flex justify-center items-center ">
-        <div className="flex justify-center p-5"><Spin size="large" className="item-center"/> <p>Loading company info...</p></div>
+   <div className="flex justify-center py-4">
+            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-blue-500"></div>
+            <p className="ml-2 text-gray-500">Loading company info...</p>
+          </div>
     </div>;
     if (companyError) return <p className="text-red-500">{companyError}</p>;
     if (!company) return <p>No company found.</p>;
