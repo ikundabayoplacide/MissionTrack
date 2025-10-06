@@ -1,4 +1,5 @@
 import { Mission } from "../database/models/mission";
+import { MissionAction } from "../database/models/missionActions";
 import { MissDoc } from "../database/models/missionDocuments";
 import { MissionPayload, MissionUpdatePayload } from "../types/missionInfoInterface";
 
@@ -84,11 +85,13 @@ async updateMission(id: string, payload: MissionUpdatePayload){
   }
 
   async deleteMission(id: string): Promise<void> {
-    const mission = await Mission.findByPk(id);
+    const mission = await Mission.findByPk(id,{include:['documents']});
     if (!mission) {
       throw new Error("Mission not found");
     }
-    await mission.destroy();
+   await MissionAction.destroy({ where: { missionId: id } });
+  await MissDoc.destroy({ where: { missionId: id } });
+  await mission.destroy();
   }
 }
 
