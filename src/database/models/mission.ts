@@ -10,6 +10,9 @@ export interface missionCreationAttributes extends Omit<missionInterfaces, "id" 
 }
 
  class Mission extends Model<missionInterfaces, missionCreationAttributes> implements missionInterfaces {
+    createdMission(arg0: { plain: true; }): Mission | PromiseLike<Mission> {
+      throw new Error("Method not implemented.");
+    }
     missionTitle!: string;
     fullName!: string;
     startDate!: Date;
