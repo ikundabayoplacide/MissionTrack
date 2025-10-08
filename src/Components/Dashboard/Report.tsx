@@ -47,7 +47,7 @@ const Report: React.FC = () => {
 
   const approvedCompletedMissions = Array.isArray(missions)
     ? missions.filter((m) =>
-      ["pending", "manager_approved", "financial_approved", "completed"].includes(
+      ["financial_approved", "completed"].includes(
         m.status
       )
     )
