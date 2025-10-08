@@ -25,7 +25,6 @@ const MissionExpenses: React.FC = () => {
 
 
 
-  // Filter missions for approved and completed ones
   const approvedCompletedMissions = Array.isArray(missions)
     ? missions.filter(
       (mission) =>

@@ -10,7 +10,7 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { MdLocationPin } from "react-icons/md";
 import { AllReports, clearReports, fetchReportsByMissionId, createDailyReport } from "../../redux/EmployeeRedux/DailyReport";
 import { BiPlus } from "react-icons/bi";
-import { Modal } from "antd";
+import { Modal,message } from "antd";
 
 const Report: React.FC = () => {
   const { missions } = useSelector((state: RootState) => state.EmployeeMissions as {
@@ -37,6 +37,7 @@ const Report: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedMission, setSelectedMission] = useState<any | null>(null);
   const [open, setOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   // to get All reports
@@ -69,9 +70,10 @@ const Report: React.FC = () => {
       const missionArray = Array.isArray(missions) ? missions : missions.missions;
       const found = missionArray.find((m: any) => m.id === missionId) ?? null;
       setSelectedMission(found);
-      await dispatch(fetchReportsByMissionId(missionId)).unwrap?.();
+      await dispatch(fetchReportsByMissionId(missionId)).unwrap();
     } catch (error) {
       console.error("Error fetching reports:", error);
+      message.error("Failed to fetch reports for this mission");
     }
   };
 
@@ -95,7 +97,15 @@ const Report: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return;
+   if (!validateForm()) {
+      message.warning("Please fill in all required fields");
+      return;
+    }
+      if (!selectedMission) {
+      message.error("No mission selected");
+      return;
+    }
+    setSubmitting(true);
     const reportData = new FormData();
     reportData.append("description", formData.description);
     reportData.append("date", formData.date);
@@ -106,6 +116,7 @@ const Report: React.FC = () => {
     }
     try {
       await dispatch(createDailyReport(reportData)).unwrap();
+      message.success("Report created successfully!");
       setOpen(false);
       setFormData({
         description: "",
@@ -114,12 +125,18 @@ const Report: React.FC = () => {
         notes: "",
       });
       setUploadedFiles([]);
+      setErrors({});
       setShowForm(false);
+    
       if (selectedMission) {
-        dispatch(fetchReportsByMissionId(selectedMission.id)).unwrap?.();
+        dispatch(fetchReportsByMissionId(selectedMission.id));
       }
     } catch (error) {
       console.error("Error creating report:", error);
+      message.error(
+        (error && typeof error === "object" && "message" in error ? (error as any).message : undefined) ||
+        "Failed to create report. Please try again."
+      );
     }
   };
   const removeFile = (index: number) => {
@@ -145,10 +162,25 @@ const Report: React.FC = () => {
       </div>
 
       <div className="flex justify-between space-x-4 pt-4 border-t border-gray-200">
-        <button className="flex-1 flex items-center justify-center gap-2 px-8 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50">
+       {report.documents || report.filePath ? (
+        <a
+          href={`https://missiontrack-backend.onrender.com/${report.filePath || report.documents}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 flex items-center justify-center gap-2 px-8 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
           <IoEyeOutline size={20} />
-          View Doc
+          View_Doc
+        </a>
+      ) : (
+        <button 
+          disabled
+          className="flex-1 flex items-center justify-center gap-2 px-8 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-400 cursor-not-allowed"
+        >
+          <IoEyeOutline size={20} />
+          No Doc
         </button>
+      )}
         <button className="flex-1 flex items-center justify-center gap-2 px-2 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50">
           <FaEdit />
           Edit
@@ -208,7 +240,7 @@ const Report: React.FC = () => {
       {selectedMission && (
         <div className="flex justify-end mb-4">
           <button
-            onClick={() => setShowForm(true)}
+            onClick={() => {setShowForm(true); setOpen(true); }}
             className="bg-blue-600 hover:bg-blue-800 cursor-pointer text-white px-4 py-2 gap-1 flex rounded-md"
           >
             <BiPlus size={23} /> Report From {selectedMission.location}
@@ -238,7 +270,7 @@ const Report: React.FC = () => {
       <Modal
         title={`Add New Report for ${selectedMission?.missionTitle}`}
         open={showForm}
-        onCancel={() => setShowForm(false)}
+        onCancel={() => setOpen(false)}
         footer={null} 
         centered
       >
@@ -304,7 +336,7 @@ const Report: React.FC = () => {
               disabled={loading}
               className="bg-blue-500 text-white rounded px-4 py-2 mt-3"
             >
-              {loading ? "Saving..." : "Save Report"}
+            {submitting ? "Saving..." : "Save Report"}
             </button>
           </div>
         </form>

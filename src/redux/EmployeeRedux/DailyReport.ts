@@ -20,8 +20,7 @@ export const createDailyReport = createAsyncThunk(
         try {
             const response = await axios.post("https://missiontrack-backend.onrender.com/api/reports/", reportData,{
                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
+                    Authorization: `Bearer ${localStorage.getItem("token")}` }
 
             });
             return response.data.data;
