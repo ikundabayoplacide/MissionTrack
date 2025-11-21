@@ -1,12 +1,11 @@
 "use strict";
 
-const { v4: uuidv4 } = require("uuid");
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("companies", [
       {
-        id: uuidv4(), 
+        id: "da85a655-2b7c-4ca4-a20a-5cdec5e5485b", // Fixed UUID referenced by users seeder
         companyName: "Tech Innovators Ltd",
         companyEmail: "info@techinnovators.com",
         proofDocument: "proof_doc_1.pdf",
@@ -23,7 +22,7 @@ module.exports = {
         deletedAt: null,
       },
       {
-        id: uuidv4(), // ✅ same here
+        id: "f1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890", // Fixed UUID for second company
         companyName: "Agro Growth Ltd",
         companyEmail: "contact@agrogrowth.com",
         proofDocument: "proof_doc_2.pdf",
