@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
+
+  
   async up(queryInterface, Sequelize) {
     const hashedPassword = await bcrypt.hash('password123', 10);
 
