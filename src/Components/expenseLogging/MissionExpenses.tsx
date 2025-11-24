@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { clearState, deleteExpenseLog, fetchExpenseLogsByMissionId, uploadExpenseLog } from "../../redux/EmployeeRedux/ExpenseLogs";
+import { fetchEmployeeMissions } from "../../redux/EmployeeRedux/EmpMissions"; // ← ADD THIS IMPORT
 import { AppDispatch, RootState } from "../../redux/store";
 import { MdDelete, MdEdit, MdLocationPin } from "react-icons/md";
 
 const MissionExpenses: React.FC = () => {
 
   const { expenseLogs, success } = useSelector((state: RootState) => state.ExpenseLogs);
-  const { missions } = useSelector((state: RootState) => state.EmployeeMissions as {
+  const { missions, loading: missionsLoading } = useSelector((state: RootState) => state.EmployeeMissions as {
     missions: any[] | { missions: any[] };
     loading: boolean;
     error: string | null;
@@ -19,22 +20,23 @@ const MissionExpenses: React.FC = () => {
   const [transportFile, setTransportFile] = useState<File | null>(null);
   const [selectedMission, setSelectedMission] = useState<any | null>(null);
   const [loadingExpenses, setLoadingExpenses] = useState(false);
-  const [loadingMissions, setLoadingMissions] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-
-
-  const approvedCompletedMissions = Array.isArray(missions)
-    ? missions.filter(
-      (mission) =>
-        mission.status === "completed" || mission.status === "financial_approved" 
-    )
-    : [];
-
-
-
   const dispatch = useDispatch<AppDispatch>();
+
+  // ✅ FETCH MISSIONS ON COMPONENT MOUNT
+  useEffect(() => {
+    dispatch(fetchEmployeeMissions());
+  }, [dispatch]);
+
+  const missionArray = Array.isArray(missions) ? missions : missions?.missions || [];
+
+  const approvedCompletedMissions = missionArray.filter(
+    (mission) =>
+      mission.status === "completed" || mission.status === "manager_approved"
+  );
+
   const [formData, setFormData] = useState({
     date: "",
     missionId: "",
@@ -43,7 +45,6 @@ const MissionExpenses: React.FC = () => {
     transportAmount: "",
     description: ""
   });
-
 
   const handleAccommodationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -65,14 +66,12 @@ const MissionExpenses: React.FC = () => {
 
   const handleMissionClick = async (missionId: string) => {
     setLoadingExpenses(true);
-    const missionArray = Array.isArray(missions) ? missions : missions.missions || [];
     const mission = missionArray.find((m) => m.id === missionId);
     setSelectedMission(mission);
     await dispatch(fetchExpenseLogsByMissionId(missionId));
     setLoadingExpenses(false);
     setActiveTab("daily");
   };
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,13 +104,10 @@ const MissionExpenses: React.FC = () => {
     } catch (err) {
       console.error(err);
       alert("Failed to upload expense");
-    }
-    finally {
+    } finally {
       setIsSubmitting(false);
     }
   };
-
-  // Delete Expenselog
 
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this expense log?")) return;
@@ -128,17 +124,11 @@ const MissionExpenses: React.FC = () => {
     }
   };
 
-
   useEffect(() => {
-    dispatch(fetchExpenseLogsByMissionId(selectedMission?.id));
+    if (selectedMission) {
+      dispatch(fetchExpenseLogsByMissionId(selectedMission?.id));
+    }
   }, [dispatch, selectedMission]);
-
-  useEffect(() => {
-    setLoadingMissions(true);
-    setTimeout(() => {
-      setLoadingMissions(false);
-    }, 1000);
-  }, []);
 
   useEffect(() => {
     if (success) {
@@ -157,16 +147,15 @@ const MissionExpenses: React.FC = () => {
 
   return (
     <>
-
       <div className="w-full rounded-lg bg-white p-1">
         {/* Header with gradient */}
-        <div className="w-full py-2  bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
+        <div className="w-full py-2 bg-gradient-to-l from-accent-10 rounded-md to-primaryColor-50">
           <h1 className="font-bold text-2xl text-center">Mission Expenses</h1>
         </div>
 
-        <div className=" px-6  rounded-lg">
+        <div className="px-6 rounded-lg">
           <div className="my-4">
-            {loadingMissions ? (
+            {missionsLoading ? (
               <div className="flex justify-center py-4">
                 <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-blue-500"></div>
                 <p className="ml-2 text-gray-500">Loading missions...</p>
@@ -187,15 +176,17 @@ const MissionExpenses: React.FC = () => {
                           {mission.location}
                         </p>
                         <p
-                          className={`text-sm italic font-semibold ${mission.status === "completed"
-                            ? "text-purple-600"
-                            : mission.status === "financial_approved"
+                          className={`text-sm italic font-semibold ${
+                            mission.status === "completed"
+                              ? "text-purple-600"
+                              : mission.status === "financial_approved"
                               ? "text-blue-500"
                               : mission.status === "pending"
-                                ? "text-orange-400" : "text-green-500"
-                            }`}
+                                ? "text-orange-400"
+                                : "text-green-500"
+                          }`}
                         >
-                         {mission.status === "financial_approved" ? "Ongoing" : mission.status}
+                          {mission.status === "financial_approved" ? "Ongoing" : mission.status}
                         </p>
                       </div>
                       <p className="text-sm text-gray-500">
@@ -206,43 +197,45 @@ const MissionExpenses: React.FC = () => {
                   ))
                 ) : (
                   <p className="text-center text-gray-500 py-4">
-                    No approved or pending missions found.
+                    No approved or completed missions found.
                   </p>
                 )}
               </div>
             )}
           </div>
 
-
-
           {/* Tabs */}
           <div className="flex border-b justify-between px-4">
             <button
               onClick={() => setActiveTab("daily")}
-              className={`px-4 py-2 text-sm font-medium ${activeTab === "daily"
-                ? "border-b-2 border-blue-500 text-blue-600"
-                : "text-gray-500 hover:text-blue-600"
-                }`}
+              className={`px-4 py-2 text-sm font-medium ${
+                activeTab === "daily"
+                  ? "border-b-2 border-blue-500 text-blue-600"
+                  : "text-gray-500 hover:text-blue-600"
+              }`}
             >
               Daily
             </button>
             <button
               onClick={() => setActiveTab("calendar")}
-              className={`px-4 py-2 text-sm font-medium ${activeTab === "calendar"
-                ? "border-b-2 border-blue-500 text-black font-bold text-lg"
-                : "text-gray-500 hover:text-blue-600"
-                }`}
+              className={`px-4 py-2 text-sm font-medium ${
+                activeTab === "calendar"
+                  ? "border-b-2 border-blue-500 text-black font-bold text-lg"
+                  : "text-gray-500 hover:text-blue-600"
+              }`}
             >
               Calendar
             </button>
             <div className="p-4">
               <button
                 onClick={() => setActiveTab("add")}
-                className={`px-4 py-2 text-sm font-medium ${activeTab === "add"
-                  ? "border-b-2 border-blue-500 text-black font-bold text-lg"
-                  : "text-gray-500 hover:text-blue-600"
-                  }`}>
-                <FiPlus size={25} className=" bg-blue-500 text-white rounded-full" />
+                className={`px-4 py-2 text-sm font-medium ${
+                  activeTab === "add"
+                    ? "border-b-2 border-blue-500 text-black font-bold text-lg"
+                    : "text-gray-500 hover:text-blue-600"
+                }`}
+              >
+                <FiPlus size={25} className="bg-blue-500 text-white rounded-full" />
               </button>
             </div>
           </div>
@@ -263,9 +256,7 @@ const MissionExpenses: React.FC = () => {
                     <span className="text-sm font-semibold text-gray-600">
                       {new Date(exp.date).toDateString()}
                     </span>
-                    <span className="text-sm font-semibold text-gray-600">
-                      {exp.status}
-                    </span>
+                    <span className="text-sm font-semibold text-gray-600">{exp.status}</span>
                     <div className="flex gap-2">
                       <MdEdit />
                       {deletingId === String(exp.id) ? (
@@ -279,7 +270,6 @@ const MissionExpenses: React.FC = () => {
                           className="cursor-pointer text-red-500 hover:text-red-700"
                         />
                       )}
-
                     </div>
                   </div>
 
@@ -288,11 +278,7 @@ const MissionExpenses: React.FC = () => {
                       <div className="flex gap-2">
                         <span className="text-gray-700">Accommodation</span>
                         {exp.accommodationFile && (
-                          <a
-                            href={exp.accommodationFile}
-                            target="_blank"
-                            className="text-green-600 underline"
-                          >
+                          <a href={exp.accommodationFile} target="_blank" className="text-green-600 underline">
                             View
                           </a>
                         )}
@@ -316,11 +302,7 @@ const MissionExpenses: React.FC = () => {
                       <div className="flex gap-2">
                         <span className="text-gray-700">Transport</span>
                         {exp.transportFile && (
-                          <a
-                            href={exp.transportFile}
-                            target="_blank"
-                            className="text-green-600 underline"
-                          >
+                          <a href={exp.transportFile} target="_blank" className="text-green-600 underline">
                             View
                           </a>
                         )}
@@ -332,22 +314,17 @@ const MissionExpenses: React.FC = () => {
                         <div className="mt-2 text-sm text-gray-600">Notes: {exp.description}</div>
                       )}
                       <span className="text-sm font-bold text-red-500">
-                        Total::{exp.accommodationAmount + exp.mealsAmount + exp.transportAmount} Rwf
+                        Total: {exp.accommodationAmount + exp.mealsAmount + exp.transportAmount} Rwf
                       </span>
                     </div>
-
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-center text-gray-500 py-4">
-                No expense logs for this mission yet.
-              </p>
+              <p className="text-center text-gray-500 py-4">No expense logs for this mission yet.</p>
             )}
           </div>
         )}
-
-
 
         {/* Calendar Tab */}
         {activeTab === "calendar" && (
@@ -373,34 +350,31 @@ const MissionExpenses: React.FC = () => {
               ].map((day, index) => (
                 <div
                   key={index}
-                  className={`border-[0.5px] border-black p-5 ${day === "24" ? "bg-blue-500 text-white font-bold" : ""
-                    }`}
+                  className={`border-[0.5px] border-black p-5 ${
+                    day === "24" ? "bg-blue-500 text-white font-bold" : ""
+                  }`}
                 >
                   {day}
                 </div>
               ))}
             </div>
-
           </div>
         )}
+
         {/* Add Tab */}
         {activeTab === "add" && (
           <div className="p-4">
             <h2 className="text-lg font-semibold mb-4">Add New Expense</h2>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Date
-                </label>
+                <label className="block text-sm font-medium text-gray-700">Date</label>
                 <input
                   type="date"
                   id="date"
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                 />
               </div>
-              <label className="block text-sm font-medium text-gray-700">
-                Accomodation Receipt
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Accommodation Receipt</label>
               <div className="relative">
                 <input
                   type="file"
@@ -411,23 +385,17 @@ const MissionExpenses: React.FC = () => {
                   {accommodationFile ? accommodationFile.name : "Select file"}
                 </div>
               </div>
-              <label className="block text-sm font-medium text-gray-700">
-                Meal Receipt
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Meal Receipt</label>
               <div className="relative">
                 <input
                   type="file"
                   className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
                   onChange={handleMealChange}
                 />
-                <div className="border p-2 rounded-md">
-                  {mealFile ? mealFile.name : "Select file"}
-                </div>
+                <div className="border p-2 rounded-md">{mealFile ? mealFile.name : "Select file"}</div>
               </div>
 
-              <label className="block text-sm font-medium text-gray-700">
-                Transport Receipt
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Transport Receipt</label>
               <div className="relative">
                 <input
                   type="file"
@@ -439,9 +407,7 @@ const MissionExpenses: React.FC = () => {
                 </div>
               </div>
               <div className="">
-                <label className="block text-sm font-medium text-gray-700">
-                  Notes
-                </label>
+                <label className="block text-sm font-medium text-gray-700">Notes</label>
                 <textarea
                   name="description"
                   id="description"
@@ -452,12 +418,12 @@ const MissionExpenses: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`bg-blue-600 w-1/2 flex items-center justify-center text-white px-4 py-2 rounded-md ${isSubmitting ? "opacity-60 cursor-not-allowed" : "hover:bg-blue-700"
-                    }`}
+                  className={`bg-blue-600 w-1/2 flex items-center justify-center text-white px-4 py-2 rounded-md ${
+                    isSubmitting ? "opacity-60 cursor-not-allowed" : "hover:bg-blue-700"
+                  }`}
                 >
                   {isSubmitting ? "Submitting..." : "Submit receipts"}
                 </button>
-
               </div>
             </form>
           </div>

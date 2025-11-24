@@ -17,7 +17,7 @@ const OngoingMissions: React.FC = () => {
       try {
         const token = localStorage.getItem("token"); // ✅ saved token
         const res = await fetch(
-          "https://missiontrack-backend.onrender.com/api/missions/employee",
+          `${import.meta.env.VITE_API_BASE_URL}/missions/employee`,
           {
             headers: {
               Accept: "application/json",
@@ -45,9 +45,8 @@ const OngoingMissions: React.FC = () => {
 
   return (
     <div
-      className={`rounded-xl shadow-sm p-5 ${
-        theme === "light" ? "bg-white text-black" : "bg-gray-800 text-white"
-      }`}
+      className={`rounded-xl shadow-sm p-5 ${theme === "light" ? "bg-white text-black" : "bg-gray-800 text-white"
+        }`}
     >
       <h3 className="font-bold mb-4">Ongoing Missions</h3>
 
@@ -66,11 +65,10 @@ const OngoingMissions: React.FC = () => {
               <div className="flex items-center gap-3">
                 <p className="font-medium">{mission.missionTitle}</p>
                 <span
-                  className={`w-3 h-3 rounded-full ${
-                    mission.status === "pending"
+                  className={`w-3 h-3 rounded-full ${mission.status === "pending"
                       ? "bg-yellow-500"
                       : "bg-green-500"
-                  }`}
+                    }`}
                 />
               </div>
             </div>

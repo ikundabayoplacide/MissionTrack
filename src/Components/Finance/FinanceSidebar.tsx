@@ -1,8 +1,7 @@
 import React from "react";
 import { CiBellOn } from "react-icons/ci";
-import { FiUser, FiList, FiPlusCircle } from "react-icons/fi";
+import { FiUser, FiSettings } from "react-icons/fi";
 import { VscHome } from "react-icons/vsc";
-import { BiWallet } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../../hook/useTheme";
 import { GrGroup } from "react-icons/gr";
@@ -35,12 +34,13 @@ const FinanceSidebar: React.FC = () => {
     return (
         <div className="">
             <aside
-                className={`fixed top-20 h-full left-0 w-64 flex flex-col justify-between shadow-md z-40 overflow-y-auto ${twTheme(
+                className={`fixed top-20 h-[calc(100vh-5rem)] left-0 w-64 flex flex-col shadow-md z-40 ${twTheme(
                     "bg-blue-50",
                     "bg-gray-900 text-white"
                 )}`}
             >
-                <div className="p-5">
+                {/* Main content - scrollable */}
+                <div className="flex-1 overflow-y-auto p-5">
                     {/* Navigation */}
                     <nav className="space-y-2">
                         {navItems.map(({ icon: Icon, label, path }) => {
@@ -49,12 +49,12 @@ const FinanceSidebar: React.FC = () => {
                                 <Link
                                     key={label}
                                     to={path}
-                                    className={`flex items-center text-lg font-bold gap-3 px-3 py-2 rounded-md  transition-colors ${isActive
-                                            ? "bg-gray-200 text-black font-bold text-lg"
-                                            : twTheme(
-                                                "text-gray-700 hover:bg-gray-100",
-                                                "text-gray-300 hover:bg-gray-700"
-                                            )
+                                    className={`flex items-center text-lg font-bold gap-3 px-3 py-2 rounded-md transition-colors ${isActive
+                                        ? "bg-gray-200 text-black font-bold text-lg"
+                                        : twTheme(
+                                            "text-gray-700 hover:bg-gray-100",
+                                            "text-gray-300 hover:bg-gray-700"
+                                        )
                                         }`}
                                 >
                                     <Icon size={20} className={isActive ? "text-black" : "text-black"} />
@@ -79,13 +79,24 @@ const FinanceSidebar: React.FC = () => {
                                 </Link>
                             ))}
                         </div>
-                        {/* Logout Button */}
-                        <div className="p-5 mt-30 bg-accent-500 w-30 text-center ml-10  text-white font-semibold py-2 rounded-2xl">
-                            <Link to={"/login"}>
-                                Logout
-                            </Link>
-                        </div>
                     </div>
+                </div>
+
+                {/* Settings at the bottom - always visible */}
+                <div className={`p-5 border-t shrink-0 ${twTheme("border-gray-300", "border-gray-700")}`}>
+                    <Link
+                        to="/finance/settings"
+                        className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${location.pathname === "/finance/settings"
+                            ? "bg-gray-200 text-black font-bold"
+                            : twTheme(
+                                "text-gray-700 hover:bg-gray-100",
+                                "text-gray-300 hover:bg-gray-700"
+                            )
+                            }`}
+                    >
+                        <FiSettings size={22} className="text-black" />
+                        <span className="font-bold text-lg">Settings</span>
+                    </Link>
                 </div>
             </aside>
         </div>

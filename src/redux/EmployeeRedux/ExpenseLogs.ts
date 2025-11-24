@@ -31,7 +31,7 @@ export const uploadExpenseLog = createAsyncThunk(
     "expenseLogs/upload",
     async (expenseData: FormData, { rejectWithValue }) => {
         try {
-            const res = await axios.post("https://missiontrack-backend.onrender.com/api/expenselog", expenseData, {
+            const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/expenselog`, expenseData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "multipart/form-data",
@@ -50,7 +50,7 @@ export const uploadExpenseLog = createAsyncThunk(
 //     "expenseLogs/fetchAll",
 //     async (_, { rejectWithValue }) => {
 //         try {
-//             const res = await axios.get("https://missiontrack-backend.onrender.com/api/expenselogs", {
+//             const res = await axios.get("https://missiontrack-backend.localhost:5000/api/expenselogs", {
 //                 headers: {
 //                     Authorization: `Bearer ${localStorage.getItem("token")}`
 //                 }
@@ -68,7 +68,7 @@ export const fetchExpenseLogsByMissionId = createAsyncThunk(
     "expenseLogs/fetchByMission",
     async (missionId: string, { rejectWithValue }) => {
         try {
-            const res = await axios.get(`https://missiontrack-backend.onrender.com/api/expenselogs/mission/${missionId}`, {
+            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/expenselogs/mission/${missionId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -81,11 +81,11 @@ export const fetchExpenseLogsByMissionId = createAsyncThunk(
         }
     }
 );
-export const deleteExpenseLog=createAsyncThunk(
+export const deleteExpenseLog = createAsyncThunk(
     "expenseLogs/delete",
     async (expenseId: string, { rejectWithValue }) => {
         try {
-            const res = await axios.delete(`https://missiontrack-backend.onrender.com/api/expenselog/${expenseId}`, {
+            const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/expenselog/${expenseId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

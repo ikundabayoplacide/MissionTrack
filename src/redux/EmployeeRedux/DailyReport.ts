@@ -18,9 +18,10 @@ export const createDailyReport = createAsyncThunk(
     'reports/create',
     async (reportData: FormData, { rejectWithValue }) => {
         try {
-            const response = await axios.post("https://missiontrack-backend.onrender.com/api/reports/", reportData,{
-               headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}` }
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/reports/`, reportData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
 
             });
             return response.data.data;
@@ -34,10 +35,10 @@ export const AllReports = createAsyncThunk(
     'reports/fetchAll',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.get("https://missiontrack-backend.onrender.com/api/reports/",
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/reports/`,
                 { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
             );
-           return response.data.data;
+            return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data);
         }
@@ -48,7 +49,7 @@ export const fetchReportsByMissionId = createAsyncThunk(
     'reports/fetchByMissionId',
     async (missionId: string, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://missiontrack-backend.onrender.com/api/reports/mission/${missionId}`,
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/reports/mission/${missionId}`,
                 { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
             );
             return response.data.data;

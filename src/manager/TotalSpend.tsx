@@ -22,7 +22,7 @@ const TotalSpend: React.FC<TotalSpendProps> = ({
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://missiontrack-backend.onrender.com/api/missions/manager",
+        `${import.meta.env.VITE_API_BASE_URL}/missions/manager`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -55,10 +55,10 @@ const TotalSpend: React.FC<TotalSpendProps> = ({
     >
       <div>
         <div className="flex gap-30">
-            <p className="text-lg font-bold">{subtitle}</p>
-             <div className="text-red-600">
-        <CiDollar size={20} aria-hidden />
-      </div>
+          <p className="text-lg font-bold">{subtitle}</p>
+          <div className="text-red-600">
+            <CiDollar size={20} aria-hidden />
+          </div>
         </div>
 
         <h2 className="text-2xl font-bold text-red-600 mt-5">{formattedAmount}</h2>

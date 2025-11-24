@@ -23,7 +23,7 @@ const ReportManager: React.FC = () => {
       try {
         const token = localStorage.getItem("token"); // ✅ stored after login
         const response = await axios.get(
-          "https://missiontrack-backend.onrender.com/api/reports/",
+          `${import.meta.env.VITE_API_BASE_URL}/reports/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -98,10 +98,10 @@ const ReportManager: React.FC = () => {
             <span className="text-2xl font-bold text-gray-900">
               {reports.length > 0
                 ? `${Math.round(
-                    (reports.filter((r) => r.status === "Completed").length /
-                      reports.length) *
-                      100
-                  )} %`
+                  (reports.filter((r) => r.status === "Completed").length /
+                    reports.length) *
+                  100
+                )} %`
                 : "0 %"}
             </span>
             <span className="text-2xl font-bold text-primaryColor-600">
@@ -133,11 +133,10 @@ const ReportManager: React.FC = () => {
                     {report.title}
                   </h2>
                   <span
-                    className={`rounded-full px-3 py-1 text-sm font-semibold ${
-                      report.status === "Completed"
+                    className={`rounded-full px-3 py-1 text-sm font-semibold ${report.status === "Completed"
                         ? "bg-accent-600 text-white"
                         : "bg-orange-200 text-orange-800"
-                    }`}
+                      }`}
                   >
                     {report.status}
                   </span>

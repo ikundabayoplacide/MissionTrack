@@ -17,11 +17,11 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Header />
-      <div className={`flex mt-20  ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`}>
+      <div className={`flex mt-20 min-h-[calc(100vh-5rem)] ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`}>
         <Sidebar />
         {/* Main content area with proper margin for sidebar */}
-        <main className="flex-1 ml-64 p-1 overflow-y-auto">
-          <Outlet/>
+        <main className="flex-1 sm:ml-64 p-6 overflow-x-hidden">
+          <Outlet />
         </main>
       </div>
     </>

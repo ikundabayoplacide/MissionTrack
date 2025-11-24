@@ -27,18 +27,20 @@ export const approveOrRejectCompany = createAsyncThunk(
             companyId,
             action,
             comment,
-        }: { companyId: string; action: "approve" | "reject"; comment?: string }) => {
+        }: { companyId: string; action: "approve" | "reject"; comment?: string },
+        { rejectWithValue }
+    ) => {
         try {
             const status = action === "approve" ? "approved" : "rejected";
             const payload: any = { status };
             if (comment) {
                 payload.comment = comment;
             }
-            console.log("Payload being sent:", payload);
-            console.log("Token:", localStorage.getItem("token"));
+            console.log("🔄 Approve/Reject - Payload being sent:", payload);
+            console.log("🔑 Token exists:", !!localStorage.getItem("token"));
 
-            const response = await axios.patch(
-                `https://missiontrack-backend.onrender.com/api/company/approveReject/${companyId}`,
+            const res = await axios.patch(
+                `${import.meta.env.VITE_API_BASE_URL}/company/approveReject/${companyId}`,
                 payload,
                 {
                     headers: {
@@ -46,11 +48,18 @@ export const approveOrRejectCompany = createAsyncThunk(
                     },
                 }
             );
-            console.log("Payload being sent:", { status, comment });
-            return response.data;
+            console.log("✅ Approve/Reject - Success:", res.data);
+            return res.data;
 
         } catch (error: any) {
-            console.error("approveOrRejectCompany error object:", error);
+            console.error("❌ approveOrRejectCompany error:", {
+                status: error.response?.status,
+                message: error.response?.data?.message,
+                data: error.response?.data
+            });
+            return rejectWithValue(
+                error.response?.data?.message || "Failed to approve/reject company"
+            );
         }
     }
 );
@@ -63,7 +72,9 @@ export const blockOrUnblockCompany = createAsyncThunk(
             companyId,
             action,
             comment,
-        }: { companyId: string; action: "block" | "active"; comment?: string }) => {
+        }: { companyId: string; action: "block" | "active"; comment?: string },
+        { rejectWithValue }
+    ) => {
         try {
             const state = action === "block" ? "blocked" : "active";
             const payload: any = { state };
@@ -71,11 +82,11 @@ export const blockOrUnblockCompany = createAsyncThunk(
                 payload.comment = comment;
             }
 
-            console.log("Payload being sent:", payload);
-            console.log("Token:", localStorage.getItem("token"));
+            console.log("🔄 Block/Unblock - Payload being sent:", payload);
+            console.log("🔑 Token exists:", !!localStorage.getItem("token"));
 
-            const response = await axios.patch(
-                `https://missiontrack-backend.onrender.com/api/company/block/${companyId}`,
+            const res = await axios.patch(
+                `${import.meta.env.VITE_API_BASE_URL}/company/block/${companyId}`,
                 payload,
                 {
                     headers: {
@@ -83,11 +94,18 @@ export const blockOrUnblockCompany = createAsyncThunk(
                     },
                 }
             );
-            console.log("Payload being sent:", { state });
-            return response.data;
+            console.log("✅ Block/Unblock - Success:", res.data);
+            return res.data;
 
         } catch (error: any) {
-            console.error("blockOrUnblockCompany error object:", error);
+            console.error("❌ blockOrUnblockCompany error:", {
+                status: error.response?.status,
+                message: error.response?.data?.message,
+                data: error.response?.data
+            });
+            return rejectWithValue(
+                error.response?.data?.message || "Failed to block/unblock company"
+            );
         }
     }
 );
@@ -120,7 +138,7 @@ const actionSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload as string;
             });
-            // about block and unblock
+        // about block and unblock
         builder
             .addCase(blockOrUnblockCompany.pending, (state) => {
                 state.loading = true;

@@ -4,9 +4,9 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
   name: string;
   value: string;
-  options: string[];
+  options: (string | { label: string; value: string })[];
   placeholder?: string;
-  error?: string; 
+  error?: string;
   labelClassName?: string; // ✅ allow custom label color
 }
 
@@ -22,8 +22,8 @@ const Select: React.FC<SelectProps> = ({
   ...rest
 }) => (
   <div className="mb-4">
-    <label 
-      htmlFor={name} 
+    <label
+      htmlFor={name}
       className={`block font-bold mb-2 ${labelClassName}`} // ✅ apply label style
     >
       {label}
@@ -40,11 +40,15 @@ const Select: React.FC<SelectProps> = ({
       <option value="" disabled>
         {placeholder || "-- Select --"}
       </option>
-      {options.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
+      {options.map((option) => {
+        const optionLabel = typeof option === "string" ? option : option.label;
+        const optionValue = typeof option === "string" ? option : option.value;
+        return (
+          <option key={optionValue} value={optionValue}>
+            {optionLabel}
+          </option>
+        );
+      })}
     </select>
     {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
   </div>

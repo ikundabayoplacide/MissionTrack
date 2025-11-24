@@ -20,7 +20,7 @@ const MissionReview: React.FC = () => {
   useEffect(() => {
     const fetchMissions = async () => {
       const token = localStorage.getItem("token");
-      const res = await fetch("https://missiontrack-backend.onrender.com/api/missions", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/missions`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -33,7 +33,7 @@ const MissionReview: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       await fetch(
-        `https://missiontrack-backend.onrender.com/api/missions/${missionId}/status`,
+        `${import.meta.env.VITE_API_BASE_URL}/missions/${missionId}/status`,
         {
           method: "PATCH",
           headers: {
@@ -101,7 +101,7 @@ const MissionReview: React.FC = () => {
             <p><strong>Destination:</strong> {selectedMission.location}</p>
             <p><strong>Dates:</strong> {selectedMission.startDate} → {selectedMission.endDate}</p>
             <p><strong>Description:</strong> {selectedMission.missionDescription}</p>
-            
+
             <div className="mt-3">
               <strong>Documents:</strong>
               <ul className="list-disc list-inside">

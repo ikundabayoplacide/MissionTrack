@@ -18,7 +18,7 @@ const PendingRequests: React.FC<PendingRequestsProps> = ({
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://missiontrack-backend.onrender.com/api/missions/manager",
+        `${import.meta.env.VITE_API_BASE_URL}/missions/manager`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

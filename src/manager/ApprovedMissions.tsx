@@ -19,25 +19,25 @@ const ApprovedMissions: React.FC<ApprovedMissionsProps> = ({
   const [count, setCount] = useState(0);
 
   const fetchMissions = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const res = await axios.get(
-      "https://missiontrack-backend.onrender.com/api/missions/manager",
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/missions/manager`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-    const approvedStatuses = ["approved", "manager_approved"];
-    const approvedCount = res.data.data.filter((mission: any) =>
-      approvedStatuses.includes(mission.status)
-    ).length;
+      const approvedStatuses = ["approved", "manager_approved"];
+      const approvedCount = res.data.data.filter((mission: any) =>
+        approvedStatuses.includes(mission.status)
+      ).length;
 
-    setCount(approvedCount);
-  } catch (err) {
-    console.error("Error fetching missions:", err);
-  }
-};
+      setCount(approvedCount);
+    } catch (err) {
+      console.error("Error fetching missions:", err);
+    }
+  };
 
   useEffect(() => {
     // Initial fetch

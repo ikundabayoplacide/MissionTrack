@@ -46,56 +46,56 @@ const AddEmployeeModal: React.FC<AddEmployeeModalProps> = ({ onClose, onEmployee
     return Object.keys(newErrors).length === 0;
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!validate()) return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
 
-  try {
-     const payload = {
-      fullName: formData.fullName,
-      email: formData.email,
-      phoneNumber: formData.phoneNumber,
-      department: formData.department,
-      role: formData.role,
-      password: formData.password,
-    };
+    try {
+      const payload = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+        department: formData.department,
+        role: formData.role,
+        password: formData.password,
+      };
 
-    const response = await fetch("https://missiontrack-backend.onrender.com/api/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user?.token}`,
-      },
-      body: JSON.stringify(payload),
-    });
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+        body: JSON.stringify(payload),
+      });
 
-    if (!response.ok) {
-      const errData = await response.json();
-      throw new Error(errData.message || "Failed to create user");
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.message || "Failed to create user");
+      }
+
+      const resData = await response.json();
+
+      // ✅ map API data to your Employee object
+      const emp = resData.data;
+      const mappedEmployee = {
+        id: emp.id,
+        fullName: emp.fullName,
+        role: emp.role,
+        department: emp.department || "N/A",
+        status: emp.is_active ? "Active" : "Inactive",
+        initials: emp.fullName
+          ? emp.fullName.split(" ").map((n: string) => n[0]).join("")
+          : "NA",
+      };
+
+      onEmployeeAdded(mappedEmployee); // 👈 parent gets consistent shape
+      setSuccess(true);
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message || "Something went wrong");
     }
-
-    const resData = await response.json();
-
-    // ✅ map API data to your Employee object
-    const emp = resData.data;
-    const mappedEmployee = {
-      id: emp.id,
-      fullName: emp.fullName,
-      role: emp.role,
-      department: emp.department || "N/A",
-      status: emp.is_active ? "Active" : "Inactive",
-      initials: emp.fullName
-        ? emp.fullName.split(" ").map((n: string) => n[0]).join("")
-        : "NA",
-    };
-
-    onEmployeeAdded(mappedEmployee); // 👈 parent gets consistent shape
-    setSuccess(true);
-  } catch (error: any) {
-    console.error(error);
-    alert(error.message || "Something went wrong");
-  }
-};
+  };
 
 
   return (
@@ -119,12 +119,23 @@ const handleSubmit = async (e: React.FormEvent) => {
             <Input label="Full Name" type="text" name="fullName" value={formData.fullName} onChange={handleChange} error={errors.fullName} />
             <Input label="Email" type="email" name="email" value={formData.email} onChange={handleChange} error={errors.email} />
             <Input label="Phone Number" type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} error={errors.phoneNumber} />
-            
-            <Select label="Role" name="role" value={formData.role} placeholder="Select role" options={["employee", "manager", "finance"]} onChange={handleChange}
-              className="border text-gray-700 border-gray-300 " labelClassName="text-gray-700 font-semibold"
+
+            <Select
+              label="Role"
+              name="role"
+              value={formData.role}
+              placeholder="Select role"
+              options={[
+                { label: "Employee", value: "employee" },
+                { label: "Manager", value: "manager" },
+                { label: "Finance Manager", value: "finance_manager" }
+              ]}
+              onChange={handleChange}
+              className="border text-gray-700 border-gray-300 "
+              labelClassName="text-gray-700 font-semibold"
               error={errors.role}
             />
-            
+
             <Input label="Department" type="text" name="department" value={formData.department} onChange={handleChange} error={errors.department} />
             <Input label="Position" type="text" name="position" value={formData.position} onChange={handleChange} error={errors.position} /> {/* ✅ validated */}
 

@@ -36,7 +36,7 @@ const TeamManagement: React.FC = () => {
     const fetchEmployees = async () => {
       try {
         const res = await fetch(
-          "https://missiontrack-backend.onrender.com/api/users",
+          `${import.meta.env.VITE_API_BASE_URL}/users`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -78,7 +78,7 @@ const TeamManagement: React.FC = () => {
 
     try {
       const res = await fetch(
-        `https://missiontrack-backend.onrender.com/api/users/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/users/${id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -203,8 +203,8 @@ const TeamManagement: React.FC = () => {
                 </p>
                 <span
                   className={`mt-8 px-3 py-1 rounded-sm text-xs font-medium ${emp.status === "Active"
-                      ? "bg-green-700 text-white"
-                      : "bg-gray-500 text-white"
+                    ? "bg-green-700 text-white"
+                    : "bg-gray-500 text-white"
                     }`}
                 >
                   {emp.status}

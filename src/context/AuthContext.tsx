@@ -6,6 +6,7 @@ import React, {
   useEffect,
   type ReactNode,
 } from "react";
+import axios from "axios";
 
 type User = {
   id: string;
@@ -45,17 +46,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await fetch(
-      "https://missiontrack-backend.onrender.com/api/users/login",
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/users/login`,
+      { email, password },
       {
-        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
       }
     );
 
-    const data = await response.json();
-    if (!response.ok) {
+    const data = response.data; // Axios returns data directly
+    if (response.status !== 200) { // Check status for non-2xx responses
       throw new Error(data.message || "Invalid email or password");
     }
 
@@ -81,10 +81,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = async () => {
     if (user?.token) {
       try {
-        await fetch(
-          "https://missiontrack-backend.onrender.com/api/users/logout",
+        await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/users/logout`,
+          {}, // Axios post expects data as second arg, even if empty
           {
-            method: "POST",
             headers: {
               Authorization: `Bearer ${user.token}`,
               Accept: "application/json",

@@ -1,4 +1,4 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface MissionState {
@@ -6,7 +6,7 @@ interface MissionState {
     success: boolean;
     error: string | null;
     message: string | null;
-    missions?:any[],
+    missions?: any[],
     mission?: any | null;
 }
 
@@ -24,7 +24,7 @@ export const fetchEmployeeMissions = createAsyncThunk(
     "missions/fetchAll",
     async (_, { rejectWithValue }) => {
         try {
-            const res = await axios.get("https://missiontrack-backend.onrender.com/api/missions/employee", {
+            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/missions/employee`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

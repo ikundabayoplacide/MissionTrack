@@ -17,7 +17,7 @@ const MissionOverview: React.FC = () => {
       try {
         const token = localStorage.getItem("token"); // ✅ your saved token
         const res = await fetch(
-          "https://missiontrack-backend.onrender.com/api/missions/employee",
+          `${import.meta.env.VITE_API_BASE_URL}/missions/employee`,
           {
             headers: {
               Accept: "application/json",

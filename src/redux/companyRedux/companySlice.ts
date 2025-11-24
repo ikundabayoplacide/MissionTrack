@@ -5,7 +5,7 @@ interface CompanyState {
   loading: boolean;
   success: boolean;
   error: string | null;
-  action:null;
+  action: null;
   message: string | null;
   companies?: any[];
   singleCompany?: any | null;
@@ -17,7 +17,7 @@ const initialState: CompanyState = {
   error: null,
   message: null,
   companies: [],
-  action:null,
+  action: null,
   singleCompany: null,
 };
 
@@ -32,7 +32,7 @@ export const registerCompany = createAsyncThunk(
   async (formData: any, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://missiontrack-backend.onrender.com/api/company/register",
+        `${import.meta.env.VITE_API_BASE_URL}/company/register`,
         formData
       );
       return res.data;
@@ -48,7 +48,7 @@ export const getSingleCompany = createAsyncThunk(
   "company/getSingle",
   async (companyId: string, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`https://missiontrack-backend.onrender.com/api/company/${companyId}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/company/${companyId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -67,16 +67,27 @@ export const getAllCompanies = createAsyncThunk(
   "company/getAll",
   async (_, { rejectWithValue }) => {
     try {
+      const token = localStorage.getItem("token");
+      console.log("🔍 Fetching companies with token:", token ? "Token exists" : "No token found");
+      console.log("🔍 Token preview:", token ? token.substring(0, 20) + "..." : "N/A");
+
       const res = await axios.get(
-        "https://missiontrack-backend.onrender.com/api/company/allCompanies",
+        `${import.meta.env.VITE_API_BASE_URL}/company/allCompanies`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${token}`
           }
         }
       );
+      console.log("✅ Companies fetched successfully:", res.data);
       return res.data;
     } catch (error: any) {
+      console.error("❌ Error fetching companies:", {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        message: error.response?.data?.message,
+        data: error.response?.data
+      });
       return rejectWithValue(
         error.response?.data?.message || "Something went wrong"
       );
@@ -89,7 +100,7 @@ export const deleteCompany = createAsyncThunk(
   "company/delete",
   async (companyId: string, { rejectWithValue }) => {
     try {
-      const res = await axios.delete(`https://missiontrack-backend.onrender.com/api/company/${companyId}`, {
+      const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/company/${companyId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -135,7 +146,7 @@ const companySlice = createSlice({
         state.error = action.payload as string;
       });
 
-// GETTING all companies
+    // GETTING all companies
     builder
       .addCase(getAllCompanies.pending, (state) => {
         state.loading = true;
@@ -171,8 +182,8 @@ const companySlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
- 
-    
+
+
   },
 });
 

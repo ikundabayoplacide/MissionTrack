@@ -1,8 +1,9 @@
-import React from "react";
-import { FiBell, FiMenu } from "react-icons/fi"; 
+import React, { useState, useRef, useEffect } from "react";
+import { FiBell, FiMenu, FiUser } from "react-icons/fi";
+import { MdLogout } from "react-icons/md";
 import { useTheme } from "../hook/useTheme";
 import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   onMenuClick?: () => void; // ✅ optional prop for sidebar toggle
@@ -10,10 +11,30 @@ interface HeaderProps {
 
 const HeaderManager: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const { theme } = useTheme();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const twTheme = (light: string, dark: string) =>
     theme === "light" ? light : dark;
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <header
@@ -40,7 +61,7 @@ const HeaderManager: React.FC<HeaderProps> = ({ onMenuClick }) => {
       </div>
 
       {/* Right section */}
-      <div className="flex items-center  gap-6">
+      <div className="flex items-center gap-6">
         {/* Notifications */}
         <Link to={"/notifications"} className="relative max-sm:hidden mr-4">
           <FiBell
@@ -52,14 +73,65 @@ const HeaderManager: React.FC<HeaderProps> = ({ onMenuClick }) => {
           </span>
         </Link>
 
-        {/* Profile */}
-        <div className="flex items-center  gap-2 cursor-pointer">
-          <div className=" rounded-full p-3">
-            <img src={user?.profilePhoto || "/default-avatar.png"} alt="User Avatar" className="h-10 w-10 rounded-full" />
+        {/* Profile Dropdown */}
+        <div className="relative" ref={dropdownRef}>
+          <div
+            className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            <div className="rounded-full p-1">
+              <img
+                src={user?.profilePhoto || "/default-avatar.png"}
+                alt="User Avatar"
+                className="h-10 w-10 rounded-full object-cover border-2 border-blue-500"
+              />
+            </div>
+            <div className="hidden md:block">
+              <p className="text-sm font-semibold">{user?.fullName || "Manager"}</p>
+              <p className="text-xs text-gray-500">{user?.role || "Manager"}</p>
+            </div>
           </div>
-          <span className="text-sm max-sm:hidden font-medium">
-            {user?.fullName || "Employee"}
-          </span>
+
+          {/* Dropdown Menu */}
+          {dropdownOpen && (
+            <div className={`absolute right-0 mt-2 w-56 rounded-lg shadow-lg border ${twTheme(
+              "bg-white border-gray-200",
+              "bg-gray-800 border-gray-700"
+            )}`}>
+              <div className="p-4 border-b border-gray-200">
+                <p className="font-semibold text-sm">{user?.fullName || "Manager"}</p>
+                <p className="text-xs text-gray-500">{user?.email || "manager@example.com"}</p>
+                <p className="text-xs text-blue-600 font-medium mt-1">
+                  {user?.role?.toUpperCase() || "MANAGER"}
+                </p>
+              </div>
+
+              <div className="py-2">
+                <Link
+                  to="/manager/profileA"
+                  className={`flex items-center gap-3 px-4 py-2 text-sm ${twTheme(
+                    "hover:bg-gray-100 text-gray-700",
+                    "hover:bg-gray-700 text-gray-200"
+                  )}`}
+                  onClick={() => setDropdownOpen(false)}
+                >
+                  <FiUser size={18} />
+                  <span>View Profile</span>
+                </Link>
+
+                <button
+                  onClick={handleLogout}
+                  className={`w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 ${twTheme(
+                    "hover:bg-red-50",
+                    "hover:bg-gray-700"
+                  )}`}
+                >
+                  <MdLogout size={18} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>

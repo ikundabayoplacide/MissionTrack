@@ -1,33 +1,22 @@
 import React from "react";
-import { FiUser } from "react-icons/fi";
+import { FiUser, FiSettings } from "react-icons/fi";
 import { VscHome } from "react-icons/vsc";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../../hook/useTheme";
 import { GrGroup } from "react-icons/gr";
 import { FaFileAlt } from "react-icons/fa";
 import { FaChartBar } from "react-icons/fa6";
-import { useAuth } from "../../context/AuthContext";
-import { MdLogout } from "react-icons/md";
 
 const AdminSidebar: React.FC = () => {
     const { theme } = useTheme();
     const location = useLocation();
-    const { logout } = useAuth();
-    const navigate = useNavigate();
 
-
-
-    const handleLogout = () => {
-        logout();
-        navigate("/login");
-    };
     const twTheme = (light: string, dark: string) =>
         theme === "light" ? light : dark;
 
     // Sidebar navigation
     const navItems = [
         { icon: VscHome, label: "Dashboard", path: "/admin" },
-        // { icon: CiBellOn, label: "Notifications", path: "/notificationsA" },
         { icon: FiUser, label: "Profile", path: "profileA" },
     ];
 
@@ -36,18 +25,18 @@ const AdminSidebar: React.FC = () => {
         { icon: GrGroup, label: "All Companies", path: "companies" },
         { icon: FaFileAlt, label: "Billing/Subscription", path: "subscriptions" },
         { icon: FaChartBar, label: "Analytics", path: "" },
-
     ];
 
     return (
         <div className="">
             <aside
-                className={`hidden w-full sm:fixed  top-20 h-full left-0  sm:flex sm:flex-col justify-between shadow-md z-40 overflow-y-auto ${twTheme(
+                className={`hidden w-64 sm:fixed top-20 h-[calc(100vh-5rem)] left-0 sm:flex sm:flex-col shadow-md z-40 ${twTheme(
                     "bg-blue-50",
                     "bg-gray-900 text-white"
                 )}`}
             >
-                <div className=" flex-1 overflow-y-auto p-5">
+                {/* Main content - scrollable */}
+                <div className="flex-1 overflow-y-auto p-5">
                     {/* Navigation */}
                     <nav className="space-y-2">
                         {navItems.map(({ icon: Icon, label, path }) => {
@@ -56,7 +45,7 @@ const AdminSidebar: React.FC = () => {
                                 <Link
                                     key={label}
                                     to={path}
-                                    className={`flex items-center text-lg font-bold gap-3 px-3 py-2 rounded-md  transition-colors ${isActive
+                                    className={`flex items-center text-lg font-bold gap-3 px-3 py-2 rounded-md transition-colors ${isActive
                                         ? "bg-gray-200 text-black font-bold text-lg"
                                         : twTheme(
                                             "text-gray-700 hover:bg-gray-100",
@@ -86,14 +75,24 @@ const AdminSidebar: React.FC = () => {
                                 </Link>
                             ))}
                         </div>
-                        {/* Logout Button */}
-                        <button
-                               onClick={handleLogout}
-                               className=" bg-accent-600 text-white font-semibold py-2 rounded-2xl w-full flex items-center justify-center gap-2 hover:bg-accent-700 transition"
-                             >
-                              <MdLogout size={24} /> Logout
-                             </button>
                     </div>
+                </div>
+
+                {/* Settings at the bottom - always visible */}
+                <div className={`p-5 border-t shrink-0 ${twTheme("border-gray-300", "border-gray-700")}`}>
+                    <Link
+                        to="settings"
+                        className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${location.pathname === "/admin/settings"
+                            ? "bg-gray-200 text-black font-bold"
+                            : twTheme(
+                                "text-gray-700 hover:bg-gray-100",
+                                "text-gray-300 hover:bg-gray-700"
+                            )
+                            }`}
+                    >
+                        <FiSettings size={22} className="text-black" />
+                        <span className="font-bold text-lg">Settings</span>
+                    </Link>
                 </div>
             </aside>
         </div>

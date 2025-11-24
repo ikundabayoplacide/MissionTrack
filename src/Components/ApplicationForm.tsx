@@ -81,7 +81,7 @@ const ApplicationForm: React.FC = () => {
   useEffect(() => {
     if (user?.companyId && user?.token) {
       fetch(
-        `https://missiontrack-backend.onrender.com/api/companies/${user.companyId}`,
+        `${import.meta.env.VITE_API_BASE_URL}/companies/${user.companyId}`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
@@ -494,14 +494,14 @@ const ApplicationForm: React.FC = () => {
               </div>
             )}
 
-              <div className="text-sm mt-2 text-end">
-                    <p>
-                      Already have an account?{" "}
-                      <Link to="/login" className="text-blue-600 hover:underline">
-                        Log in
-                      </Link>
-                    </p>
-                  </div>
+            <div className="text-sm mt-2 text-end">
+              <p>
+                Already have an account?{" "}
+                <Link to="/login" className="text-blue-600 hover:underline">
+                  Log in
+                </Link>
+              </p>
+            </div>
             <div className="flex justify-center gap-4 mt-4 w-full">
               {step > 0 && (
                 <button
@@ -537,7 +537,8 @@ const ApplicationForm: React.FC = () => {
         </div>
         <Modal
           open={successMessage} footer={null}
-          onCancel={() => {setSuccessMessage(false);
+          onCancel={() => {
+            setSuccessMessage(false);
             dispatch(resetCompanyState());
           }
           }
@@ -553,7 +554,7 @@ const ApplicationForm: React.FC = () => {
               }}
               className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800"
             >
-             Go to Login
+              Go to Login
             </button>
           </div>
         </Modal>

@@ -13,19 +13,23 @@ const ManagerDashboard: React.FC = () => {
   return (
     <>
       {/* Header with menu button */}
-      <HeaderManager onMenuClick={() => setMenuOpen(true)} />
+      <HeaderManager onMenuClick={() => setMenuOpen(prev => !prev)} />
 
       <div
-        className={`flex gap-70 mt-20 ${twTheme(
+        className={`flex min-h-[calc(100vh-5rem)] mt-20 ${twTheme(
           "bg-[#E6EAF5]",
           "bg-gray-900"
         )}`}
       >
-        {/* Sidebar for large screens */}
-        <div className="hidden sm:flex">
+        {/* Sidebar */}
+        <div className={`z-40 ${menuOpen ? "block" : "hidden sm:block"}`}>
           <ManagerSideBar />
         </div>
-        <Outlet />
+
+        {/* Main Content Area */}
+        <div className="flex-1 sm:ml-64 p-6 overflow-x-hidden">
+          <Outlet />
+        </div>
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import FinanceSidebar from "../Components/Finance/FinanceSidebar";
 import Budget from "../Components/Finance/Budget";
@@ -19,17 +19,17 @@ const FinanceDashboard: React.FC = () => {
 
     return (
         <>
-            <div className="w-[1400px]">
-                <HeaderFin />
-            </div>
-            <div className={`flex gap-70 mt-20 ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`}>
-                <FinanceSidebar />
+            <HeaderFin />
+            <div className={`flex mt-20 min-h-[calc(100vh-5rem)] ${twTheme("bg-[#E6EAF5]", "bg-gray-900")}`}>
+                <div className="hidden sm:block z-40">
+                    <FinanceSidebar />
+                </div>
 
-                <main className={`min-h-screen ${twTheme("", "bg-gray-900")}`}>
+                <main className={`flex-1 sm:ml-64 p-6 overflow-x-hidden ${twTheme("", "bg-gray-900")}`}>
                     <div className="">
                         <Budget />
                     </div>
-                    <div className="flex gap-10  ">
+                    <div className="flex flex-wrap gap-10">
 
                         <div className="w-[350px]">
                             <SpendingsChart />
@@ -43,19 +43,17 @@ const FinanceDashboard: React.FC = () => {
                         </div>
 
                     </div>
-                    <div className="grid grid-cols-2  mt-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
                         <div className="">
                             <MissionStatusList />
                         </div>
-                        <div className="b w-[522px] rounded-2xl">
+                        <div className="rounded-2xl">
                             <AIAnalytics />
                         </div>
                     </div>
                     <div className="mt-10">
-                        <ExpenseComparison/>
+                        <ExpenseComparison />
                     </div>
-
-
                 </main>
             </div>
         </>

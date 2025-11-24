@@ -128,7 +128,7 @@ const RequestManager: React.FC = () => {
       try {
         const token = localStorage.getItem("token"); // ✅ get token
         const res = await axios.get(
-          "https://missiontrack-backend.onrender.com/api/reports/",
+          `${import.meta.env.VITE_API_BASE_URL}/reports/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Input from "./Input";
 import Select from "./Select";
-import DragDrop from "./DragDrop";
+// import DragDrop from "./DragDrop"; // removed unused import
 import { useAuth } from "../context/AuthContext";
 
 // ------------------- Constants -------------------
@@ -27,7 +27,7 @@ const sectors: Record<string, string[]> = {
 const Rejected: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-    const { user } = useAuth();
+  const { user } = useAuth();
 
   // ✅ Get formData passed from Login
   const previousData = location.state?.formData || {};
@@ -38,16 +38,16 @@ const Rejected: React.FC = () => {
     district: previousData.district || "",
     sector: previousData.sector || "",
     companyEmail: previousData.companyEmail || user?.email || "",
-    companyPhoneNumber: previousData.companyPhoneNumber || user?.phone || "",
+    companyPhoneNumber: previousData.companyPhoneNumber || user?.phoneNumber || "",
   });
-  const [errors, setErrors] = useState<any>({});
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [errors] = useState<any>({}); // setErrors unused, removed
+  // uploadedFiles and setUploadedFiles removed as unused
 
   // ✅ Fetch company info when rejected
   useEffect(() => {
     if (user?.companyId && user?.token) {
       fetch(
-        `https://missiontrack-backend.onrender.com/api/companies/${user.companyId}`,
+        `${import.meta.env.VITE_API_BASE_URL}/companies/${user.companyId}`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
@@ -60,7 +60,7 @@ const Rejected: React.FC = () => {
             district: data.district || "",
             sector: data.sector || "",
             companyEmail: data.companyEmail || user?.email || "",
-            companyPhoneNumber: data.companyPhoneNumber || user?.phone || "",
+            companyPhoneNumber: data.companyPhoneNumber || user?.phoneNumber || "",
           });
         })
         .catch((err) => console.error("Failed to fetch company:", err));
@@ -74,9 +74,9 @@ const Rejected: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileRemove = (index: number) => {
-    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
-  };
+  // const handleFileRemove = (index: number) => {
+  //   setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
+  // }; // removed unused function
 
   const goToRegister = () => {
     // ✅ Pass formData forward if you want to keep it on /apply too
@@ -180,25 +180,25 @@ const Rejected: React.FC = () => {
               </div>
             </div>
 
-          {/* Go to Registration button */}
-          <div className="flex justify-center gap-10 mt-4">
-            <button
-              type="button"
-              onClick={goToRegister}
-              className="w-full py-1 bg-white border-2 text-red-600 border-red-600 rounded-lg hover:bg-red-600 hover:text-white"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={goToRegister}
-              className="w-full py-1 bg-accent-600 text-white rounded-lg hover:transparent hover:border"
-            >
-              Update
-            </button>
-          </div>
-        </form>
-      </div>
+            {/* Go to Registration button */}
+            <div className="flex justify-center gap-10 mt-4">
+              <button
+                type="button"
+                onClick={goToRegister}
+                className="w-full py-1 bg-white border-2 text-red-600 border-red-600 rounded-lg hover:bg-red-600 hover:text-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={goToRegister}
+                className="w-full py-1 bg-accent-600 text-white rounded-lg hover:transparent hover:border"
+              >
+                Update
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
